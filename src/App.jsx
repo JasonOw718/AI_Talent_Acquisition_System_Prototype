@@ -1,13 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import JobList from './pages/JobList';
-import JobDetails from './pages/JobDetails';
-import ApplyForm from './pages/form';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import ProtectedRoute from './pages/ProtectedRoute';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import Home from './pages/Home'
+import JobList from './pages/JobList'
+import JobDetails from './pages/JobDetails'
+import ApplyForm from './pages/form'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import ProtectedRoute from './pages/ProtectedRoute'
+import './App.css'
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
         />
       </Routes>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App 
