@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import RecruiterNavbar from '../components/RecruiterNavbar';
 
 export default function ProfilePage() {
@@ -15,17 +15,6 @@ export default function ProfilePage() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editableProfile, setEditableProfile] = useState({...profileData});
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // Track window resize for responsive layout
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,25 +33,13 @@ export default function ProfilePage() {
     setEditableProfile({...profileData});
     setIsEditing(false);
   };
-  
-  // Determine if we're on a mobile/small screen
-  const isMobile = windowWidth < 768;
 
   return (
     <div style={styles.container}>
       <RecruiterNavbar />
-      <div style={{
-        ...styles.contentWithSidebar,
-        ...(isMobile ? styles.contentMobile : {})
-      }}>
-        <div style={{
-          ...styles.content,
-          ...(isMobile ? styles.contentMobile : {})
-        }}>
-          <div style={{
-            ...styles.header,
-            ...(isMobile ? styles.headerMobile : {})
-          }}>
+      <div style={styles.contentWithSidebar}>
+        <div style={styles.content}>
+          <div style={styles.header}>
             <h1 style={styles.title}>Profile Settings</h1>
             {!isEditing ? (
               <button 
@@ -72,10 +49,7 @@ export default function ProfilePage() {
                 Edit Profile
               </button>
             ) : (
-              <div style={{
-                ...styles.actionButtons,
-                ...(isMobile ? styles.actionButtonsMobile : {})
-              }}>
+              <div style={styles.actionButtons}>
                 <button style={styles.cancelButton} onClick={handleCancel}>
                   Cancel
                 </button>
@@ -88,10 +62,7 @@ export default function ProfilePage() {
           
           <div style={styles.card}>
             <div style={styles.profileSection}>
-              <div style={{
-                ...styles.profileHeader,
-                ...(isMobile ? styles.profileHeaderMobile : {})
-              }}>
+              <div style={styles.profileHeader}>
                 <div style={styles.avatarSection}>
                   <div style={styles.avatar}>{editableProfile.avatar}</div>
                   {isEditing && (
@@ -138,10 +109,7 @@ export default function ProfilePage() {
               <div style={styles.infoSection}>
                 <h3 style={styles.sectionTitle}>Contact Information</h3>
                 
-                <div style={{
-                  ...styles.infoGrid,
-                  ...(isMobile ? styles.infoGridMobile : {})
-                }}>
+                <div style={styles.infoGrid}>
                   <div style={styles.infoItem}>
                     <div style={styles.infoLabel}>Email</div>
                     {isEditing ? (
@@ -237,33 +205,29 @@ const styles = {
   contentWithSidebar: {
     marginLeft: '240px',
     width: 'calc(100% - 240px)',
-    paddingTop: '30px',
-    paddingBottom: '30px',
-  },
-  contentMobile: {
-    marginLeft: 0,
-    width: '100%',
-    paddingTop: '70px', // Account for mobile header
+    transition: 'margin 0.3s ease',
+    '@media (max-width: 1024px)': {
+      marginLeft: 0,
+      width: '100%',
+    },
   },
   content: {
-    padding: '0 30px',
+    padding: '25px',
+    paddingTop: '80px',
+    width: '100%',
+    boxSizing: 'border-box',
     maxWidth: '1000px',
     margin: '0 auto',
-  },
-  contentPaddingMobile: {
-    padding: '0 15px',
+    '@media (max-width: 768px)': {
+      padding: '15px',
+      paddingTop: '70px',
+    },
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: '20px',
-  },
-  headerMobile: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: '12px',
-    marginBottom: '16px',
   },
   title: {
     fontSize: '1.5rem',
@@ -272,205 +236,167 @@ const styles = {
     margin: 0,
   },
   editButton: {
-    backgroundColor: '#3b82f6',
-    color: '#ffffff',
+    backgroundColor: '#2563eb',
+    color: 'white',
     border: 'none',
     borderRadius: '6px',
     padding: '8px 16px',
-    fontSize: '0.875rem',
+    fontSize: '0.85rem',
     fontWeight: '500',
     cursor: 'pointer',
-    transition: 'background-color 0.2s ease',
-    '&:hover': {
-      backgroundColor: '#2563eb',
-    },
   },
   actionButtons: {
     display: 'flex',
-    gap: '8px',
-  },
-  actionButtonsMobile: {
-    width: '100%',
-    justifyContent: 'flex-end',
+    gap: '10px',
   },
   cancelButton: {
-    backgroundColor: '#f1f5f9',
-    color: '#334155',
-    border: '1px solid #e2e8f0',
+    backgroundColor: 'transparent',
+    color: '#64748b',
+    border: '1px solid #cbd5e1',
     borderRadius: '6px',
     padding: '8px 16px',
-    fontSize: '0.875rem',
+    fontSize: '0.85rem',
     fontWeight: '500',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    '&:hover': {
-      backgroundColor: '#e2e8f0',
-    },
   },
   saveButton: {
-    backgroundColor: '#3b82f6',
-    color: '#ffffff',
+    backgroundColor: '#2563eb',
+    color: 'white',
     border: 'none',
     borderRadius: '6px',
     padding: '8px 16px',
-    fontSize: '0.875rem',
+    fontSize: '0.85rem',
     fontWeight: '500',
     cursor: 'pointer',
-    transition: 'background-color 0.2s ease',
-    '&:hover': {
-      backgroundColor: '#2563eb',
-    },
   },
   card: {
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     borderRadius: '8px',
     boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    overflow: 'hidden',
+    padding: '20px',
   },
   profileSection: {
-    padding: '24px',
+    marginBottom: '20px',
   },
   profileHeader: {
     display: 'flex',
-    alignItems: 'center',
     gap: '24px',
-  },
-  profileHeaderMobile: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: '16px',
+    alignItems: 'center',
+    '@media (max-width: 640px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    },
   },
   avatarSection: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: '8px',
+    gap: '10px',
   },
   avatar: {
-    width: '80px',
-    height: '80px',
+    width: '100px',
+    height: '100px',
     borderRadius: '50%',
-    backgroundColor: '#3b82f6',
-    color: '#ffffff',
+    backgroundColor: '#2563eb',
+    color: 'white',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '1.5rem',
-    fontWeight: '700',
+    fontSize: '2rem',
+    fontWeight: '600',
+    '@media (max-width: 768px)': {
+      width: '80px',
+      height: '80px',
+      fontSize: '1.5rem',
+    },
   },
   changeAvatarButton: {
     backgroundColor: 'transparent',
-    color: '#3b82f6',
-    border: '1px solid #3b82f6',
-    borderRadius: '4px',
-    padding: '4px 8px',
-    fontSize: '0.75rem',
-    fontWeight: '500',
+    color: '#2563eb',
+    border: 'none',
+    fontSize: '0.8rem',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    '&:hover': {
-      backgroundColor: 'rgba(59, 130, 246, 0.05)',
-    },
   },
   profileDetails: {
-    flex: '1',
+    flex: 1,
   },
   profileName: {
     fontSize: '1.25rem',
     fontWeight: '600',
     color: '#0f172a',
-    marginTop: 0,
-    marginBottom: '4px',
+    margin: '0 0 4px 0',
   },
   profileRole: {
-    fontSize: '0.875rem',
+    fontSize: '0.9rem',
     color: '#64748b',
     margin: 0,
   },
   divider: {
     height: '1px',
     backgroundColor: '#e2e8f0',
-    margin: '24px 0',
+    margin: '20px 0',
   },
   infoSection: {
-    marginBottom: '24px',
+    marginBottom: '10px',
   },
   sectionTitle: {
-    fontSize: '1.125rem',
+    fontSize: '0.95rem',
     fontWeight: '600',
-    color: '#0f172a',
-    marginTop: 0,
-    marginBottom: '16px',
+    color: '#334155',
+    margin: '0 0 15px 0',
   },
   infoGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
     gap: '20px',
-  },
-  infoGridMobile: {
-    gridTemplateColumns: '1fr',
-    gap: '16px',
+    '@media (max-width: 640px)': {
+      gridTemplateColumns: '1fr',
+    },
   },
   infoItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '4px',
+    marginBottom: '5px',
   },
   infoLabel: {
-    fontSize: '0.875rem',
-    fontWeight: '500',
+    fontSize: '0.8rem',
     color: '#64748b',
+    marginBottom: '4px',
   },
   infoValue: {
-    fontSize: '0.95rem',
-    color: '#0f172a',
+    fontSize: '0.9rem',
+    color: '#334155',
+  },
+  bioText: {
+    fontSize: '0.9rem',
+    color: '#334155',
+    lineHeight: '1.5',
+    margin: 0,
   },
   formGroup: {
-    marginBottom: '12px',
+    marginBottom: '15px',
   },
   label: {
     display: 'block',
-    fontSize: '0.875rem',
-    fontWeight: '500',
+    fontSize: '0.8rem',
     color: '#64748b',
     marginBottom: '4px',
   },
   input: {
     width: '100%',
     padding: '8px 12px',
-    fontSize: '0.95rem',
+    fontSize: '0.9rem',
+    border: '1px solid #cbd5e1',
     borderRadius: '6px',
-    border: '1px solid #e2e8f0',
-    backgroundColor: '#ffffff',
-    color: '#0f172a',
-    outline: 'none',
-    transition: 'all 0.2s ease',
-    '&:focus': {
-      borderColor: '#3b82f6',
-      boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.15)',
-    },
+    color: '#334155',
   },
   textarea: {
     width: '100%',
-    padding: '12px',
-    fontSize: '0.95rem',
+    padding: '8px 12px',
+    fontSize: '0.9rem',
+    border: '1px solid #cbd5e1',
     borderRadius: '6px',
-    border: '1px solid #e2e8f0',
-    backgroundColor: '#ffffff',
-    color: '#0f172a',
-    minHeight: '120px',
-    outline: 'none',
-    transition: 'all 0.2s ease',
-    resize: 'vertical',
-    '&:focus': {
-      borderColor: '#3b82f6',
-      boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.15)',
-    },
-  },
-  bioText: {
-    fontSize: '0.95rem',
     color: '#334155',
-    lineHeight: '1.6',
-    margin: 0,
+    minHeight: '100px',
+    resize: 'vertical',
+    fontFamily: 'inherit',
   },
 }; 

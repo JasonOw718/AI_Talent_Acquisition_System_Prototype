@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecruiterNavbar from '../components/RecruiterNavbar';
 import RecruitmentFunnel from '../components/RecruitmentFunnel';
@@ -9,21 +9,6 @@ export default function JobListings() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
-  // Track window size for responsive layout
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-  // Determine if we're on a mobile/small screen
-  const isMobile = windowWidth < 768;
-  const isTablet = windowWidth >= 768 && windowWidth < 1024;
   
   // Mock job data with Malaysian locations
   const jobs = [
@@ -386,14 +371,8 @@ export default function JobListings() {
 
   // Render the job listings view
   const renderJobListings = () => (
-    <div style={{
-      ...styles.jobListingsContainer,
-      ...(isMobile ? styles.jobListingsContainerMobile : {})
-    }}>
-      <div style={{
-        ...styles.jobsHeader,
-        ...(isMobile ? styles.jobsHeaderMobile : {})
-      }}>
+    <div style={styles.jobListingsContainer}>
+      <div style={styles.jobsHeader}>
         <div style={styles.headerContent}>
           <h2 style={styles.title}>Job Listings</h2>
         </div>
@@ -405,30 +384,36 @@ export default function JobListings() {
           Create New Job
         </Link>
       </div>
-
+      
       <div style={styles.searchContainer}>
         <div style={styles.searchWrapper}>
           <svg style={styles.searchIcon} viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input 
-            type="text" 
-            placeholder={isMobile ? "Search jobs..." : "Search jobs by title, location, or department..."} 
-            style={styles.searchInput}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <input
+          type="text"
+            placeholder="Search jobs by title, location, or department..." 
+          style={styles.searchInput}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         </div>
       </div>
       
-      <div style={{
-        ...styles.jobsTable,
-        ...(isMobile ? styles.jobsTableMobile : {})
-      }}>
-        {isMobile ? (
-          // Card view for mobile
-          <div style={styles.mobileCardContainer}>
+      <div style={styles.jobsTable}>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.tableHeader}>Job Title</th>
+              <th style={styles.tableHeader}>Location</th>
+              <th style={styles.tableHeader}>Department</th>
+              <th style={styles.tableHeader}>Posted Date</th>
+              <th style={styles.tableHeader}>Status</th>
+              <th style={styles.tableHeader}>Action</th>
+            </tr>
+          </thead>
+          <tbody>
             {jobs
               .filter(job => 
                 job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -436,54 +421,33 @@ export default function JobListings() {
                 job.department.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map(job => (
-                <div
-                  key={job.id}
+                <tr 
+                  key={job.id} 
                   style={{
-                    ...styles.mobileJobCard,
-                    ...(selectedJob?.id === job.id ? styles.selectedMobileCard : {})
+                    ...styles.tableRow,
+                    ...(selectedJob?.id === job.id ? styles.selectedRow : {})
                   }}
                   onClick={() => handleJobSelection(job)}
                 >
-                  <div style={styles.mobileCardHeader}>
-                    <h3 style={styles.mobileJobTitle}>{job.title}</h3>
-                    <span style={styles.statusBadge}>{job.status}</span>
-                  </div>
-                  <div style={styles.mobileJobDetails}>
-                    <p style={styles.mobileJobInfo}>
-                      <svg style={styles.mobileIcon} viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                      </svg>
-                      {job.location}
-                    </p>
-                    <p style={styles.mobileJobInfo}>
-                      <svg style={styles.mobileIcon} viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
-                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                      </svg>
-                      {job.department}
-                    </p>
-                    <p style={styles.mobileJobInfo}>
-                      <svg style={styles.mobileIcon} viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                      </svg>
-                      {formatDate(job.posted)}
-                    </p>
-                  </div>
-                  <div style={styles.mobileCardActions}>
-                    <button 
-                      style={styles.mobileViewButton}
+                <td style={styles.tableCell}>{job.title}</td>
+                <td style={styles.tableCell}>{job.location}</td>
+                  <td style={styles.tableCell}>{job.department}</td>
+                <td style={styles.tableCell}>{formatDate(job.posted)}</td>
+                <td style={styles.tableCell}>
+                  <span style={styles.statusBadge}>{job.status}</span>
+                </td>
+                <td style={styles.tableCell}>
+                  <button 
+                    style={styles.viewButton}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleJobSelection(job);
                       }}
-                    >
-                      View Applicants
-                    </button>
-                    <button 
-                      style={styles.mobileArchiveButton}
+                  >
+                    View Applicants
+                  </button>
+                  <button 
+                    style={styles.archiveButton}
                       onClick={(e) => {
                         e.stopPropagation();
                         if(confirm(`Are you sure you want to archive the job "${job.title}"?`)) {
@@ -491,78 +455,15 @@ export default function JobListings() {
                           // Here you would implement the actual archiving logic
                         }
                       }}
-                    >
-                      Archive
-                    </button>
-                  </div>
-                </div>
+                  >
+                    Archive
+                  </button>
+                </td>
+              </tr>
               ))
             }
-          </div>
-        ) : (
-          // Table view for desktop/tablet
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th style={styles.tableHeader}>Job Title</th>
-                <th style={styles.tableHeader}>Location</th>
-                <th style={styles.tableHeader}>Department</th>
-                <th style={styles.tableHeader}>Posted Date</th>
-                <th style={styles.tableHeader}>Status</th>
-                <th style={styles.tableHeader}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {jobs
-                .filter(job => 
-                  job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  job.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  job.department.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-                .map(job => (
-                  <tr 
-                    key={job.id} 
-                    style={{
-                      ...styles.tableRow,
-                      ...(selectedJob?.id === job.id ? styles.selectedRow : {})
-                    }}
-                    onClick={() => handleJobSelection(job)}
-                  >
-                    <td style={styles.tableCell}>{job.title}</td>
-                    <td style={styles.tableCell}>{job.location}</td>
-                    <td style={styles.tableCell}>{job.department}</td>
-                    <td style={styles.tableCell}>{formatDate(job.posted)}</td>
-                    <td style={styles.tableCell}>
-                      <span style={styles.statusBadge}>{job.status}</span>
-                    </td>
-                    <td style={styles.tableCell}>
-                      <button 
-                        style={styles.viewButton}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleJobSelection(job);
-                        }}
-                      >
-                        View Applicants
-                      </button>
-                      <button 
-                        style={styles.archiveButton}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if(confirm(`Are you sure you want to archive the job "${job.title}"?`)) {
-                            alert(`Job "${job.title}" has been archived`);
-                            // Here you would implement the actual archiving logic
-                          }
-                        }}
-                      >
-                        Archive
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -662,195 +563,462 @@ export default function JobListings() {
 
   // Render the candidate analysis modal
   const renderCandidateModal = () => {
-    if (!selectedApplicant) return null;
+    if (!selectedApplicant || !isModalOpen) return null;
+    
+    const analysis = generateDetailedAnalysis(selectedApplicant);
     
     return (
-      <div 
-        style={{
-          ...styles.modalBackdrop,
-          display: isModalOpen ? 'flex' : 'none'
-        }}
-        onClick={handleCloseModal}
-      >
-        <div 
-          style={{
-            ...styles.modalContent,
-            ...(isMobile ? styles.modalContentMobile : {})
-          }}
-          onClick={e => e.stopPropagation()}
-        >
+      <div style={styles.modalOverlay} onClick={handleCloseModal}>
+        <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
           <div style={styles.modalHeader}>
-            <h2 style={styles.modalTitle}>
-              {selectedApplicant.name}
-              {selectedApplicant.status === 'spam' && (
-                <span style={styles.spamBadge}>Spam</span>
+            <div style={styles.modalHeaderContent}>
+              <div style={styles.applicantAvatarLarge}>{selectedApplicant.name.charAt(0)}</div>
+              <div style={styles.detailsHeaderInfo}>
+                <h3 style={styles.detailsName}>{selectedApplicant.name}</h3>
+                <p style={styles.detailsEmail}>{selectedApplicant.email}</p>
+                <p style={styles.detailsApplied}>Applied on {formatDate(selectedApplicant.appliedDate)}</p>
+              </div>
+              {selectedApplicant.status !== 'spam' && analysis && (
+                <div style={styles.overallScore}>
+                  <div style={styles.scoreCircleLarge}>{Math.round(parseFloat(analysis.finalRankingScore) * 100)}%</div>
+                  <span style={styles.scoreLabel}>Final Ranking Score</span>
+                </div>
               )}
-            </h2>
-            <button style={styles.closeButton} onClick={handleCloseModal}>
-              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </div>
+            <button style={styles.closeModalButton} onClick={handleCloseModal}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12"></path>
               </svg>
             </button>
           </div>
           
-          {selectedApplicant.status === 'spam' ? (
-            <div style={styles.spamWarning}>
-              <div style={styles.warningIcon}>⚠️</div>
-              <h3 style={styles.warningTitle}>Application flagged by system</h3>
-              <p style={styles.warningText}>
-                Our AI system has detected potential issues with this application.
-                It may be fraudulent or contain misleading information.
-              </p>
-              <div style={styles.warningActions}>
-                <button style={styles.ignoreButton}>Ignore Warning</button>
-                <button style={styles.deleteButton}>Delete Application</button>
+          <div style={styles.modalBody}>
+            {/* Document Download Section */}
+            <div style={styles.documentsSection}>
+              <h4 style={styles.documentSectionTitle}>Applicant Documents</h4>
+              <div style={styles.documentsList}>
+                <div style={styles.documentItem}>
+                  <div style={styles.documentIcon}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                  </div>
+                  <div style={styles.documentInfo}>
+                    <div style={styles.documentName}>Resume.pdf</div>
+                    <div style={styles.documentMeta}>Added on {formatDate(selectedApplicant.appliedDate)}</div>
+                  </div>
+          <button 
+                    style={styles.downloadButton}
+            onClick={() => {
+                      // Simulate download functionality
+                      alert(`Downloading resume for ${selectedApplicant.name}`);
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+                    Download
+          </button>
+        </div>
+        
+                <div style={styles.documentItem}>
+                  <div style={styles.documentIcon}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+        </div>
+                  <div style={styles.documentInfo}>
+                    <div style={styles.documentName}>CoverLetter.pdf</div>
+                    <div style={styles.documentMeta}>Added on {formatDate(selectedApplicant.appliedDate)}</div>
+                </div>
+                  <button 
+                    style={styles.downloadButton}
+                    onClick={() => {
+                      // Simulate download functionality
+                      alert(`Downloading cover letter for ${selectedApplicant.name}`);
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download
+                  </button>
+                        </div>
+
+                {/* Portfolio or additional documents conditionally rendered */}
+                {selectedApplicant.portfolioUrl && (
+                  <div style={styles.documentItem}>
+                    <div style={styles.documentIcon}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path>
+                      </svg>
+                      </div>
+                    <div style={styles.documentInfo}>
+                      <div style={styles.documentName}>Portfolio</div>
+                      <div style={styles.documentMeta}>External link</div>
+                      </div>
+                    <a 
+                      href="#" 
+                      style={styles.viewLinkButton}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        alert(`Opening portfolio for ${selectedApplicant.name}`);
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                          </svg>
+                      View
+                    </a>
               </div>
-            </div>
-          ) : (
-            <div style={{
-              ...styles.candidateDetails,
-              ...(isMobile ? styles.candidateDetailsMobile : {})
-            }}>
-              {/* Rest of the candidate details content */}
-              {/* ...existing code... */}
-            </div>
-          )}
+            )}
+                  </div>
+                </div>
+                
+                {selectedApplicant.spamReason && (
+                  <div style={styles.spamReasonSection}>
+                    <div style={styles.spamReasonHeader}>
+                      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+                        <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                      </svg>
+                      <h4 style={styles.spamReasonTitle}>Flagged as Spam</h4>
+                    </div>
+                    <p style={styles.spamReasonText}>{selectedApplicant.spamReason}</p>
+                  </div>
+                )}
+                
+            {selectedApplicant.status !== 'spam' && (
+              <>
+                <div style={styles.tabsContainer}>
+                  <div style={styles.tabs}>
+                    <div style={styles.tabActive}>Assessment</div>
+                  </div>
+                </div>
+                
+                {/* Generate the detailed analysis for the selected applicant */}
+                {(() => {
+                  if (!analysis) return null;
+                  
+                  return (
+                    <>
+                      {/* LinkedIn Profile Verification Section */}
+                <div style={styles.analysisSection}>
+                        <h4 style={styles.analysisTitle}>LinkedIn Profile Verification</h4>
+                        <div style={styles.linkedinScoreContainer}>
+                          <div style={styles.linkedinScoreCircle(analysis.linkedinComparison.overall_profile_validity.score)}>
+                            {parseFloat(analysis.linkedinComparison.overall_profile_validity.score).toFixed(2)}
+                          </div>
+                          <div style={styles.linkedinScoreLabel}>
+                            Profile Validity Score
+                          </div>
+                        </div>
+                        
+                        <div style={styles.comparisonTable}>
+                          <div style={styles.comparisonTableHeader}>
+                            <div style={styles.comparisonField}>Field</div>
+                            <div style={styles.comparisonScore}>Score</div>
+                            <div style={styles.comparisonJustification}>Justification</div>
+                          </div>
+                          
+                          {Object.entries(analysis.linkedinComparison)
+                            .filter(([key]) => key !== 'overall_profile_validity')
+                            .map(([field, data]) => (
+                              <div key={field} style={styles.comparisonTableRow}>
+                                <div style={styles.comparisonField}>{field.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}</div>
+                                <div style={styles.comparisonScore}>
+                                  <span style={getScoreColorStyle(data.score)}>{parseFloat(data.score).toFixed(2)}</span>
+                                </div>
+                                <div style={styles.comparisonJustification}>{data.justification}</div>
+                              </div>
+                            ))}
+                            
+                          <div style={{...styles.comparisonTableRow, ...styles.comparisonTableFooter}}>
+                            <div style={styles.comparisonField}>Overall Profile Validity</div>
+                            <div style={styles.comparisonScore}>
+                              <span style={getScoreColorStyle(analysis.linkedinComparison.overall_profile_validity.score)}>
+                                {parseFloat(analysis.linkedinComparison.overall_profile_validity.score).toFixed(3)}
+                              </span>
+                            </div>
+                            <div style={styles.comparisonJustification}>{analysis.linkedinComparison.overall_profile_validity.justification}</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Combined Job Match Analysis & Skills Section */}
+                      <div style={styles.analysisSection}>
+                        <h4 style={styles.analysisTitle}>Job Match Analysis</h4>
+                        <div style={styles.linkedinScoreContainer}>
+                          <div style={styles.linkedinScoreCircle(analysis.jobMatch.overall_job_match.score)}>
+                            {parseFloat(analysis.jobMatch.overall_job_match.score).toFixed(2)}
+                          </div>
+                          <div style={styles.linkedinScoreLabel}>
+                            Job Match Score
+                          </div>
+                        </div>
+                        
+                        <h5 style={styles.subSectionTitle}>Education Match</h5>
+                        <div style={styles.comparisonTable}>
+                          <div style={styles.comparisonTableRow}>
+                            <div style={styles.comparisonField}>Education</div>
+                            <div style={styles.comparisonScore}>
+                              <span style={getScoreColorStyle(analysis.jobMatch.education.score)}>{parseFloat(analysis.jobMatch.education.score).toFixed(2)}</span>
+                            </div>
+                            <div style={styles.comparisonJustification}>{analysis.jobMatch.education.justification}</div>
+                          </div>
+                        </div>
+                        
+                        <h5 style={styles.subSectionTitle}>Skills Assessment</h5>
+                  <div style={styles.skillsGrid}>
+                    {Object.entries(selectedApplicant.scores).map(([skill, score]) => (
+                      <div key={skill} style={styles.skillCardExpanded}>
+                        <div style={styles.skillHeader}>
+                          <div style={styles.skillName}>{skill}</div>
+                          <div style={{...styles.skillScore, color: getScoreColor(score)}}>{score}%</div>
+                        </div>
+                        <div style={styles.skillScoreBar}>
+                          <div 
+                            style={{
+                              ...styles.skillScoreFill,
+                              width: `${score}%`,
+                              backgroundColor: getScoreColor(score),
+                            }}
+                          ></div>
+                        </div>
+                        <div style={styles.justificationContainer}>
+                          <p style={styles.justificationText}>{selectedApplicant.justifications[skill]}</p>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+                
+                        <h5 style={styles.subSectionTitle}>Soft Skills Assessment</h5>
+                  <div style={styles.skillsGrid}>
+                    {Object.entries(selectedApplicant.softSkills).map(([skill, score]) => (
+                      <div key={skill} style={styles.skillCardExpanded}>
+                        <div style={styles.skillHeader}>
+                          <div style={styles.skillName}>{skill}</div>
+                          <div style={{...styles.skillScore, color: getScoreColor(score)}}>{score}%</div>
+                        </div>
+                        <div style={styles.skillScoreBar}>
+                          <div 
+                            style={{
+                              ...styles.skillScoreFill,
+                              width: `${score}%`,
+                              backgroundColor: getScoreColor(score),
+                            }}
+                          ></div>
+                        </div>
+                        <div style={styles.justificationContainer}>
+                          <p style={styles.justificationText}>{selectedApplicant.justifications[skill]}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                        
+                        <h5 style={styles.subSectionTitle}>Other Factors</h5>
+                        <div style={styles.comparisonTable}>
+                          <div style={styles.comparisonTableRow}>
+                            <div style={styles.comparisonField}>Languages</div>
+                            <div style={styles.comparisonScore}>
+                              <span style={getScoreColorStyle(analysis.jobMatch.languages.score)}>{analysis.jobMatch.languages.score.toFixed(2)}</span>
+                            </div>
+                            <div style={styles.comparisonJustification}>{analysis.jobMatch.languages.justification}</div>
+                </div>
+                
+                          <div style={styles.comparisonTableRow}>
+                            <div style={styles.comparisonField}>Location</div>
+                            <div style={styles.comparisonScore}>
+                              <span style={getScoreColorStyle(analysis.jobMatch.location.score)}>{analysis.jobMatch.location.score.toFixed(2)}</span>
+                            </div>
+                            <div style={styles.comparisonJustification}>{analysis.jobMatch.location.justification}</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Final Ranking Score */}
+                      <div style={styles.finalScoreSection}>
+                        <h4 style={styles.finalScoreTitle}>Final Ranking Score</h4>
+                        <div style={styles.finalScoreCircle}>
+                          {parseFloat(analysis.finalRankingScore).toFixed(2)}
+                        </div>
+                        <div style={styles.finalScoreFormula}>
+                          <p>LinkedIn Validity ({parseFloat(analysis.linkedinComparison.overall_profile_validity.score).toFixed(2)}) × 0.25 + 
+                          Job Match ({parseFloat(analysis.jobMatch.overall_job_match.score).toFixed(2)}) × 0.75</p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })()}
+              </>
+            )}
+            
+            {/* Action Buttons Section */}
+            <div style={styles.modalActions}>
+                  {activeStage === 'spam' && (
+                    <button style={styles.moveToStage1Button}>
+                      Move to Stage 1
+                    </button>
+                  )}
+                  {activeStage === 'stage1' && (
+                    <button style={styles.advanceButton}>
+                      Advance to Stage 2
+                    </button>
+                  )}
+                  {activeStage === 'stage2' && (
+                    <button style={styles.offerButton}>
+                  Advance to Offer
+                    </button>
+                  )}
+              {activeStage !== 'spam' && activeStage !== 'offered' && (
+                    <button style={styles.moveToSpamButton}>
+                      Mark as Spam
+                    </button>
+                  )}
+              {activeStage !== 'offered' && (
+                  <button style={styles.rejectButton}>
+                    Reject Candidate
+                </button>
+              )}
+              <button style={styles.closeButton} onClick={handleCloseModal}>
+                Close
+                  </button>
+                </div>
+              </div>
         </div>
       </div>
     );
   };
 
-  // Render the applicants view based on stage
+  // Modify renderApplicantsView to use the finalRankingScore for display
   const renderApplicantsView = () => {
-    if (!selectedJob) return null;
+    // Get applicants for the current stage and job
+    const jobApplicants = getApplicantsForJob(selectedJob.id, activeStage);
     
-    const applicantsForStage = getApplicantsForJob(selectedJob.id, activeStage);
+    // Set up funnel stages including spam stage
+    const funnelStages = [
+      { id: 'spam', name: 'Spam', count: getApplicantsForJob(selectedJob.id, 'spam').length },
+      { id: 'stage1', name: 'Stage 1', count: getApplicantsForJob(selectedJob.id, 'stage1').length },
+      { id: 'stage2', name: 'Stage 2', count: getApplicantsForJob(selectedJob.id, 'stage2').length },
+      { id: 'offered', name: 'Offered', count: getApplicantsForJob(selectedJob.id, 'offered').length },
+    ];
     
     return (
-      <div style={{
-        ...styles.applicantsContainer,
-        ...(isMobile ? styles.applicantsContainerMobile : {})
-      }}>
-        <div style={{
-          ...styles.applicantsHeader,
-          ...(isMobile ? styles.applicantsHeaderMobile : {})
-        }}>
-          <h3 style={styles.subtitle}>
-            {selectedJob.title} - {selectedJob.location}
-          </h3>
-          <div style={styles.stageSelector}>
-            <button
-              style={{
-                ...styles.stageButton,
-                ...(activeStage === 'stage1' ? styles.activeStageButton : {})
-              }}
-              onClick={() => handleStageChange('stage1')}
-            >
-              Initial Review
-            </button>
-            <button
-              style={{
-                ...styles.stageButton,
-                ...(activeStage === 'stage2' ? styles.activeStageButton : {})
-              }}
-              onClick={() => handleStageChange('stage2')}
-            >
-              Interview
-            </button>
-            <button
-              style={{
-                ...styles.stageButton,
-                ...(activeStage === 'offered' ? styles.activeStageButton : {})
-              }}
-              onClick={() => handleStageChange('offered')}
-            >
-              Offered
-            </button>
-            <button
-              style={{
-                ...styles.stageButton,
-                ...(activeStage === 'spam' ? styles.activeStageButton : {})
-              }}
-              onClick={() => handleStageChange('spam')}
-            >
-              Spam
-            </button>
-          </div>
+      <div style={styles.applicantsContainer}>
+        <div style={styles.applicantsHeader}>
+          <button 
+            style={styles.backButton}
+            onClick={() => {
+              setSelectedJob(null);
+              setSelectedApplicant(null);
+              setIsModalOpen(false);
+            }}
+          >
+            <svg style={styles.backIcon} viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+                  </svg>
+            Back to Job Listings
+          </button>
+          <h2 style={styles.jobTitle}>{selectedJob.title}</h2>
+          <div style={styles.jobMeta}>
+            <span style={styles.jobDetail}>{selectedJob.department}</span>
+            <span style={styles.separator}>•</span>
+            <span style={styles.jobDetail}>{selectedJob.location}</span>
+            <span style={styles.separator}>•</span>
+            <span style={styles.jobDetail}>Posted: {formatDate(selectedJob.posted)}</span>
+                </div>
         </div>
         
-        <div style={{
-          ...styles.applicantsList,
-          ...(isMobile ? styles.applicantsListMobile : {})
-        }}>
-          {applicantsForStage.length === 0 ? (
-            <div style={styles.noApplicants}>
-              <p>No applicants in this stage</p>
-            </div>
-          ) : (
-            applicantsForStage.map(applicant => (
-              <div
-                key={applicant.id}
-                style={{
-                  ...styles.applicantCard,
-                  ...(isMobile ? styles.applicantCardMobile : {})
-                }}
-                onClick={() => handleApplicantSelect(applicant)}
-              >
-                <div style={styles.applicantHeader}>
-                  <h4 style={styles.applicantName}>{applicant.name}</h4>
-                  {applicant.status === 'spam' && (
-                    <span style={styles.applicantSpamBadge}>Spam</span>
-                  )}
-                </div>
-                <div style={styles.applicantEmail}>{applicant.email}</div>
-                <div style={styles.applicantDate}>Applied: {formatDate(applicant.appliedDate)}</div>
-                
-                {applicant.status === 'spam' ? (
-                  <div style={styles.spamDetails}>
-                    <p style={styles.spamReason}>Application flagged by system</p>
-                  </div>
-                ) : (
-                  <div style={styles.scoreSection}>
-                    <div style={styles.scoreCircle}>
-                      <div 
-                        style={{
-                          ...styles.scoreValue,
-                          color: getScoreColor(getAverageScore(applicant.scores))
-                        }}
-                      >
-                        {getAverageScore(applicant.scores)}%
-                      </div>
-                      <div style={styles.scoreLabel}>Final Ranking Score</div>
-                    </div>
-                    
-                    <div style={styles.skillsPreview}>
-                      {Object.entries(applicant.scores).map(([skill, score], index) => (
-                        <div key={index} style={styles.skillItem}>
-                          <div style={styles.skillName}>{skill}</div>
-                          <div style={styles.skillBarContainer}>
-                            <div 
-                              style={{
-                                ...styles.skillBar,
-                                width: `${score}%`,
-                                backgroundColor: getScoreColor(score)
-                              }}
-                            ></div>
-                          </div>
-                        </div>
-                      )).slice(0, isMobile ? 1 : 2)}
-                      {Object.keys(applicant.scores).length > (isMobile ? 1 : 2) && (
-                        <div style={styles.moreSkills}>
-                          +{Object.keys(applicant.scores).length - (isMobile ? 1 : 2)} more skills
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
+        <div style={styles.funnelSection}>
+          <RecruitmentFunnel 
+            stages={funnelStages} 
+            activeStage={activeStage}
+            onStageChange={handleStageChange}
+          />
+        </div>
+        
+        <div style={styles.fullWidthApplicantsList}>
+          <div style={styles.stageHeader}>
+            <h3 style={styles.sectionTitle}>{funnelStages.find(s => s.id === activeStage).name} Applicants</h3>
+            {activeStage === 'spam' && (
+              <div style={styles.spamActions}>
+                <button style={styles.spamSelectAll}>Select All</button>
+                <button style={styles.spamDeleteSelected}>Delete Selected</button>
               </div>
-            ))
+            )}
+          </div>
+          
+          {jobApplicants.length === 0 ? (
+            <div style={styles.emptyState}>
+              <p style={styles.emptyText}>No applicants in this stage.</p>
+        </div>
+          ) : (
+            <div style={styles.applicantsGrid}>
+              {jobApplicants.map((applicant) => (
+                <div 
+                  key={applicant.id} 
+                  style={{
+                    ...styles.applicantCard,
+                    ...(selectedApplicant?.id === applicant.id ? styles.selectedCard : {})
+                  }}
+                  onClick={() => handleApplicantSelect(applicant)}
+                >
+                  <div style={styles.applicantHeader}>
+                    {activeStage === 'spam' && (
+                      <div style={styles.spamCheckbox}>
+                        <input 
+                          type="checkbox" 
+                          onClick={(e) => e.stopPropagation()} 
+                        />
+                      </div>
+                    )}
+                    <div style={styles.applicantAvatar}>{applicant.name.charAt(0)}</div>
+                    <div style={styles.applicantInfo}>
+                      <h4 style={styles.applicantName}>{applicant.name}</h4>
+                      <p style={styles.applicantEmail}>{applicant.email}</p>
+                    </div>
+                    {applicant.status !== 'spam' && (
+                    <div style={styles.applicantScore}>
+                      <div style={styles.scoreCircle}>
+                        {Math.round(parseFloat(generateDetailedAnalysis(applicant)?.finalRankingScore || 0) * 100)}%
+                      </div>
+                    </div>
+                    )}
+                  </div>
+                  <div style={styles.applicantMeta}>
+                    <span style={styles.metaItem}>Applied: {formatDate(applicant.appliedDate)}</span>
+                    {applicant.spamReason && (
+                      <span style={styles.spamFlag}>
+                        <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2" fill="none">
+                          <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        Spam
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
+
+        {/* Render the candidate modal */}
+        {renderCandidateModal()}
       </div>
     );
   };
@@ -858,13 +1026,10 @@ export default function JobListings() {
   return (
     <div style={styles.container}>
       <RecruiterNavbar />
-      <div style={{
-        ...styles.content,
-        ...(isMobile ? styles.contentMobile : {})
-      }}>
-        {renderJobListings()}
-        {selectedJob && renderApplicantsView()}
-        {renderCandidateModal()}
+      <div style={styles.contentWithSidebar}>
+        <div style={styles.content}>
+          {selectedJob ? renderApplicantsView() : renderJobListings()}
+        </div>
       </div>
     </div>
   );
@@ -891,144 +1056,24 @@ const getScoreColorStyle = (score) => {
 
 const styles = {
   container: {
-    display: 'flex',
+    backgroundColor: '#f1f5f9',
     minHeight: '100vh',
+    fontFamily: "'Inter', system-ui, sans-serif",
   },
-  
+  contentWithSidebar: {
+    marginLeft: '240px', // width of sidebar
+    paddingTop: 0,
+    minHeight: '100vh',
+    background: 'none',
+  },
   content: {
-    marginLeft: '240px',
-    width: 'calc(100% - 240px)',
-    backgroundColor: '#f8fafc',
+    paddingTop: '2.5rem',
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
+    paddingBottom: '2rem',
+    maxWidth: '1400px',
+    margin: '0 auto',
   },
-  
-  contentMobile: {
-    marginLeft: 0,
-    width: '100%',
-    paddingTop: '60px', // Space for mobile navbar
-  },
-  
-  jobListingsContainerMobile: {
-    padding: '15px',
-  },
-  
-  jobsHeaderMobile: {
-    flexDirection: 'column',
-    gap: '12px',
-  },
-  
-  jobsTableMobile: {
-    overflowX: 'visible',
-  },
-  
-  mobileCardContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
-  },
-  
-  mobileJobCard: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '16px',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    borderLeft: '3px solid transparent',
-  },
-  
-  selectedMobileCard: {
-    borderLeft: '3px solid #4285f4',
-    backgroundColor: '#f8fafd',
-  },
-  
-  mobileCardHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '12px',
-  },
-  
-  mobileJobTitle: {
-    margin: 0,
-    fontSize: '1rem',
-    fontWeight: '600',
-    color: '#0f172a',
-  },
-  
-  mobileJobDetails: {
-    marginBottom: '16px',
-  },
-  
-  mobileJobInfo: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    fontSize: '0.875rem',
-    color: '#64748b',
-    margin: '4px 0',
-  },
-  
-  mobileIcon: {
-    color: '#94a3b8',
-  },
-  
-  mobileCardActions: {
-    display: 'flex',
-    gap: '8px',
-  },
-  
-  mobileViewButton: {
-    flex: 1,
-    padding: '8px 0',
-    backgroundColor: '#4285f4',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    cursor: 'pointer',
-  },
-  
-  mobileArchiveButton: {
-    padding: '8px 0',
-    backgroundColor: 'transparent',
-    color: '#64748b',
-    border: '1px solid #cbd5e1',
-    borderRadius: '4px',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    cursor: 'pointer',
-    width: '80px',
-  },
-  
-  modalContentMobile: {
-    width: '95%',
-    maxWidth: 'none',
-    height: '90vh',
-    borderRadius: '12px',
-  },
-  
-  candidateDetailsMobile: {
-    padding: '15px',
-  },
-  
-  applicantsContainerMobile: {
-    margin: '15px',
-  },
-  
-  applicantsHeaderMobile: {
-    flexDirection: 'column',
-    gap: '12px',
-  },
-  
-  applicantsListMobile: {
-    gridTemplateColumns: '1fr',
-  },
-  
-  applicantCardMobile: {
-    padding: '12px',
-  },
-  
   jobListingsContainer: {
     backgroundColor: 'white',
     borderRadius: '8px',

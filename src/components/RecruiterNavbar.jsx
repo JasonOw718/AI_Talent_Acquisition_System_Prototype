@@ -26,13 +26,6 @@ export default function RecruiterNavbar() {
 
   const toggleMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen);
-    
-    // Prevent body scroll when mobile menu is open
-    if (!isMobileNavOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
   };
 
   // Determine if we should show mobile view
@@ -71,62 +64,63 @@ export default function RecruiterNavbar() {
       )}
       
       {/* Sidebar - shown based on screen size or toggle state */}
-      <aside style={{
-        ...styles.sidebar,
-        ...(isMobile && styles.mobileSidebar),
-        ...(isMobile && !isMobileNavOpen && styles.mobileSidebarHidden),
-      }}>
-        <div style={styles.logoSection}>
-          <div style={styles.logo}>RecruitIQ</div>
-          {isMobile && (
+      {(!isMobile || isMobileNavOpen) && (
+        <aside style={{
+          ...styles.sidebar,
+          ...(isMobile && styles.mobileSidebar)
+        }}>
+          <div style={styles.logoSection}>
+            <div style={styles.logo}>RecruitIQ</div>
+            {isMobile && (
+              <button 
+                style={styles.closeButton}
+                onClick={() => setIsMobileNavOpen(false)}
+                aria-label="Close menu"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+                  <path d="M18 6L6 18M6 6l12 12"></path>
+                </svg>
+              </button>
+            )}
+          </div>
+          <nav style={styles.navLinks}>
+            {navLinks.map((link) => (
+              <NavLink 
+                key={link.name}
+                to={link.path} 
+                style={({ isActive }) => ({
+                  ...styles.navLink,
+                  ...(isActive ? styles.activeNavLink : {})
+                })}
+                onClick={() => isMobile && setIsMobileNavOpen(false)}
+              >
+                <span style={styles.navIcon}>
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d={link.icon}></path>
+                  </svg>
+                </span>
+                {link.name}
+              </NavLink>
+            ))}
+          </nav>
+          <div style={styles.spacer}></div>
+          <div style={styles.profileSection}>
             <button 
-              style={styles.closeButton}
-              onClick={() => setIsMobileNavOpen(false)}
-              aria-label="Close menu"
+              style={styles.logoutButton}
+              onClick={handleLogout}
             >
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
-                <path d="M18 6L6 18M6 6l12 12"></path>
-              </svg>
-            </button>
-          )}
-        </div>
-        <nav style={styles.navLinks}>
-          {navLinks.map((link) => (
-            <NavLink 
-              key={link.name}
-              to={link.path} 
-              style={({ isActive }) => ({
-                ...styles.navLink,
-                ...(isActive ? styles.activeNavLink : {})
-              })}
-              onClick={() => isMobile && setIsMobileNavOpen(false)}
-            >
-              <span style={styles.navIcon}>
+              <span style={styles.logoutIcon}>
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
-                  <path d={link.icon}></path>
+                  <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path>
+                  <path d="M16 17l5-5-5-5"></path>
+                  <path d="M21 12H9"></path>
                 </svg>
               </span>
-              {link.name}
-            </NavLink>
-          ))}
-        </nav>
-        <div style={styles.spacer}></div>
-        <div style={styles.profileSection}>
-          <button 
-            style={styles.logoutButton}
-            onClick={handleLogout}
-          >
-            <span style={styles.logoutIcon}>
-              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
-                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path>
-                <path d="M16 17l5-5-5-5"></path>
-                <path d="M21 12H9"></path>
-              </svg>
-            </span>
-            <span style={styles.logoutText}>Logout</span>
-          </button>
-        </div>
-      </aside>
+              <span style={styles.logoutText}>Logout</span>
+            </button>
+          </div>
+        </aside>
+      )}
       
       {/* Mobile overlay */}
       {isMobile && isMobileNavOpen && (
@@ -161,9 +155,6 @@ const styles = {
     width: '280px',
     boxShadow: '0 0 15px rgba(0,0,0,0.1)',
     zIndex: 1200,
-  },
-  mobileSidebarHidden: {
-    transform: 'translateX(-100%)',
   },
   mobileHeader: {
     position: 'fixed',

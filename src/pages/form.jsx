@@ -451,7 +451,7 @@ export default function ApplyForm() {
           {steps.map((step, idx) => (
               <div 
               key={idx}
-                style={{
+              style={{
                   ...styles.progressStep,
                   ...(idx < currentStep ? styles.completedStep : {}),
                   ...(idx === currentStep ? styles.activeStep : {}),
@@ -470,7 +470,7 @@ export default function ApplyForm() {
                       />
                     </svg>
                   )}
-                  {idx === currentStep && (
+              {idx === currentStep && (
                     <div style={styles.spinner} />
                   )}
                   {idx > currentStep && (
@@ -491,7 +491,7 @@ export default function ApplyForm() {
 
           <div style={styles.progressBar}>
             <div 
-              style={{
+                  style={{
                 ...styles.progressFill,
                 width: `${((currentStep + 1) / steps.length) * 100}%`
               }}
@@ -557,7 +557,7 @@ export default function ApplyForm() {
             onDragOver={handleDragOver}
             onDrop={handleResumeDrop}
           >
-            <input
+          <input
               type="file"
               id="resume"
               name="resume"
@@ -618,13 +618,13 @@ export default function ApplyForm() {
               <input
                 id="first_name"
                 name="first_name"
-                type="text"
-                required
+            type="text"
+            required
                 value={formData.personal_information.first_name}
                 onChange={handlePersonalInfoChange}
                 style={styles.input}
-              />
-            </div>
+          />
+        </div>
 
             <div style={styles.formGroup}>
               <label htmlFor="last_name" style={styles.label}>Last Name*</label>
@@ -643,24 +643,24 @@ export default function ApplyForm() {
           <div style={styles.formGrid}>
             <div style={styles.formGroup}>
               <label htmlFor="email" style={styles.label}>Email*</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
                 value={formData.personal_information.email}
                 onChange={handlePersonalInfoChange}
                 style={styles.input}
-              />
-            </div>
+          />
+        </div>
 
             <div style={styles.formGroup}>
               <label htmlFor="phone_number" style={styles.label}>Phone Number*</label>
-              <input
+          <input
                 id="phone_number"
                 name="phone_number"
                 type="tel"
-                required
+            required
                 value={formData.personal_information.phone_number}
                 onChange={handlePersonalInfoChange}
                 style={styles.input}
@@ -715,7 +715,7 @@ export default function ApplyForm() {
                     onChange={(e) => handleEducationChange(index, 'institution', e.target.value)}
                     style={styles.input}
                   />
-                </div>
+        </div>
                 
                 <div style={styles.formGroup}>
                   <label style={styles.label}>Degree*</label>
@@ -796,8 +796,8 @@ export default function ApplyForm() {
               </div>
             </div>
           ))}
-          
-          <button 
+
+        <button
             type="button" 
             onClick={addEducation} 
             style={styles.addButton}
@@ -1006,7 +1006,7 @@ export default function ApplyForm() {
           </p>
           
           <div
-            style={{
+          style={{
               ...styles.supportingDocsDropZone,
               ...(isDraggingSupportingDocs ? styles.dropZoneActive : {}),
             }}
@@ -1068,9 +1068,9 @@ export default function ApplyForm() {
           <button
             type="submit"
             style={styles.submitButton}
-          >
-            Submit Application
-          </button>
+        >
+          Submit Application
+        </button>
         </div>
       </form>
     </div>

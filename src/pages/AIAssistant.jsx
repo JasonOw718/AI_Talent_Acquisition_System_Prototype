@@ -10,17 +10,6 @@ export default function AIAssistant() {
     }
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // Track window resize for responsive adjustments
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,24 +43,12 @@ export default function AIAssistant() {
     }
   }, [chatHistory]);
 
-  // Determine if we're on mobile/small screen
-  const isMobile = windowWidth < 768;
-
   return (
     <div style={styles.container}>
       <RecruiterNavbar />
-      <div style={{
-        ...styles.contentWithSidebar,
-        ...(isMobile ? styles.contentMobile : {})
-      }}>
-        <div style={{
-          ...styles.content,
-          ...(isMobile ? styles.contentPaddingMobile : {})
-        }}>
-          <div style={{
-            ...styles.header,
-            ...(isMobile ? styles.headerMobile : {})
-          }}>
+      <div style={styles.contentWithSidebar}>
+        <div style={styles.content}>
+          <div style={styles.header}>
             <div style={styles.titleContainer}>
               <div style={styles.iconContainer}>
                 <svg style={styles.aiIcon} viewBox="0 0 24 24" width="24" height="24">
@@ -79,10 +56,7 @@ export default function AIAssistant() {
                   <path d="M12 16v-4M12 8h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </div>
-              <h1 style={{
-                ...styles.title,
-                ...(isMobile ? styles.titleMobile : {})
-              }}>AI Recruiting Assistant</h1>
+              <h1 style={styles.title}>AI Recruiting Assistant</h1>
             </div>
             <div style={styles.statusBadge}>
               <span style={styles.statusIndicator}></span>
@@ -90,19 +64,14 @@ export default function AIAssistant() {
             </div>
           </div>
           
-          <div style={{
-            ...styles.chatContainer,
-            ...(isMobile ? styles.chatContainerMobile : {})
-          }}>
+          <div style={styles.chatContainer}>
             <div style={styles.chatHistory} id="chat-history">
               {chatHistory.map((msg, index) => (
                 <div 
                   key={index} 
                   style={{
                     ...styles.chatMessage, 
-                    ...(msg.role === 'user' ? styles.userMessage : styles.assistantMessage),
-                    ...(isMobile && msg.role === 'user' ? styles.userMessageMobile : {}),
-                    ...(isMobile && msg.role === 'assistant' ? styles.assistantMessageMobile : {})
+                    ...(msg.role === 'user' ? styles.userMessage : styles.assistantMessage)
                   }}
                 >
                   {msg.role === 'assistant' && (
@@ -110,20 +79,13 @@ export default function AIAssistant() {
                       <div style={styles.avatar}>AI</div>
                     </div>
                   )}
-                  <div style={{
-                    ...styles.messageContent,
-                    ...(isMobile ? styles.messageContentMobile : {})
-                  }}>
+                  <div style={styles.messageContent}>
                     {msg.content}
                   </div>
                 </div>
               ))}
               {isTyping && (
-                <div style={{
-                  ...styles.chatMessage, 
-                  ...styles.assistantMessage,
-                  ...(isMobile ? styles.assistantMessageMobile : {})
-                }}>
+                <div style={{...styles.chatMessage, ...styles.assistantMessage}}>
                   <div style={styles.avatarContainer}>
                     <div style={styles.avatar}>AI</div>
                   </div>
@@ -136,19 +98,13 @@ export default function AIAssistant() {
               )}
             </div>
             
-            <form style={{
-              ...styles.inputForm,
-              ...(isMobile ? styles.inputFormMobile : {})
-            }} onSubmit={handleSubmit}>
+            <form style={styles.inputForm} onSubmit={handleSubmit}>
               <input 
                 type="text" 
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                style={{
-                  ...styles.messageInput,
-                  ...(isMobile ? styles.messageInputMobile : {})
-                }}
-                placeholder={isMobile ? "Ask a question..." : "Ask about job descriptions, candidate screening, or recruitment advice..."}
+                style={styles.messageInput}
+                placeholder="Ask about job descriptions, candidate screening, or recruitment advice..."
               />
               <button 
                 type="submit" 
@@ -166,14 +122,8 @@ export default function AIAssistant() {
             </form>
           </div>
 
-          <div style={{
-            ...styles.footer,
-            ...(isMobile ? styles.footerMobile : {})
-          }}>
-            <p style={{
-              ...styles.disclaimer,
-              ...(isMobile ? styles.disclaimerMobile : {})
-            }}>AI responses are generated for demonstration purposes. In a real system, responses would be tailored to your specific recruitment needs and data.</p>
+          <div style={styles.footer}>
+            <p style={styles.disclaimer}>AI responses are generated for demonstration purposes. In a real system, responses would be tailored to your specific recruitment needs and data.</p>
           </div>
         </div>
       </div>
@@ -204,11 +154,6 @@ const styles = {
     position: 'relative',
     zIndex: 1,
   },
-  contentMobile: {
-    marginLeft: 0,
-    width: '100%',
-    paddingTop: '60px', // Account for mobile header
-  },
   content: {
     padding: '25px',
     paddingTop: '80px',
@@ -216,21 +161,16 @@ const styles = {
     boxSizing: 'border-box',
     maxWidth: '1000px',
     margin: '0 auto',
-  },
-  contentPaddingMobile: {
-    padding: '15px',
-    paddingTop: '70px',
+    '@media (max-width: 768px)': {
+      padding: '15px',
+      paddingTop: '70px',
+    },
   },
   header: {
     marginBottom: '25px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  headerMobile: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: '10px',
   },
   titleContainer: {
     display: 'flex',
@@ -256,9 +196,6 @@ const styles = {
     fontWeight: '700',
     color: '#0f172a',
     margin: 0,
-  },
-  titleMobile: {
-    fontSize: '1.3rem',
   },
   statusBadge: {
     display: 'flex',
@@ -290,10 +227,6 @@ const styles = {
     height: '65vh',
     border: '1px solid rgba(226, 232, 240, 0.8)',
   },
-  chatContainerMobile: {
-    height: 'calc(100vh - 160px)',
-    borderRadius: '8px',
-  },
   chatHistory: {
     flex: 1,
     overflowY: 'auto',
@@ -317,10 +250,6 @@ const styles = {
     borderBottomRightRadius: '2px',
     padding: '12px 16px',
   },
-  userMessageMobile: {
-    maxWidth: '85%',
-    padding: '10px 14px',
-  },
   assistantMessage: {
     backgroundColor: '#f8fafc',
     color: '#334155',
@@ -332,10 +261,6 @@ const styles = {
     alignItems: 'flex-start',
     gap: '12px',
     padding: '12px 16px',
-  },
-  assistantMessageMobile: {
-    maxWidth: '85%',
-    padding: '10px 14px',
   },
   avatarContainer: {
     marginRight: '12px',
@@ -354,9 +279,6 @@ const styles = {
   },
   messageContent: {
     flex: 1,
-  },
-  messageContentMobile: {
-    fontSize: '0.9rem',
   },
   typingIndicator: {
     display: 'flex',
@@ -387,9 +309,6 @@ const styles = {
     borderTop: '1px solid #e2e8f0',
     backgroundColor: '#ffffff',
   },
-  inputFormMobile: {
-    padding: '12px',
-  },
   messageInput: {
     flex: 1,
     border: '1px solid #e2e8f0',
@@ -403,10 +322,6 @@ const styles = {
       borderColor: '#3b82f6',
       boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)',
     },
-  },
-  messageInputMobile: {
-    padding: '10px 12px',
-    fontSize: '0.9rem',
   },
   sendButton: {
     backgroundColor: '#3b82f6',
@@ -441,15 +356,9 @@ const styles = {
     fontSize: '0.8rem',
     padding: '0 20px',
   },
-  footerMobile: {
-    marginTop: '12px',
-  },
   disclaimer: {
     margin: '0',
     lineHeight: '1.6',
-  },
-  disclaimerMobile: {
-    fontSize: '0.7rem',
   },
   decoration1: {
     position: 'absolute',

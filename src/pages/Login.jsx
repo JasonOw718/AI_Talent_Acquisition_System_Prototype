@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  // Track window resize for responsive layout
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -41,9 +30,6 @@ export default function Login() {
     }, 1500);
   };
 
-  // Determine if we're on a mobile/small screen
-  const isMobile = windowWidth < 768;
-
   return (
     <div style={styles.container}>
       {/* Background Elements */}
@@ -63,14 +49,8 @@ export default function Login() {
         </Link>
       </div>
       
-      <div style={{
-        ...styles.loginWrapper,
-        ...(isMobile ? styles.loginWrapperMobile : {})
-      }}>
-        <div style={{
-          ...styles.formColumn,
-          ...(isMobile ? styles.formColumnMobile : {})
-        }}>
+      <div style={styles.loginWrapper}>
+        <div style={styles.formColumn}>
           <div style={styles.logoWrapper}>
             <div style={styles.logoIcon}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -184,45 +164,43 @@ export default function Login() {
           </div>
         </div>
 
-        {!isMobile && (
-          <div style={styles.imageColumn}>
-            <div style={styles.heroContent}>
-              <h2 style={styles.heroTitle}>AI-Powered Talent Acquisition</h2>
-              <p style={styles.heroText}>
-                Streamline your recruitment process with our advanced AI tools that help you find the perfect candidates faster.
-              </p>
-              <div style={styles.featureList}>
-                <div style={styles.featureItem}>
-                  <div style={styles.featureIcon}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                  </div>
-                  <span>AI-powered candidate screening</span>
+        <div style={styles.imageColumn}>
+          <div style={styles.heroContent}>
+            <h2 style={styles.heroTitle}>AI-Powered Talent Acquisition</h2>
+            <p style={styles.heroText}>
+              Streamline your recruitment process with our advanced AI tools that help you find the perfect candidates faster.
+            </p>
+            <div style={styles.featureList}>
+              <div style={styles.featureItem}>
+                <div style={styles.featureIcon}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
                 </div>
-                <div style={styles.featureItem}>
-                  <div style={styles.featureIcon}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                  </div>
-                  <span>Automated resume analysis</span>
+                <span>AI-powered candidate screening</span>
+              </div>
+              <div style={styles.featureItem}>
+                <div style={styles.featureIcon}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
                 </div>
-                <div style={styles.featureItem}>
-                  <div style={styles.featureIcon}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                  </div>
-                  <span>Smart candidate matching</span>
+                <span>Automated resume analysis</span>
+              </div>
+              <div style={styles.featureItem}>
+                <div style={styles.featureIcon}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
                 </div>
+                <span>Smart candidate matching</span>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -237,7 +215,7 @@ const styles = {
     position: 'relative',
     overflow: 'hidden',
     backgroundColor: '#f8fafc',
-    padding: '1rem',
+    padding: '2rem',
     fontFamily: "'Inter', system-ui, sans-serif",
   },
   
@@ -291,12 +269,11 @@ const styles = {
     backgroundColor: 'white',
     height: 'auto',
     transform: 'scale(0.95)',
-  },
-  
-  loginWrapperMobile: {
-    flexDirection: 'column',
-    maxWidth: '440px',
-    transform: 'scale(1)',
+    '@media (max-width: 1024px)': {
+      flexDirection: 'column',
+      height: 'auto',
+      maxWidth: '350px',
+    },
   },
   
   navBar: {
@@ -312,10 +289,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-  },
-  
-  formColumnMobile: {
-    padding: '1.5rem',
+    '@media (max-width: 1024px)': {
+      padding: '1.2rem',
+    },
   },
   
   logoWrapper: {
@@ -452,10 +428,6 @@ const styles = {
     borderTopColor: 'white',
     animation: 'spin 0.8s linear infinite',
     marginRight: '0.75rem',
-    '@keyframes spin': {
-      '0%': { transform: 'rotate(0deg)' },
-      '100%': { transform: 'rotate(360deg)' }
-    },
   },
   
   errorMessage: {
@@ -510,6 +482,9 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    '@media (max-width: 1023px)': {
+      display: 'none',
+    },
   },
   
   heroContent: {
