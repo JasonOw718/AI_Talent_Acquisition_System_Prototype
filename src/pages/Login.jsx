@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ Keep this
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
-  const navigate = useNavigate(); // ✅ This stays
+  const navigate = useNavigate();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -10,6 +11,15 @@ export default function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Track window resize for responsive layout
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,10 +30,10 @@ export default function Login() {
     setTimeout(() => {
       if (username === 'recruiter' && password === 'admin1111') {
         // Set logged in flag
-        localStorage.setItem('recruiterLoggedIn', 'true');  // <-- THIS LINE ADDED
+        localStorage.setItem('recruiterLoggedIn', 'true');
         
         alert('Login successful! Redirecting to dashboard...');
-        navigate('/dashboard');
+        navigate('/recruiter/dashboard');
       } else {
         setError('Invalid username or password');
       }
@@ -31,110 +41,188 @@ export default function Login() {
     }, 1500);
   };
 
+  // Determine if we're on a mobile/small screen
+  const isMobile = windowWidth < 768;
+
   return (
     <div style={styles.container}>
       {/* Background Elements */}
+      <div style={styles.bgGradient}></div>
+      <div style={styles.bgPattern}></div>
       <div style={styles.bgShape1}></div>
       <div style={styles.bgShape2}></div>
-      <div style={styles.bgShape3}></div>
-
-      <div style={styles.loginCard}>
-        {/* Header */}
-        <div style={styles.header}>
-          <div style={styles.logo}>
-            <div style={styles.logoIcon}>🚀</div>
-            <span style={styles.logoText}>TalentAI</span>
-          </div>
-          <h1 style={styles.title}>Welcome Back</h1>
-          <p style={styles.subtitle}>
-            Sign in to your recruiter dashboard and discover amazing talent
-          </p>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleLogin} style={styles.form}>
-          <div style={styles.inputGroup}>
-            <div style={styles.inputWrapper}>
-              <div style={styles.inputIcon}>👤</div>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                style={{
-                  ...styles.input,
-                  ...(username ? styles.inputFilled : {})
-                }}
-                placeholder="Username"
-                required
-              />
+      
+      {/* Back Button */}
+      <div style={styles.navBar}>
+        <Link to="/" style={styles.backButton}>
+          <svg style={styles.backIcon} viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Home
+        </Link>
+      </div>
+      
+      <div style={{
+        ...styles.loginWrapper,
+        ...(isMobile ? styles.loginWrapperMobile : {})
+      }}>
+        <div style={{
+          ...styles.formColumn,
+          ...(isMobile ? styles.formColumnMobile : {})
+        }}>
+          <div style={styles.logoWrapper}>
+            <div style={styles.logoIcon}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 4.35c-4.3 0-7.79 3.4-7.79 7.58 0 1.58.5 3.05 1.35 4.27l-1.35 4.1 4.36-1.36c1.2.72 2.6 1.14 4.1 1.14 4.3 0 7.8-3.4 7.8-7.58 0-4.19-3.5-7.58-7.8-7.58a8.75 8.75 0 00-3.87.9"></path>
+              </svg>
             </div>
+            <div style={styles.logoText}>RecruitIQ</div>
           </div>
 
-          <div style={styles.inputGroup}>
-            <div style={styles.inputWrapper}>
-              <div style={styles.inputIcon}>🔐</div>
-              <input
-                type={showPass ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{
-                  ...styles.input,
-                  ...(password ? styles.inputFilled : {})
-                }}
-                placeholder="Password"
-                required
-              />
-              <button
-                type="button"
-                style={styles.toggleButton}
-                onClick={() => setShowPass(!showPass)}
-              >
-                {showPass ? '🙈' : '👁️'}
-              </button>
-            </div>
+          <div style={styles.formHeader}>
+            <h1 style={styles.formTitle}>Welcome back</h1>
+            <p style={styles.formSubtitle}>Log in to your recruiter dashboard to manage job applications and candidates</p>
           </div>
 
-          {error && (
-            <div style={styles.errorContainer}>
-              <span style={styles.errorIcon}>⚠️</span>
-              <span style={styles.errorText}>{error}</span>
-            </div>
-          )}
-
-          <button 
-            type="submit" 
-            style={{
-              ...styles.loginBtn,
-              ...(isLoading ? styles.loginBtnLoading : {})
-            }}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <div style={styles.loader}>
-                <div style={styles.spinner}></div>
-                <span>Signing in...</span>
+          <form onSubmit={handleLogin} style={styles.form}>
+            <div style={styles.formGroup}>
+              <label htmlFor="username" style={styles.inputLabel}>Username</label>
+              <div style={styles.inputContainer}>
+                <svg style={styles.inputIcon} viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" fill="none"></path>
+                  <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" fill="none"></circle>
+                </svg>
+                <input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  style={styles.input}
+                  placeholder="Enter your username"
+                  required
+                />
               </div>
-            ) : (
-              <>
-                <span>Sign In</span>
-                <span style={styles.btnIcon}>→</span>
-              </>
-            )}
-          </button>
-        </form>
+            </div>
 
-        {/* Footer */}
-        <div style={styles.footer}>
-          <div style={styles.divider}>
-            <span style={styles.dividerText}>Demo Credentials</span>
-          </div>
+            <div style={styles.formGroup}>
+              <label htmlFor="password" style={styles.inputLabel}>Password</label>
+              <div style={styles.inputContainer}>
+                <svg style={styles.inputIcon} viewBox="0 0 24 24" width="20" height="20">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="none"></rect>
+                  <path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" strokeWidth="2" fill="none"></path>
+                </svg>
+                <input
+                  id="password"
+                  type={showPass ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={styles.input}
+                  placeholder="Enter your password"
+                  required
+                />
+                <button 
+                  type="button" 
+                  style={styles.eyeButton}
+                  onClick={() => setShowPass(!showPass)}
+                >
+                  {showPass ? (
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+                      <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <div style={styles.errorMessage}>
+                <svg style={styles.errorIcon} viewBox="0 0 24 24" width="18" height="18">
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" strokeWidth="2"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor" strokeWidth="2"></line>
+                </svg>
+                {error}
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              style={{
+                ...styles.loginButton,
+                ...(isLoading ? styles.loginButtonLoading : {})
+              }}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div style={styles.loadingWrapper}>
+                  <div style={styles.spinner}></div>
+                  <span>Logging in...</span>
+                </div>
+              ) : (
+                'Sign in'
+              )}
+            </button>
+          </form>
+
           <div style={styles.demoInfo}>
-            <p style={styles.demoText}>
-              <strong>Username:</strong> recruiter<br/>
-              <strong>Password:</strong> admin1111
-            </p>
+            <div style={styles.demoInfoTitle}>Demo Credentials</div>
+            <div style={styles.demoCredentials}>
+              <div style={styles.demoCred}>
+                <strong>Username:</strong> recruiter
+              </div>
+              <div style={styles.demoCred}>
+                <strong>Password:</strong> admin1111
+              </div>
+            </div>
           </div>
         </div>
+
+        {!isMobile && (
+          <div style={styles.imageColumn}>
+            <div style={styles.heroContent}>
+              <h2 style={styles.heroTitle}>AI-Powered Talent Acquisition</h2>
+              <p style={styles.heroText}>
+                Streamline your recruitment process with our advanced AI tools that help you find the perfect candidates faster.
+              </p>
+              <div style={styles.featureList}>
+                <div style={styles.featureItem}>
+                  <div style={styles.featureIcon}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                  <span>AI-powered candidate screening</span>
+                </div>
+                <div style={styles.featureItem}>
+                  <div style={styles.featureIcon}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                  <span>Automated resume analysis</span>
+                </div>
+                <div style={styles.featureItem}>
+                  <div style={styles.featureIcon}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                  <span>Smart candidate matching</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -143,263 +231,343 @@ export default function Login() {
 const styles = {
   container: {
     minHeight: '100vh',
-    background: '#ffffff',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '2rem',
     position: 'relative',
     overflow: 'hidden',
+    backgroundColor: '#f8fafc',
+    padding: '1rem',
+    fontFamily: "'Inter', system-ui, sans-serif",
   },
   
-  // Background shapes
+  // Background elements
+  bgGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '100%',
+    background: 'linear-gradient(to bottom, rgba(226, 232, 240, 0.2) 0%, rgba(248, 250, 252, 0.8) 100%)',
+    zIndex: -2,
+  },
+  bgPattern: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundImage: 'radial-gradient(#e2e8f0 1px, transparent 1px)',
+    backgroundSize: '30px 30px',
+    opacity: 0.4,
+    zIndex: -1,
+  },
   bgShape1: {
     position: 'absolute',
-    top: '-10%',
-    right: '-10%',
-    width: '300px',
-    height: '300px',
-    background: 'linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
+    width: '500px',
+    height: '500px',
     borderRadius: '50%',
-    transform: 'rotate(45deg)',
+    background: 'linear-gradient(45deg, rgba(66, 133, 244, 0.05), rgba(15, 157, 88, 0.05))',
+    top: '-200px',
+    right: '-100px',
   },
   bgShape2: {
     position: 'absolute',
-    bottom: '-15%',
-    left: '-15%',
-    width: '400px',
-    height: '400px',
-    background: 'linear-gradient(45deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03))',
+    width: '600px',
+    height: '600px',
     borderRadius: '50%',
-    transform: 'rotate(-45deg)',
-  },
-  bgShape3: {
-    position: 'absolute',
-    top: '20%',
-    left: '10%',
-    width: '150px',
-    height: '150px',
-    background: 'rgba(255,255,255,0.1)',
-    borderRadius: '30px',
-    transform: 'rotate(15deg)',
-  },
-
-  loginCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(20px)',
-    padding: '3rem 2.5rem',
-    borderRadius: '24px',
-    boxShadow: '0 25px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.3)',
-    maxWidth: '440px',
-    width: '100%',
-    position: 'relative',
-    zIndex: 10,
-  },
-
-  header: {
-    textAlign: 'center',
-    marginBottom: '2.5rem',
+    background: 'linear-gradient(45deg, rgba(15, 157, 88, 0.03), rgba(66, 133, 244, 0.03))',
+    bottom: '-250px',
+    left: '-150px',
   },
   
-  logo: {
+  loginWrapper: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.5rem',
-    marginBottom: '1.5rem',
-  },
-  logoIcon: {
-    fontSize: '2rem',
-    background: 'linear-gradient(135deg, #667eea, #764ba2)',
     borderRadius: '12px',
-    padding: '0.5rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    overflow: 'hidden',
+    maxWidth: '720px',
+    width: '100%',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.05)',
+    backgroundColor: 'white',
+    height: 'auto',
+    transform: 'scale(0.95)',
   },
-  logoText: {
-    fontSize: '1.5rem',
-    fontWeight: '700',
-    background: 'linear-gradient(135deg, #667eea, #764ba2)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
+  
+  loginWrapperMobile: {
+    flexDirection: 'column',
+    maxWidth: '440px',
+    transform: 'scale(1)',
   },
-
-  title: {
-    fontSize: '2.2rem',
-    fontWeight: '700',
-    color: '#1a202c',
-    marginBottom: '0.5rem',
-    letterSpacing: '-0.02em',
-    background: 'linear-gradient(135deg, #2d3748, #4a5568)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
+  
+  navBar: {
+    position: 'absolute',
+    top: '20px',
+    left: '20px',
+    zIndex: 10,
   },
-
-  subtitle: {
-    color: '#64748b',
-    fontSize: '1rem',
-    lineHeight: '1.5',
-    maxWidth: '300px',
-    margin: '0 auto',
-  },
-
-  form: {
+  
+  formColumn: {
+    flex: '1',
+    padding: '1.8rem',
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.5rem',
+    justifyContent: 'center',
   },
-
-  inputGroup: {
-    position: 'relative',
+  
+  formColumnMobile: {
+    padding: '1.5rem',
   },
-
-  inputWrapper: {
-    position: 'relative',
+  
+  logoWrapper: {
     display: 'flex',
     alignItems: 'center',
-    background: '#f8fafc',
-    borderRadius: '16px',
-    border: '2px solid transparent',
-    transition: 'all 0.3s ease',
-    overflow: 'hidden',
+    marginBottom: '2rem',
   },
-
-  inputIcon: {
-    padding: '1rem',
-    fontSize: '1.2rem',
+  logoIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '36px',
+    height: '36px',
+    borderRadius: '9px',
+    background: 'linear-gradient(45deg, #4285f4, #0f9d58)',
+    marginRight: '0.75rem',
+    color: 'white',
+  },
+  logoText: {
+    fontSize: '1.8rem',
+    fontWeight: 'bold',
+    background: 'linear-gradient(90deg, #4285f4, #0f9d58)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    marginLeft: '0.5rem',
+  },
+  
+  formHeader: {
+    marginBottom: '1.2rem',
+  },
+  formTitle: {
+    fontSize: '1.35rem',
+    fontWeight: '700',
+    color: '#1e293b',
+    marginBottom: '0.4rem',
+    marginTop: 0,
+  },
+  formSubtitle: {
+    fontSize: '0.82rem',
     color: '#64748b',
-    background: 'rgba(102, 126, 234, 0.1)',
+    marginTop: 0,
+    marginBottom: 0,
+    lineHeight: '1.5',
+  },
+  
+  form: {
+    marginBottom: '1.8rem',
+  },
+  formGroup: {
+    marginBottom: '1.3rem',
+  },
+  inputLabel: {
+    display: 'block',
+    fontSize: '0.82rem',
+    fontWeight: '500',
+    color: '#4a5568',
+    marginBottom: '0.4rem',
+  },
+  inputContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    backgroundColor: '#fff',
+    border: '1px solid #e2e8f0',
+    borderRadius: '8px',
+    padding: '0.5rem 1rem',
+    transition: 'all 0.2s ease',
+    '&:focus-within': {
+      borderColor: '#4285f4',
+      boxShadow: '0 0 0 3px rgba(66, 133, 244, 0.15)',
+    },
+  },
+  input: {
+    width: '100%',
+    padding: '0.7rem 1rem 0.7rem 2.3rem',
+    fontSize: '0.94rem',
+    border: '1px solid #e2e8f0',
+    borderRadius: '8px',
+    outline: 'none',
+    transition: 'all 0.2s',
+    backgroundColor: '#f8fafc',
+    color: '#1a202c',
+    '&:focus': {
+      borderColor: '#4285f4',
+      boxShadow: '0 0 0 3px rgba(66, 133, 244, 0.15)',
+    },
+  },
+  inputIcon: {
+    color: '#94a3b8',
+    marginRight: '0.75rem',
+  },
+  eyeButton: {
+    position: 'absolute',
+    right: '0.75rem',
+    background: 'transparent',
+    border: 'none',
+    color: '#a0aec0',
+    cursor: 'pointer',
+    padding: '0.25rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  input: {
-    flex: 1,
-    padding: '1rem 1.25rem',
+  
+  loginButton: {
+    backgroundColor: '#4285f4',
+    color: 'white',
     border: 'none',
-    background: 'transparent',
-    fontSize: '1rem',
-    color: '#1a202c',
-    outline: 'none',
-    transition: 'all 0.3s ease',
-  },
-
-  inputFilled: {
-    color: '#1a202c',
-    fontWeight: '500',
-  },
-
-  toggleButton: {
-    position: 'absolute',
-    right: '1rem',
-    background: 'none',
-    border: 'none',
-    fontSize: '1.2rem',
-    cursor: 'pointer',
-    padding: '0.5rem',
     borderRadius: '8px',
-    transition: 'background-color 0.3s ease',
+    padding: '0.75rem 1.5rem',
+    fontSize: '1rem',
+    fontWeight: '600',
+    cursor: 'pointer',
+    width: '100%',
+    marginTop: '1.5rem',
+    transition: 'all 0.2s ease',
+    background: 'linear-gradient(90deg, #4285f4, #0f9d58)',
+    boxShadow: '0 2px 6px rgba(66, 133, 244, 0.3)',
   },
-
-  errorContainer: {
+  loginButtonLoading: {
+    opacity: 0.8,
+    cursor: 'not-allowed',
+  },
+  loadingWrapper: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem',
-    padding: '0.75rem 1rem',
-    backgroundColor: '#fef2f2',
-    border: '1px solid #fecaca',
-    borderRadius: '12px',
-    marginTop: '-0.5rem',
+    justifyContent: 'center',
+  },
+  spinner: {
+    borderRadius: '50%',
+    width: '24px',
+    height: '24px',
+    border: '3px solid rgba(255, 255, 255, 0.2)',
+    borderTopColor: 'white',
+    animation: 'spin 0.8s linear infinite',
+    marginRight: '0.75rem',
+    '@keyframes spin': {
+      '0%': { transform: 'rotate(0deg)' },
+      '100%': { transform: 'rotate(360deg)' }
+    },
+  },
+  
+  errorMessage: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0.7rem 0.94rem',
+    backgroundColor: '#fff5f5',
+    color: '#e53e3e',
+    borderRadius: '8px',
+    fontSize: '0.82rem',
+    marginBottom: '1rem',
   },
   errorIcon: {
-    fontSize: '1rem',
+    marginRight: '0.5rem',
+    flexShrink: 0,
   },
-  errorText: {
-    color: '#dc2626',
-    fontSize: '0.9rem',
-    fontWeight: '500',
+  
+  demoInfo: {
+    marginTop: '1.8rem',
+    padding: '1.1rem',
+    backgroundColor: '#f8fafc',
+    borderRadius: '8px',
+    border: '1px dashed #cbd5e0',
   },
-
-  loginBtn: {
-    padding: '1rem 2rem',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    color: '#ffffff',
-    fontSize: '1.1rem',
+  demoInfoTitle: {
+    fontSize: '0.82rem',
     fontWeight: '600',
-    border: 'none',
-    borderRadius: '16px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
+    color: '#4a5568',
+    marginBottom: '0.7rem',
+  },
+  demoCredentials: {
+    fontSize: '0.82rem',
+    color: '#4a5568',
+  },
+  demoCred: {
+    marginBottom: '0.4rem',
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  },
+  
+  // Right column with image and content
+  imageColumn: {
+    flex: '1',
+    backgroundColor: '#f1f5f9',
+    borderRadius: '0 12px 12px 0',
+    padding: '3rem',
+    position: 'relative',
+    overflow: 'hidden',
+    background: 'linear-gradient(135deg, #4285f4, #0f9d58)',
+    color: 'white',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '0.5rem',
-    boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)',
-    position: 'relative',
-    overflow: 'hidden',
-    marginTop: '0.5rem',
   },
-
-  loginBtnLoading: {
-    background: 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)',
-    cursor: 'not-allowed',
-    boxShadow: '0 4px 15px rgba(156, 163, 175, 0.3)',
-  },
-
-  btnIcon: {
-    fontSize: '1.2rem',
-    transition: 'transform 0.3s ease',
-  },
-
-  loader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.75rem',
-  },
-
-  spinner: {
-    width: '18px',
-    height: '18px',
-    border: '2px solid rgba(255,255,255,0.3)',
-    borderTop: '2px solid white',
-    borderRadius: '50%',
-    animation: 'spin 1s linear infinite',
-  },
-
-  footer: {
-    marginTop: '2rem',
-    textAlign: 'center',
-  },
-
-  divider: {
-    position: 'relative',
-    margin: '1.5rem 0',
-  },
-
-  dividerText: {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    color: '#64748b',
-    fontSize: '0.9rem',
-    padding: '0 1rem',
+  
+  heroContent: {
     position: 'relative',
     zIndex: 1,
+    maxWidth: '380px',
   },
-
-  demoInfo: {
-    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))',
-    padding: '1rem',
-    borderRadius: '12px',
-    border: '1px solid rgba(102, 126, 234, 0.2)',
+  heroTitle: {
+    fontSize: '2.5rem',
+    fontWeight: '700',
+    marginBottom: '1.5rem',
+    lineHeight: 1.2,
+    color: 'white',
   },
-
-  demoText: {
-    color: '#475569',
+  heroText: {
+    fontSize: '1.1rem',
+    lineHeight: '1.6',
+    marginBottom: '2rem',
+    color: 'rgba(255, 255, 255, 0.9)',
+  },
+  featureList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.9rem',
+  },
+  featureItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.7rem',
+  },
+  featureIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '28px',
+    height: '28px',
+    borderRadius: '50%',
+    backgroundColor: 'rgba(15, 157, 88, 0.1)',
+    color: '#0f9d58',
+    marginRight: '0.75rem',
+  },
+  
+  backButton: {
+    display: 'flex',
+    alignItems: 'center',
+    color: '#1e293b',
     fontSize: '0.9rem',
-    margin: 0,
-    lineHeight: '1.5',
+    fontWeight: '500',
+    textDecoration: 'none',
+    padding: '8px 16px',
+    borderRadius: '6px',
+    backgroundColor: 'white',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.08)',
+    transition: 'all 0.2s ease',
+    border: '1px solid #e2e8f0',
+  },
+  
+  backIcon: {
+    marginRight: '8px',
   },
 };

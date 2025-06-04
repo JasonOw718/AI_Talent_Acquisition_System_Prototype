@@ -66,9 +66,66 @@ const dummyApplicantsStage1 = {
   ],
 };
 
+const dummyApplicantsStage2 = {
+  1: [
+    {
+      id: 103,
+      name: 'Olivia Garcia',
+      email: 'olivia@example.com',
+      phone: '(555) 111-2222',
+      scores: { JavaScript: 94, React: 92, CSS: 88 },
+      justification: 'Exceptional React skills with deep understanding of state management. Created impressive portfolio projects.',
+      status: 'stage2',
+      applied: '2023-05-19',
+    },
+    {
+      id: 104,
+      name: 'Jackson Wei',
+      email: 'jackson@example.com',
+      phone: '(555) 333-4444',
+      scores: { JavaScript: 90, React: 87, CSS: 91 },
+      justification: 'Strong UI development skills. Previous experience at a major tech company with similar tech stack.',
+      status: 'stage2',
+      applied: '2023-05-17',
+    },
+  ],
+  2: [
+    {
+      id: 203,
+      name: 'Sophia Kim',
+      email: 'sophia@example.com',
+      phone: '(555) 555-6666',
+      scores: { Python: 95, Django: 90, 'REST APIs': 92 },
+      justification: 'Expert in building scalable backend systems. Published author on API design.',
+      status: 'stage2',
+      applied: '2023-06-02',
+    },
+  ],
+  3: [
+    {
+      id: 302,
+      name: 'James Johnson',
+      email: 'james@example.com',
+      phone: '(555) 777-8888',
+      scores: { 'UI Design': 94, 'UX Research': 88, Figma: 95 },
+      justification: 'Award-winning designer with strong portfolio of enterprise applications.',
+      status: 'stage2',
+      applied: '2023-06-11',
+    },
+  ],
+};
+
+const spamApplicants = [
+  { id: 901, name: 'Spam Bot 1', email: 'spam1@example.com', applied: '2023-06-15' },
+  { id: 902, name: 'Spam Bot 2', email: 'spam2@example.com', applied: '2023-06-16' },
+  { id: 903, name: 'Spam Bot 3', email: 'spam3@example.com', applied: '2023-06-16' },
+  { id: 904, name: 'Spam Bot 4', email: 'spam4@example.com', applied: '2023-06-17' },
+  { id: 905, name: 'Spam Bot 5', email: 'spam5@example.com', applied: '2023-06-17' },
+];
+
 const Dashboard = () => {
-  const [view, setView] = useState('main');
-  const [selectedJobId, setSelectedJobId] = useState(dummyJobs[0].id);
+  const [view, setView] = useState('jobList');
+  const [selectedJobId, setSelectedJobId] = useState(null);
   const [applicantsStage1, setApplicantsStage1] = useState(dummyApplicantsStage1);
   const [selectedApplicantId, setSelectedApplicantId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -91,887 +148,249 @@ const Dashboard = () => {
     setSelectedApplicantId(null);
   };
 
-  // Enhanced render functions
-
-  const renderMain = () => (
-    <div className="dashboard-main">
-      <h2>Recruiter Dashboard Overview</h2>
-      
-      <div className="stats-grid">
-        <StatCard 
-          icon="📊" 
-          label="Active Jobs" 
-          value={dummyJobs.length} 
-          onClick={() => setView('manageJobs')} 
-        />
-        <StatCard 
-          icon="👥" 
-          label="Stage 1 Applicants" 
-          value={Object.values(applicantsStage1).flat().length} 
-          onClick={() => setView('stage1')} 
-        />
-        <StatCard 
-          icon="✅" 
-          label="Stage 2 Applicants" 
-          value={8} 
-          onClick={() => alert('Stage 2 View Coming Soon')} 
-        />
-        <StatCard 
-          icon="🚫" 
-          label="Spam Applications" 
-          value={5} 
-          onClick={() => alert('Spam Review Coming Soon')} 
-        />
+  // Render the job list view
+  const renderJobList = () => (
+    <div className="dashboard-main" style={styles.dashboardMain}>
+      <div style={styles.header}>
+        <h2 style={styles.dashboardTitle}>Recruiter Dashboard</h2>
+        <button 
+          style={styles.newJobButton}
+          onClick={() => alert('Create New Job feature coming soon!')}
+        >
+          + Create New Job
+        </button>
       </div>
-
-      <div className="quick-actions">
-        <h3>Quick Actions</h3>
-        <div className="action-buttons">
-          <ActionButton 
-            icon="👀" 
-            label="Review Stage 1" 
-            onClick={() => setView('stage1')} 
-          />
-          <ActionButton 
-            icon="📝" 
-            label="Create New Job" 
-            onClick={() => alert('Coming Soon')} 
-          />
-          <ActionButton 
-            icon="🛠️" 
-            label="Manage Jobs" 
-            onClick={() => setView('manageJobs')} 
-          />
-          <ActionButton 
-            icon="📊" 
-            label="View Analytics" 
-            onClick={() => alert('Coming Soon')} 
-          />
+      
+      <div style={styles.statsBar}>
+        <div style={styles.statsItem}>
+          <span style={styles.statsIcon}>👥</span>
+          <div style={styles.statsContent}>
+            <h3 style={styles.statsValue}>5</h3>
+            <p style={styles.statsLabel}>Stage 1 Applicants</p>
+          </div>
+        </div>
+        <div style={styles.statsItem}>
+          <span style={styles.statsIcon}>✅</span>
+          <div style={styles.statsContent}>
+            <h3 style={styles.statsValue}>8</h3>
+            <p style={styles.statsLabel}>Stage 2 Applicants</p>
+          </div>
+        </div>
+        <div style={styles.statsItem}>
+          <span style={styles.statsIcon}>🚫</span>
+          <div style={styles.statsContent}>
+            <h3 style={styles.statsValue}>5</h3>
+            <p style={styles.statsLabel}>Spam Applications</p>
+          </div>
         </div>
       </div>
 
-      <div className="recent-jobs">
-        <h3>Recent Job Postings</h3>
-        <div className="job-cards">
-          {dummyJobs.slice(0, 3).map(job => (
-            <JobCard 
-              key={job.id}
-              job={job}
-              applicants={applicantsStage1[job.id]?.length || 0}
+      <div style={styles.jobsContainer}>
+        <div style={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder="Search jobs..."
+            style={styles.searchInput}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <span style={styles.searchIcon}>🔍</span>
+      </div>
+
+        <table style={styles.jobsTable}>
+          <thead>
+            <tr>
+              <th style={styles.tableHeader}>Job Title</th>
+              <th style={styles.tableHeader}>Posted Date</th>
+              <th style={styles.tableHeader}>Applicants</th>
+              <th style={styles.tableHeader}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dummyJobs.filter(job => 
+              job.title.toLowerCase().includes(searchTerm.toLowerCase())
+            ).map((job) => (
+              <tr key={job.id} style={styles.tableRow}>
+                <td style={styles.tableCell}>{job.title}</td>
+                <td style={styles.tableCell}>{formatDate(job.posted)}</td>
+                <td style={styles.tableCell}>
+                  <div style={styles.applicantCount}>
+                    <span style={styles.stage1Count}>
+                      {applicantsStage1[job.id]?.length || 0}
+                    </span>
+                  </div>
+                </td>
+                <td style={styles.tableCell}>
+                  <button 
+                    style={styles.viewButton}
               onClick={() => {
                 setSelectedJobId(job.id);
-                setView('stage1');
-              }}
-            />
-          ))}
-        </div>
+                      setView('applicantList');
+                    }}
+                  >
+                    View Applicants
+                  </button>
+                  <button 
+                    style={styles.editButton}
+                    onClick={() => alert(`Edit job ${job.id} (coming soon)`)}
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 
-  const renderStage1 = () => (
-    <div className="stage1-container">
-      <div className="applicant-list-panel">
-        <div className="panel-header">
-          <h3>Applicants for {dummyJobs.find(j => j.id === selectedJobId)?.title || 'Selected Job'}</h3>
-          <select
-            value={selectedJobId}
-            onChange={(e) => {
-              setSelectedJobId(parseInt(e.target.value));
+  // Render the applicant list view
+  const renderApplicantList = () => {
+    const job = dummyJobs.find(j => j.id === selectedJobId);
+    
+    return (
+      <div style={styles.applicantListContainer}>
+        <div style={styles.applicantListHeader}>
+          <button 
+            style={styles.backButton}
+            onClick={() => {
+              setView('jobList');
               setSelectedApplicantId(null);
             }}
           >
-            {dummyJobs.map((job) => (
-              <option key={job.id} value={job.id}>
-                {job.title} ({applicantsStage1[job.id]?.length || 0})
-              </option>
-            ))}
-          </select>
+            ← Back to Jobs
+          </button>
+          <h2 style={styles.applicantListTitle}>
+            Applicants for: {job?.title}
+          </h2>
         </div>
 
-        <div className="search-box">
+        <div style={styles.applicantsContent}>
+          <div style={styles.applicantList}>
+            <div style={styles.searchContainer}>
           <input
             type="text"
             placeholder="Search applicants..."
+                style={styles.searchInput}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <span>🔍</span>
+              <span style={styles.searchIcon}>🔍</span>
         </div>
 
-        <div className="applicant-list">
-          {filteredApplicants.length === 0 ? (
-            <div className="empty-state">No applicants found</div>
-          ) : (
-            filteredApplicants.map((app) => (
+            <div style={styles.applicantCards}>
+              {filteredApplicants.map(app => (
               <div
                 key={app.id}
-                className={`applicant-card ${selectedApplicantId === app.id ? 'selected' : ''}`}
+                  style={{
+                    ...styles.applicantCard,
+                    ...(selectedApplicantId === app.id ? styles.selectedCard : {})
+                  }}
                 onClick={() => setSelectedApplicantId(app.id)}
               >
-                <div className="applicant-avatar">{app.name.charAt(0)}</div>
-                <div className="applicant-info">
-                  <h4>{app.name}</h4>
-                  <p>{app.email}</p>
-                  <div className="applicant-meta">
+                  <div style={styles.applicantAvatar}>{app.name.charAt(0)}</div>
+                  <div style={styles.applicantInfo}>
+                    <h4 style={styles.applicantName}>{app.name}</h4>
+                    <p style={styles.applicantEmail}>{app.email}</p>
+                    <div style={styles.applicantMeta}>
                     <span>Applied: {formatDate(app.applied)}</span>
                     <span>Score: {averageScore(app.scores)}%</span>
                   </div>
                 </div>
               </div>
-            ))
+              ))}
+              {filteredApplicants.length === 0 && (
+                <div style={styles.emptyState}>
+                  <p>No applicants found</p>
+                </div>
           )}
         </div>
-
-        <button 
-          className="back-button"
-          onClick={() => {
-            setView('main');
-            setSelectedApplicantId(null);
-          }}
-        >
-          ← Back to Dashboard
-        </button>
       </div>
 
-      <div className="applicant-detail-panel">
+          <div style={styles.applicantDetails}>
         {!selectedApplicant ? (
-          <div className="empty-detail">
-            <div className="empty-icon">👈</div>
+              <div style={styles.emptyDetails}>
+                <div style={styles.emptyIcon}>👈</div>
             <h3>Select an applicant</h3>
             <p>Choose from the list to view details</p>
           </div>
         ) : (
-          <>
-            <div className="applicant-header">
-              <div className="applicant-avatar large">{selectedApplicant.name.charAt(0)}</div>
+              <div style={styles.detailsContent}>
+                <div style={styles.detailsHeader}>
+                  <div style={styles.applicantAvatarLarge}>{selectedApplicant.name.charAt(0)}</div>
               <div>
-                <h2>{selectedApplicant.name}</h2>
-                <p className="applicant-contact">
-                  {selectedApplicant.email} • {selectedApplicant.phone}
-                </p>
-                <p className="applicant-meta">
-                  Applied on {formatDate(selectedApplicant.applied)} • Overall Score: {averageScore(selectedApplicant.scores)}%
-                </p>
+                    <h2 style={styles.detailsName}>{selectedApplicant.name}</h2>
+                    <p style={styles.detailsContact}>
+                      <span>{selectedApplicant.email}</span>
+                      <span>•</span>
+                      <span>{selectedApplicant.phone}</span>
+                    </p>
+                    <p style={styles.appliedDate}>Applied: {formatDate(selectedApplicant.applied)}</p>
               </div>
             </div>
 
-            <div className="section">
-              <h3>Skills Assessment</h3>
-              <div className="skills-grid">
+                <div style={styles.scoreSection}>
+                  <h3 style={styles.sectionTitle}>Assessment Scores</h3>
+                  <div style={styles.scoreGrid}>
                 {Object.entries(selectedApplicant.scores).map(([skill, score]) => (
-                  <div key={skill} className="skill-item">
-                    <div className="skill-header">
-                      <span className="skill-name">{skill}</span>
-                      <span className="skill-score">{score}%</span>
-                    </div>
-                    <div className="skill-bar-container">
-                      <div 
-                        className="skill-bar" 
-                        style={{ width: `${score}%`, backgroundColor: getScoreColor(score) }}
-                      />
+                      <div key={skill} style={styles.scoreCard}>
+                        <div style={styles.scoreLabel}>{skill}</div>
+                        <div style={{
+                          ...styles.scoreValue,
+                          color: getScoreColor(score)
+                        }}>
+                          {score}%
                     </div>
                   </div>
                 ))}
               </div>
+                  <div style={styles.averageScore}>
+                    <span>Overall Score: </span>
+                    <span style={{
+                      fontWeight: 'bold',
+                      color: getScoreColor(averageScore(selectedApplicant.scores))
+                    }}>
+                      {averageScore(selectedApplicant.scores)}%
+                    </span>
+                  </div>
             </div>
 
-            <div className="section">
-              <h3>Application Details</h3>
-              <div className="justification-box">
-                <p>{selectedApplicant.justification}</p>
-              </div>
+                <div style={styles.justificationSection}>
+                  <h3 style={styles.sectionTitle}>AI Justification</h3>
+                  <p style={styles.justificationText}>{selectedApplicant.justification}</p>
             </div>
 
-            <div className="action-buttons">
+                <div style={styles.actionsSection}>
               <button 
-                className="action-button primary"
+                    style={styles.promoteButton}
                 onClick={() => moveToStage2(selectedApplicant.id)}
               >
-                Move to Stage 2
+                    Move to Stage 2 →
               </button>
               <button 
-                className="action-button secondary"
-                onClick={() => alert('Schedule interview')}
-              >
-                Schedule Interview
-              </button>
-              <button 
-                className="action-button danger"
-                onClick={() => {
-                  if (window.confirm(`Are you sure you want to reject ${selectedApplicant.name}?`)) {
-                    moveToStage2(selectedApplicant.id);
-                  }
-                }}
-              >
-                Reject Application
+                    style={styles.rejectButton}
+                    onClick={() => alert(`Reject ${selectedApplicant.name} (coming soon)`)}
+                  >
+                    Reject Candidate
               </button>
             </div>
-          </>
+              </div>
         )}
       </div>
     </div>
-  );
-
-  const renderManageJobs = () => (
-    <div className="manage-jobs">
-      <div className="header-with-button">
-        <h2>Manage Job Postings</h2>
-        <button 
-          className="create-job-button"
-          onClick={() => alert('Create new job form')}
-        >
-          + Create New Job
-        </button>
-      </div>
-
-      <div className="jobs-table">
-        <div className="table-header">
-          <div>Job Title</div>
-          <div>Posted Date</div>
-          <div>Applicants</div>
-          <div>Status</div>
-          <div>Actions</div>
-        </div>
-        {dummyJobs.map((job) => (
-          <div key={job.id} className="table-row">
-            <div className="job-title">{job.title}</div>
-            <div>{formatDate(job.posted)}</div>
-            <div>{applicantsStage1[job.id]?.length || 0}</div>
-            <div><span className="status-badge active">Active</span></div>
-            <div className="job-actions">
-              <button onClick={() => {
-                setSelectedJobId(job.id);
-                setView('stage1');
-              }}>View Applicants</button>
-              <button onClick={() => alert(`Edit ${job.title}`)}>Edit</button>
-              <button className="danger" onClick={() => alert(`Archive ${job.title}`)}>Archive</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <button 
-        className="back-button"
-        onClick={() => setView('main')}
-      >
-        ← Back to Dashboard
-      </button>
     </div>
   );
+  };
 
   return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <div className="header-left">
-          <h1>RecruiterPro</h1>
-          <nav className="view-switcher">
-            <button 
-              className={view === 'main' ? 'active' : ''}
-              onClick={() => setView('main')}
-            >
-              Dashboard
-            </button>
-            <button 
-              className={view === 'stage1' ? 'active' : ''}
-              onClick={() => setView('stage1')}
-            >
-              Applicants
-            </button>
-            <button 
-              className={view === 'manageJobs' ? 'active' : ''}
-              onClick={() => setView('manageJobs')}
-            >
-              Jobs
-            </button>
-          </nav>
-        </div>
-        <div className="user-menu">
-          <span className="user-name">John Recruiter</span>
-          <button className="sign-out-button" onClick={() => alert('Sign Out')}>
-            Sign Out
-          </button>
-        </div>
-      </header>
-
-      <main className="dashboard-content">
-        {view === 'main' && renderMain()}
-        {view === 'stage1' && renderStage1()}
-        {view === 'manageJobs' && renderManageJobs()}
-      </main>
-
-      <style jsx>{`
-        /* Base Styles */
-        * {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-        }
-        
-        body {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          background-color: #f5f7fa;
-          color: #333;
-        }
-        
-        /* Dashboard Container */
-        .dashboard-container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 20px;
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-        }
-        
-        /* Header Styles */
-        .dashboard-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px 0;
-          margin-bottom: 30px;
-          border-bottom: 1px solid #e1e5eb;
-        }
-        
-        .header-left {
-          display: flex;
-          align-items: center;
-          gap: 40px;
-        }
-        
-        .dashboard-header h1 {
-          font-size: 24px;
-          font-weight: 700;
-          color: #2d3748;
-        }
-        
-        .view-switcher {
-          display: flex;
-          gap: 15px;
-        }
-        
-        .view-switcher button {
-          background: none;
-          border: none;
-          padding: 8px 16px;
-          font-size: 15px;
-          color: #64748b;
-          cursor: pointer;
-          border-radius: 6px;
-          transition: all 0.2s ease;
-        }
-        
-        .view-switcher button:hover {
-          color: #334155;
-          background-color: #f1f5f9;
-        }
-        
-        .view-switcher button.active {
-          color: #2563eb;
-          background-color: #dbeafe;
-          font-weight: 500;
-        }
-        
-        .user-menu {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-        }
-        
-        .user-name {
-          font-weight: 500;
-        }
-        
-        .sign-out-button {
-          background: none;
-          border: 1px solid #e2e8f0;
-          padding: 8px 16px;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        
-        .sign-out-button:hover {
-          background-color: #f8fafc;
-          border-color: #cbd5e1;
-        }
-        
-        /* Main Dashboard View */
-        .dashboard-main {
-          display: flex;
-          flex-direction: column;
-          gap: 30px;
-        }
-        
-        .dashboard-main h2 {
-          font-size: 24px;
-          color: #1e293b;
-          margin-bottom: 10px;
-        }
-        
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 20px;
-        }
-        
-        .quick-actions {
-          background-color: white;
-          border-radius: 12px;
-          padding: 25px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .action-buttons {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-          gap: 15px;
-          margin-top: 15px;
-        }
-        
-        .recent-jobs {
-          background-color: white;
-          border-radius: 12px;
-          padding: 25px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .job-cards {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 20px;
-          margin-top: 20px;
-        }
-        
-        /* Stage 1 View */
-        .stage1-container {
-          display: flex;
-          height: calc(100vh - 150px);
-          gap: 20px;
-        }
-        
-        .applicant-list-panel {
-          width: 350px;
-          background-color: white;
-          border-radius: 12px;
-          padding: 20px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-        
-        .panel-header {
-          margin-bottom: 20px;
-        }
-        
-        .panel-header select {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #e2e8f0;
-          border-radius: 6px;
-          margin-top: 10px;
-          font-size: 14px;
-        }
-        
-        .search-box {
-          position: relative;
-          margin-bottom: 20px;
-        }
-        
-        .search-box input {
-          width: 100%;
-          padding: 10px 10px 10px 35px;
-          border: 1px solid #e2e8f0;
-          border-radius: 6px;
-          font-size: 14px;
-        }
-        
-        .search-box span {
-          position: absolute;
-          left: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #94a3b8;
-        }
-        
-        .applicant-list {
-          flex: 1;
-          overflow-y: auto;
-          padding-right: 5px;
-        }
-        
-        .applicant-card {
-          display: flex;
-          gap: 15px;
-          padding: 15px;
-          border-radius: 8px;
-          margin-bottom: 10px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          border: 1px solid #f1f5f9;
-        }
-        
-        .applicant-card:hover {
-          background-color: #f8fafc;
-          border-color: #e2e8f0;
-        }
-        
-        .applicant-card.selected {
-          background-color: #eff6ff;
-          border-color: #bfdbfe;
-        }
-        
-        .applicant-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background-color: #3b82f6;
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          flex-shrink: 0;
-        }
-        
-        .applicant-info {
-          flex: 1;
-          overflow: hidden;
-        }
-        
-        .applicant-info h4 {
-          font-size: 15px;
-          margin-bottom: 2px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        
-        .applicant-info p {
-          font-size: 13px;
-          color: #64748b;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        
-        .applicant-meta {
-          display: flex;
-          justify-content: space-between;
-          font-size: 12px;
-          color: #94a3b8;
-          margin-top: 5px;
-        }
-        
-        .empty-state {
-          text-align: center;
-          padding: 40px 20px;
-          color: #94a3b8;
-          font-size: 14px;
-        }
-        
-        .applicant-detail-panel {
-          flex: 1;
-          background-color: white;
-          border-radius: 12px;
-          padding: 30px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          overflow-y: auto;
-        }
-        
-        .empty-detail {
-          text-align: center;
-          padding: 60px 20px;
-          color: #94a3b8;
-        }
-        
-        .empty-icon {
-          font-size: 40px;
-          margin-bottom: 15px;
-        }
-        
-        .applicant-header {
-          display: flex;
-          gap: 20px;
-          align-items: center;
-          margin-bottom: 30px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #f1f5f9;
-        }
-        
-        .applicant-avatar.large {
-          width: 70px;
-          height: 70px;
-          font-size: 24px;
-        }
-        
-        .applicant-header h2 {
-          font-size: 22px;
-          margin-bottom: 5px;
-        }
-        
-        .applicant-contact {
-          color: #64748b;
-          margin-bottom: 5px;
-        }
-        
-        .applicant-meta {
-          font-size: 14px;
-          color: #94a3b8;
-        }
-        
-        .section {
-          margin-bottom: 30px;
-        }
-        
-        .section h3 {
-          font-size: 18px;
-          margin-bottom: 15px;
-          color: #1e293b;
-        }
-        
-        .skills-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 15px;
-        }
-        
-        .skill-item {
-          margin-bottom: 10px;
-        }
-        
-        .skill-header {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 5px;
-        }
-        
-        .skill-name {
-          font-weight: 500;
-        }
-        
-        .skill-score {
-          color: #64748b;
-        }
-        
-        .skill-bar-container {
-          height: 8px;
-          background-color: #f1f5f9;
-          border-radius: 4px;
-          overflow: hidden;
-        }
-        
-        .skill-bar {
-          height: 100%;
-          border-radius: 4px;
-        }
-        
-        .justification-box {
-          background-color: #f8fafc;
-          padding: 20px;
-          border-radius: 8px;
-          line-height: 1.6;
-        }
-        
-        .action-buttons {
-          display: flex;
-          gap: 15px;
-          margin-top: 30px;
-        }
-        
-        .action-button {
-          padding: 12px 20px;
-          border-radius: 6px;
-          font-weight: 500;
-          cursor: pointer;
-          border: none;
-          transition: all 0.2s ease;
-        }
-        
-        .action-button.primary {
-          background-color: #3b82f6;
-          color: white;
-        }
-        
-        .action-button.primary:hover {
-          background-color: #2563eb;
-        }
-        
-        .action-button.secondary {
-          background-color: #e2e8f0;
-          color: #334155;
-        }
-        
-        .action-button.secondary:hover {
-          background-color: #cbd5e1;
-        }
-        
-        .action-button.danger {
-          background-color: #fef2f2;
-          color: #dc2626;
-          border: 1px solid #fecaca;
-        }
-        
-        .action-button.danger:hover {
-          background-color: #fee2e2;
-        }
-        
-        /* Manage Jobs View */
-        .manage-jobs {
-          background-color: white;
-          border-radius: 12px;
-          padding: 30px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .header-with-button {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 25px;
-        }
-        
-        .create-job-button {
-          background-color: #3b82f6;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 6px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: background-color 0.2s ease;
-        }
-        
-        .create-job-button:hover {
-          background-color: #2563eb;
-        }
-        
-        .jobs-table {
-          margin-bottom: 30px;
-        }
-        
-        .table-header {
-          display: grid;
-          grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
-          padding: 15px 0;
-          border-bottom: 1px solid #f1f5f9;
-          font-weight: 500;
-          color: #64748b;
-        }
-        
-        .table-row {
-          display: grid;
-          grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
-          padding: 15px 0;
-          border-bottom: 1px solid #f1f5f9;
-          align-items: center;
-        }
-        
-        .job-title {
-          font-weight: 500;
-        }
-        
-        .status-badge {
-          display: inline-block;
-          padding: 5px 10px;
-          border-radius: 20px;
-          font-size: 12px;
-          font-weight: 500;
-        }
-        
-        .status-badge.active {
-          background-color: #dcfce7;
-          color: #166534;
-        }
-        
-        .job-actions {
-          display: flex;
-          gap: 10px;
-        }
-        
-        .job-actions button {
-          padding: 6px 12px;
-          border-radius: 4px;
-          font-size: 13px;
-          cursor: pointer;
-          border: 1px solid #e2e8f0;
-          background-color: white;
-          transition: all 0.2s ease;
-        }
-        
-        .job-actions button:hover {
-          background-color: #f8fafc;
-        }
-        
-        .job-actions button.danger {
-          color: #dc2626;
-          border-color: #fecaca;
-          background-color: #fef2f2;
-        }
-        
-        .job-actions button.danger:hover {
-          background-color: #fee2e2;
-        }
-        
-        /* Back Button */
-        .back-button {
-          background: none;
-          border: none;
-          color: #64748b;
-          font-size: 15px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          padding: 8px 0;
-          transition: color 0.2s ease;
-        }
-        
-        .back-button:hover {
-          color: #334155;
-        }
-        
-        /* Utility Classes */
-        .empty-state {
-          color: #94a3b8;
-          text-align: center;
-          padding: 40px 20px;
-        }
-      `}</style>
+    <div style={styles.container}>
+      {view === 'jobList' ? renderJobList() : renderApplicantList()}
     </div>
   );
 };
 
-// Helper Components
-const StatCard = ({ icon, label, value, onClick }) => (
-  <div className="stat-card" onClick={onClick}>
-    <div className="stat-icon">{icon}</div>
-    <div className="stat-value">{value}</div>
-    <div className="stat-label">{label}</div>
-  </div>
-);
-
-const JobCard = ({ job, applicants, onClick }) => (
-  <div className="job-card" onClick={onClick}>
-    <h3>{job.title}</h3>
-    <p className="job-meta">Posted {formatDate(job.posted)}</p>
-    <div className="applicant-count">
-      <span>{applicants} applicant{applicants !== 1 ? 's' : ''}</span>
-    </div>
-    <button className="view-button">View Applicants →</button>
-  </div>
-);
-
-const ActionButton = ({ icon, label, onClick }) => (
-  <button className="action-btn" onClick={onClick}>
-    <span className="action-icon">{icon}</span>
-    <span>{label}</span>
-  </button>
-);
-
-// Utility Functions
+// Utility functions
 function formatDate(dateString) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
@@ -979,15 +398,421 @@ function formatDate(dateString) {
 
 function averageScore(scores) {
   const values = Object.values(scores);
-  if (values.length === 0) return 0;
-  return Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+  return Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
 }
 
 function getScoreColor(score) {
-  if (score >= 85) return '#10b981'; // Green
-  if (score >= 70) return '#3b82f6'; // Blue
-  if (score >= 50) return '#f59e0b'; // Yellow
-  return '#ef4444'; // Red
+  if (score >= 90) return '#388e3c';
+  if (score >= 80) return '#689f38';
+  if (score >= 70) return '#afb42b';
+  if (score >= 60) return '#fbc02d';
+  return '#e64a19';
 }
+
+// Styles
+const styles = {
+  container: {
+    fontFamily: "'Segoe UI', 'Roboto', sans-serif",
+    padding: '20px',
+    backgroundColor: '#f5f7fa',
+    minHeight: '100vh',
+  },
+  dashboardMain: {
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    padding: '24px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.08)',
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '24px',
+  },
+  dashboardTitle: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    margin: 0,
+    color: '#333',
+  },
+  newJobButton: {
+    backgroundColor: '#4f46e5',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '10px 16px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  statsBar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '24px',
+  },
+  statsItem: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#f9fafb',
+    borderRadius: '8px',
+    padding: '16px',
+    margin: '0 8px',
+    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+  },
+  statsIcon: {
+    fontSize: '24px',
+    marginRight: '16px',
+  },
+  statsContent: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  statsValue: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    margin: 0,
+    color: '#333',
+  },
+  statsLabel: {
+    fontSize: '14px',
+    color: '#6b7280',
+    margin: '4px 0 0 0',
+  },
+  jobsContainer: {
+    marginTop: '24px',
+  },
+  searchContainer: {
+    position: 'relative',
+    marginBottom: '16px',
+  },
+  searchInput: {
+    width: '100%',
+    padding: '10px 16px 10px 40px',
+    fontSize: '14px',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    backgroundColor: '#f9fafb',
+  },
+  searchIcon: {
+    position: 'absolute',
+    left: '12px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    color: '#9ca3af',
+  },
+  jobsTable: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    marginTop: '16px',
+  },
+  tableHeader: {
+    textAlign: 'left',
+    padding: '12px 16px',
+    borderBottom: '1px solid #e5e7eb',
+    color: '#6b7280',
+    fontWeight: '600',
+    fontSize: '14px',
+  },
+  tableRow: {
+    borderBottom: '1px solid #e5e7eb',
+  },
+  tableCell: {
+    padding: '16px',
+    fontSize: '14px',
+    color: '#374151',
+  },
+  applicantCount: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  stage1Count: {
+    fontWeight: 'bold',
+    color: '#4f46e5',
+  },
+  countDivider: {
+    margin: '0 4px',
+    color: '#9ca3af',
+  },
+  stage2Count: {
+    fontWeight: 'bold',
+    color: '#10b981',
+  },
+  viewButton: {
+    backgroundColor: '#4f46e5',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 12px',
+    fontSize: '13px',
+    marginRight: '8px',
+    cursor: 'pointer',
+  },
+  editButton: {
+    backgroundColor: '#f3f4f6',
+    color: '#374151',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    padding: '8px 12px',
+    fontSize: '13px',
+    cursor: 'pointer',
+  },
+  applicantListContainer: {
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.08)',
+  },
+  applicantListHeader: {
+    padding: '20px 24px',
+    borderBottom: '1px solid #e5e7eb',
+  },
+  backButton: {
+    backgroundColor: 'transparent',
+    color: '#4f46e5',
+    border: 'none',
+    padding: '8px 0',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    marginBottom: '12px',
+  },
+  applicantListTitle: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    margin: '0 0 16px 0',
+    color: '#333',
+  },
+  applicantsContent: {
+    display: 'flex',
+    height: 'calc(100vh - 200px)',
+  },
+  applicantList: {
+    width: '40%',
+    borderRight: '1px solid #e5e7eb',
+    padding: '20px',
+    overflowY: 'auto',
+  },
+  applicantCards: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    marginTop: '16px',
+  },
+  applicantCard: {
+    display: 'flex',
+    padding: '16px',
+    borderRadius: '8px',
+    border: '1px solid #e5e7eb',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    backgroundColor: '#fff',
+  },
+  selectedCard: {
+    borderColor: '#4f46e5',
+    boxShadow: '0 0 0 1px #4f46e5',
+  },
+  applicantAvatar: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    backgroundColor: '#4f46e5',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    marginRight: '16px',
+  },
+  applicantInfo: {
+    flex: 1,
+  },
+  applicantName: {
+    fontSize: '16px',
+    fontWeight: '600',
+    margin: '0 0 4px 0',
+    color: '#111827',
+  },
+  applicantEmail: {
+    fontSize: '14px',
+    margin: '0 0 8px 0',
+    color: '#4b5563',
+  },
+  applicantMeta: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '12px',
+    color: '#6b7280',
+  },
+  spamCard: {
+    padding: '16px',
+    borderRadius: '8px',
+    border: '1px solid #e5e7eb',
+    backgroundColor: '#fff',
+  },
+  spamHeader: {
+    display: 'flex',
+    marginBottom: '12px',
+  },
+  spamActions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: '8px',
+  },
+  recoverButton: {
+    backgroundColor: '#f3f4f6',
+    color: '#374151',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    padding: '6px 12px',
+    fontSize: '13px',
+    cursor: 'pointer',
+  },
+  deleteButton: {
+    backgroundColor: '#ef4444',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '6px 12px',
+    fontSize: '13px',
+    cursor: 'pointer',
+  },
+  emptyState: {
+    textAlign: 'center',
+    padding: '40px 0',
+    color: '#6b7280',
+  },
+  applicantDetails: {
+    flex: 1,
+    padding: '24px',
+    overflowY: 'auto',
+  },
+  emptyDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    color: '#9ca3af',
+  },
+  emptyIcon: {
+    fontSize: '32px',
+    marginBottom: '16px',
+  },
+  detailsContent: {
+    maxWidth: '800px',
+  },
+  detailsHeader: {
+    display: 'flex',
+    marginBottom: '24px',
+  },
+  applicantAvatarLarge: {
+    width: '64px',
+    height: '64px',
+    borderRadius: '50%',
+    backgroundColor: '#4f46e5',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginRight: '20px',
+  },
+  detailsName: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    margin: '0 0 8px 0',
+    color: '#111827',
+  },
+  detailsContact: {
+    display: 'flex',
+    gap: '8px',
+    fontSize: '14px',
+    color: '#4b5563',
+    margin: '0 0 4px 0',
+  },
+  appliedDate: {
+    fontSize: '14px',
+    color: '#6b7280',
+    margin: 0,
+  },
+  scoreSection: {
+    marginBottom: '24px',
+    padding: '20px',
+    backgroundColor: '#f9fafb',
+    borderRadius: '8px',
+  },
+  sectionTitle: {
+    fontSize: '18px',
+    fontWeight: '600',
+    margin: '0 0 16px 0',
+    color: '#374151',
+  },
+  scoreGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+    gap: '12px',
+    marginBottom: '16px',
+  },
+  scoreCard: {
+    backgroundColor: 'white',
+    borderRadius: '6px',
+    padding: '12px',
+    textAlign: 'center',
+    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+  },
+  scoreLabel: {
+    fontSize: '14px',
+    color: '#6b7280',
+    marginBottom: '8px',
+  },
+  scoreValue: {
+    fontSize: '18px',
+    fontWeight: 'bold',
+  },
+  averageScore: {
+    textAlign: 'right',
+    fontSize: '16px',
+    color: '#4b5563',
+  },
+  justificationSection: {
+    marginBottom: '24px',
+    padding: '20px',
+    backgroundColor: '#f9fafb',
+    borderRadius: '8px',
+  },
+  justificationText: {
+    fontSize: '14px',
+    lineHeight: 1.6,
+    color: '#4b5563',
+    margin: 0,
+  },
+  actionsSection: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '32px',
+  },
+  promoteButton: {
+    backgroundColor: '#10b981',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '10px 16px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  rejectButton: {
+    backgroundColor: '#ef4444',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '10px 16px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+};
 
 export default Dashboard;

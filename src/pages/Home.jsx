@@ -26,22 +26,18 @@ const differences = [
 
 const features = [
   {
-    icon: '🤖',
     title: 'AI-Powered Screening',
     description: 'Quickly identify the best candidates using intelligent algorithms.',
   },
   {
-    icon: '🔒',
     title: 'Spam & Fraud Detection',
     description: 'Automatically filter suspicious applications for quality assurance.',
   },
   {
-    icon: '📊',
     title: 'Data-Driven Insights',
     description: 'Get real-time reports to make informed hiring decisions.',
   },
   {
-    icon: '⚡',
     title: 'Faster Hiring',
     description: 'Streamline recruitment workflows for efficiency.',
   },
@@ -72,10 +68,11 @@ export default function Home() {
       <section style={styles.featuresSection}>
         <h2 style={styles.sectionTitle}>Why Choose Our Platform?</h2>
         <div style={styles.featuresGrid}>
-          {features.map(({ icon, title, description }) => (
+          {features.map(({ title, description }) => (
             <div key={title} style={styles.featureCard}>
-              <div style={styles.featureIcon}>{icon}</div>
-              <h3 style={styles.featureTitle}>{title}</h3>
+              <div style={styles.featureHeader}>
+                <h3 style={styles.featureTitle}>{title}</h3>
+              </div>
               <p style={styles.featureDesc}>{description}</p>
             </div>
           ))}
@@ -89,7 +86,6 @@ export default function Home() {
           <div style={styles.comparisonGrid}>
             {/* Traditional Column Header */}
             <div style={styles.traditionalHeader}>
-              <span style={styles.headerIcon}>⏱️</span>
               <span style={styles.headerText}>Traditional Recruitment</span>
             </div>
             
@@ -98,7 +94,6 @@ export default function Home() {
             
             {/* AI Column Header */}
             <div style={styles.aiHeader}>
-              <span style={styles.headerIcon}>⚡</span>
               <span style={styles.headerText}>AI-Powered Recruitment</span>
             </div>
 
@@ -159,35 +154,38 @@ const styles = {
   hero: {
     textAlign: 'center',
     padding: '4rem 1rem',
-    background: 'linear-gradient(135deg, #4b6cb7 0%, #182848 100%)',
+    background: 'linear-gradient(135deg, #4285f4 0%, #0f9d58 100%)',
     color: '#fff',
-    borderRadius: '12px',
+    borderRadius: '8px',
     marginBottom: '3rem',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
   },
   heroTitle: {
-    fontSize: '2.8rem',
-    marginBottom: '1rem',
-    fontWeight: '700',
+    fontSize: '2.5rem',
+    marginBottom: '1.5rem',
+    fontWeight: '600',
+    lineHeight: '1.2',
   },
   heroSubtitle: {
-    fontSize: '1.3rem',
+    fontSize: '1.2rem',
     marginBottom: '2rem',
-    maxWidth: '600px',
+    maxWidth: '700px',
     marginLeft: 'auto',
     marginRight: 'auto',
-    lineHeight: '1.5',
+    lineHeight: '1.6',
+    opacity: '0.9',
   },
   ctaButton: {
-    backgroundColor: '#ffd700',
+    backgroundColor: '#ffffff',
     border: 'none',
     padding: '0.75rem 2rem',
-    borderRadius: '6px',
-    fontSize: '1.1rem',
+    borderRadius: '4px',
+    fontSize: '1rem',
     cursor: 'pointer',
-    fontWeight: '700',
-    color: '#182848',
-    boxShadow: '0 4px 12px rgba(255, 215, 0, 0.6)',
-    transition: 'background-color 0.3s ease',
+    fontWeight: '600',
+    color: '#4285f4',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
+    transition: 'all 0.2s ease',
   },
 
   featuresSection: {
@@ -208,25 +206,29 @@ const styles = {
   },
   featureCard: {
     flex: '1 1 220px',
-    backgroundColor: '#f0f9ff',
+    backgroundColor: '#f8fafc',
     padding: '1.5rem',
-    borderRadius: '12px',
-    boxShadow: '0 6px 12px rgba(0,0,0,0.1)',
-    textAlign: 'center',
+    borderRadius: '8px',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+    textAlign: 'left',
+    border: '1px solid #e2e8f0',
+    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   },
-  featureIcon: {
-    fontSize: '2.5rem',
+  featureHeader: {
+    borderBottom: '2px solid #4285f4',
+    paddingBottom: '0.75rem',
     marginBottom: '1rem',
   },
   featureTitle: {
-    fontSize: '1.3rem',
-    marginBottom: '0.5rem',
+    fontSize: '1.2rem',
+    marginBottom: '0',
     color: '#1e293b',
+    fontWeight: '600',
   },
   featureDesc: {
     color: '#475569',
-    fontSize: '1rem',
-    lineHeight: '1.4',
+    fontSize: '0.95rem',
+    lineHeight: '1.5',
   },
 
   comparisonSection: {
@@ -248,33 +250,32 @@ const styles = {
   
   // Headers
   traditionalHeader: {
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#ffffff',
     padding: '1rem 1.5rem',
-    borderRadius: '12px 12px 0 0',
+    borderRadius: '8px 8px 0 0',
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
-    borderBottom: '3px solid #ef4444',
+    borderBottom: '3px solid #475569',
     marginBottom: '0.5rem',
+    fontWeight: '600',
   },
   aiHeader: {
-    backgroundColor: '#dbeafe',
+    backgroundColor: '#ffffff',
     padding: '1rem 1.5rem',
-    borderRadius: '12px 12px 0 0',
+    borderRadius: '8px 8px 0 0',
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
-    borderBottom: '3px solid #3b82f6',
+    borderBottom: '3px solid #4285f4',
     marginBottom: '0.5rem',
+    fontWeight: '600',
   },
   vsHeader: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: '0.5rem',
-  },
-  headerIcon: {
-    fontSize: '1.5rem',
   },
   headerText: {
     fontSize: '1.1rem',
@@ -284,17 +285,17 @@ const styles = {
   
   // Items
   traditionalItem: {
-    backgroundColor: '#fef2f2',
-    borderRadius: '8px',
+    backgroundColor: '#ffffff',
+    borderRadius: '6px',
     marginBottom: '0.75rem',
-    border: '1px solid #fecaca',
+    border: '1px solid #e2e8f0',
     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   },
   aiItem: {
-    backgroundColor: '#eff6ff',
-    borderRadius: '8px',
+    backgroundColor: '#ffffff',
+    borderRadius: '6px',
     marginBottom: '0.75rem',
-    border: '1px solid #bfdbfe',
+    border: '1px solid #e2e8f0',
     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   },
   itemContent: {
@@ -313,32 +314,40 @@ const styles = {
     marginBottom: '0.75rem',
   },
   vsText: {
-    backgroundColor: '#6366f1',
+    backgroundColor: '#475569',
     color: 'white',
     padding: '0.5rem 1rem',
-    borderRadius: '20px',
+    borderRadius: '4px',
     fontSize: '0.875rem',
-    fontWeight: '700',
-    boxShadow: '0 2px 8px rgba(99, 102, 241, 0.3)',
+    fontWeight: '600',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
 
   roleSelectorContainer: {
     textAlign: 'center',
     marginBottom: '4rem',
+    padding: '2rem',
+    backgroundColor: '#f8fafc',
+    borderRadius: '8px',
+    border: '1px solid #e2e8f0',
   },
   buttonGroup: {
-    marginTop: '1rem',
+    marginTop: '1.5rem',
     display: 'inline-flex',
     gap: '1.5rem',
   },
   roleButton: {
     padding: '0.75rem 2rem',
     border: 'none',
-    borderRadius: '6px',
-    fontSize: '1.25rem',
+    borderRadius: '4px',
+    fontSize: '1.1rem',
     cursor: 'pointer',
     fontWeight: '600',
-    boxShadow: '0 3px 8px rgba(0,0,0,0.15)',
-    transition: 'background-color 0.3s ease',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+    },
   },
 };
