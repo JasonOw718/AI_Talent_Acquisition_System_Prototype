@@ -1,73 +1,81 @@
+// RecruiterDashboard.jsx
 import React from 'react';
 import RecruiterNavbar from '../components/RecruiterNavbar';
 import DashboardCard from '../components/DashboardCard';
 import ChartComponent from '../components/ChartComponent';
 
 export default function RecruiterDashboard() {
-  // Mock data for dashboard
   const dashboardStats = [
-    { 
-      title: 'Active Jobs', 
-      value: '12', 
-      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>, 
-      color: '#4285f4', 
-      change: '2', 
-      changeType: 'positive' 
+    {
+      title: 'Active Jobs',
+      value: '8',
+      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>,
+      color: '#4285f4',
+      change: '+1 this week',
+      changeType: 'positive'
     },
-    { 
-      title: 'Total Applicants', 
-      value: '164', 
-      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87"></path><path d="M16 3.13a4 4 0 010 7.75"></path></svg>, 
-      color: '#0f9d58', 
-      change: '18', 
-      changeType: 'positive' 
+    {
+      title: 'Total Applicants',
+      value: '124',
+      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87"></path><path d="M16 3.13a4 4 0 010 7.75"></path></svg>,
+      color: '#0f9d58',
+      change: '+10 today',
+      changeType: 'positive'
     },
-    { 
-      title: 'Spam Applications', 
-      value: '47', 
-      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>, 
-      color: '#f44336', 
-      change: '8', 
-      changeType: 'negative' 
+    {
+      title: 'Spam Rate',
+      value: '12%',
+      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>,
+      color: '#f44336',
+      change: '4% decrease',
+      changeType: 'negative'
     },
-    { 
-      title: 'AI Match Rate', 
-      value: '89%', 
-      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>, 
-      color: '#4285f4', 
-      change: '2%', 
-      changeType: 'positive' 
+    {
+      title: 'AI Match Rate',
+      value: '86%',
+      icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>,
+      color: '#9c27b0',
+      change: '1% increase',
+      changeType: 'positive'
     },
   ];
 
-  const spamAnalysisData = [
-    { label: 'Genuine', value: 78, color: '#0f9d58' },
-    { label: 'Low Quality', value: 14, color: '#ffc107' },
-    { label: 'Spam', value: 8, color: '#f44336' },
+  const applicationQualityData = [
+    { label: 'Genuine', value: 82, color: '#0f9d58' },
+    { label: 'Low Quality', value: 12, color: '#ffc107' },
+    { label: 'Spam', value: 6, color: '#f44336' },
   ];
 
-  const aiMetricsData = [
-    { label: 'Screening Accuracy', value: 95, color: '#4285f4' },
-    { label: 'Prediction Rate', value: 87, color: '#0f9d58' },
-    { label: 'Time Saved (hrs)', value: 64, color: '#9c27b0' },
-    { label: 'Quality of Hire', value: 92, color: '#f8ac5c' },
+  const recruitmentMetrics = [
+    { label: 'Screening Accuracy', value: 91, color: '#4285f4' },
+    { label: 'Prediction Rate', value: 83, color: '#0f9d58' },
+    { label: 'Time Saved (hrs)', value: 48, color: '#9c27b0' },
+    { label: 'Quality of Hire', value: 89, color: '#f8ac5c' },
   ];
-  
+
   const spamBySourceData = [
-    { label: 'LinkedIn', value: 5 },
-    { label: 'JobStreet', value: 12 },
-    { label: 'Indeed', value: 18 },
-    { label: 'Direct', value: 7 },
-    { label: 'Referrals', value: 2 },
-    { label: 'Others', value: 3 },
+    { label: 'LinkedIn', value: 6, color: '#0077b5' },
+    { label: 'JobStreet', value: 10, color: '#2a6fdb' },
+    { label: 'Indeed', value: 13, color: '#2164f3' },
+    { label: 'Direct', value: 4, color: '#6c757d' },
+    { label: 'Referrals', value: 1, color: '#28a745' },
+    { label: 'Others', value: 2, color: '#17a2b8' },
   ];
 
   const recentActivity = [
-    { name: 'Ahmad Bin Abdullah', position: 'Frontend Developer', action: 'moved to Stage 2', time: '2 hours ago' },
-    { name: 'Siti Binti Mohamed', position: 'Backend Developer', action: 'moved to Stage 2', time: '3 hours ago' },
-    { name: 'Tan Wei Ming', position: 'UX Designer', action: 'offered position', time: '5 hours ago' },
-    { name: 'Rajesh Kumar', position: 'Data Analyst', action: 'scheduled interview', time: '1 day ago' },
-    { name: 'Nurul Huda', position: 'DevOps Engineer', action: 'application received', time: '1 day ago' },
+    { name: 'Ahmad Bin Abdullah', position: 'Frontend Developer', action: 'moved to Stage 2', time: '3 hours ago', status: 'in-progress' },
+    { name: 'Siti Binti Mohamed', position: 'Backend Developer', action: 'moved to Stage 2', time: '4 hours ago', status: 'in-progress' },
+    { name: 'Tan Wei Ming', position: 'UX Designer', action: 'offered position', time: '6 hours ago', status: 'completed' },
+    { name: 'Rajesh Kumar', position: 'Data Analyst', action: 'scheduled interview', time: '1 day ago', status: 'pending' },
+    { name: 'Nurul Huda', position: 'DevOps Engineer', action: 'application received', time: '1 day ago', status: 'new' },
+  ];
+
+  const jobListings = [
+    { title: 'Frontend Developer', applicants: 45, stage1: 25, stage2: 15, offered: 5, spam: 12, status: 'Active', progress: 75 },
+    { title: 'Backend Engineer', applicants: 38, stage1: 18, stage2: 12, offered: 8, spam: 8, status: 'Active', progress: 65 },
+    { title: 'UX Designer', applicants: 32, stage1: 16, stage2: 12, offered: 4, spam: 6, status: 'Active', progress: 80 },
+    { title: 'Data Analyst', applicants: 28, stage1: 15, stage2: 10, offered: 3, spam: 14, status: 'Active', progress: 60 },
+    { title: 'DevOps Engineer', applicants: 21, stage1: 8, stage2: 7, offered: 6, spam: 7, status: 'Active', progress: 85 },
   ];
 
   return (
@@ -76,113 +84,153 @@ export default function RecruiterDashboard() {
       <div style={styles.contentWithSidebar}>
         <div style={styles.content}>
           <div style={styles.header}>
-            <h1 style={styles.title}>Recruitment Analytics</h1>
-          </div>
-          
-          <div style={styles.statsGrid}>
-            {dashboardStats.map((stat, index) => (
-              <DashboardCard 
-                key={index}
-                title={stat.title}
-                value={stat.value}
-                icon={stat.icon}
-                color={stat.color}
-                change={stat.change}
-                changeType={stat.changeType}
-              />
-            ))}
-          </div>
-          
-          <div style={styles.chartsGrid}>
-            <div style={styles.chartItem}>
-              <div style={styles.chartCard}>
-                <h3 style={styles.cardTitle}>AI Talent Acquisition Metrics</h3>
-                <div style={styles.metricsGrid}>
-                  {aiMetricsData.map((metric, index) => (
-                    <div key={index} style={styles.metricItem}>
-                      <div style={styles.metricHeader}>
-                        <span style={styles.metricLabel}>{metric.label}</span>
-                        <span style={{...styles.metricValue, color: metric.color}}>{metric.value}{metric.label.includes('Time') ? '' : '%'}</span>
-                      </div>
-                      <div style={styles.metricBar}>
-                        <div 
-                          style={{
-                            ...styles.metricFill,
-                            width: `${metric.value}%`,
-                            backgroundColor: metric.color,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div>
+              <h1 style={styles.title}>Recruitment Dashboard</h1>
+              <p style={styles.subtitle}>Overview of your recruitment pipeline and metrics</p>
             </div>
-            
-            <div style={styles.chartItem}>
-              <div style={styles.chartCard}>
-                <h3 style={styles.cardTitle}>Application Quality Analysis</h3>
-                <div style={styles.pieChartContainer}>
-                  <div style={styles.pieChart}>
-                    <div style={styles.pieChartInner}>
-                      <div style={styles.pieChartLabel}>
-                        <div style={styles.pieChartValue}>78%</div>
-                        <div style={styles.pieChartText}>Genuine</div>
-                      </div>
-                    </div>
+            <div style={styles.dateFilter}>
+              <select style={styles.filterSelect}>
+                <option>Last 7 days</option>
+                <option>Last 30 days</option>
+                <option>Last quarter</option>
+                <option>Custom range</option>
+              </select>
+            </div>
+          </div>
+          
+          {/* Key Metrics Section */}
+          <section style={styles.section}>
+            <h2 style={styles.sectionTitle}>Key Metrics</h2>
+            <div style={styles.statsGrid}>
+              {dashboardStats.map((stat, index) => (
+                <DashboardCard 
+                  key={index}
+                  title={stat.title}
+                  value={stat.value}
+                  icon={stat.icon}
+                  color={stat.color}
+                  change={stat.change}
+                  changeType={stat.changeType}
+                />
+              ))}
+            </div>
+          </section>
+          
+          {/* Analytics Section */}
+          <section style={styles.section}>
+            <h2 style={styles.sectionTitle}>Recruitment Analytics</h2>
+            <div style={styles.chartsGrid}>
+              {/* Recruitment Metrics */}
+              <div style={styles.chartItem}>
+                <div style={styles.chartCard}>
+                  <div style={styles.cardHeader}>
+                    <h3 style={styles.cardTitle}>Recruitment Metrics</h3>
+                    <button style={styles.cardAction}>View Details</button>
                   </div>
-                  <div style={styles.pieChartLegend}>
-                    {spamAnalysisData.map((item, index) => (
-                      <div key={index} style={styles.legendItem}>
-                        <div 
-                          style={{
-                            ...styles.legendColor,
-                            backgroundColor: item.color,
-                          }}
-                        ></div>
-                        <div style={styles.legendLabel}>{item.label}: {item.value}%</div>
+                  <div style={styles.metricsGrid}>
+                    {recruitmentMetrics.map((metric, index) => (
+                      <div key={index} style={styles.metricItem}>
+                        <div style={styles.metricHeader}>
+                          <span style={styles.metricLabel}>{metric.label}</span>
+                          <span style={{...styles.metricValue, color: metric.color}}>
+                            {metric.value}{metric.label.includes('Time') ? '' : '%'}
+                          </span>
+                        </div>
+                        <div style={styles.metricBar}>
+                          <div 
+                            style={{
+                              ...styles.metricFill,
+                              width: `${metric.value}%`,
+                              backgroundColor: metric.color,
+                            }}
+                          ></div>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
+              
+              {/* Application Quality */}
+              <div style={styles.chartItem}>
+                <div style={styles.chartCard}>
+                  <div style={styles.cardHeader}>
+                    <h3 style={styles.cardTitle}>Application Quality</h3>
+                    <button style={styles.cardAction}>View Details</button>
+                  </div>
+                  <div style={styles.pieChartContainer}>
+                    <div style={styles.pieChartWrapper}>
+                      <div style={styles.pieChart}>
+                        <div style={styles.pieChartInner}>
+                          <div style={styles.pieChartLabel}>
+                            <div style={styles.pieChartValue}>{applicationQualityData[0].value}%</div>
+                            <div style={styles.pieChartText}>High Quality</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={styles.pieChartLegend}>
+                      {applicationQualityData.map((item, index) => (
+                        <div key={index} style={styles.legendItem}>
+                          <div 
+                            style={{
+                              ...styles.legendColor,
+                              backgroundColor: item.color,
+                            }}
+                          ></div>
+                          <div style={styles.legendLabel}>{item.label}</div>
+                          <div style={styles.legendValue}>{item.value}%</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
           
-          <div style={styles.section}>
-            <h2 style={styles.sectionTitle}>Recruitment Analytics</h2>
-            
+          {/* Spam Analysis and Activity Section */}
+          <section style={styles.section}>
             <div style={styles.analyticsGrid}>
+              {/* Spam by Source */}
               <div style={styles.analyticsCard}>
-                <h3 style={styles.cardTitle}>Spam Applications by Source</h3>
-                <div style={styles.timeToFillContainer}>
+                <div style={styles.cardHeader}>
+                  <h3 style={styles.cardTitle}>Spam by Source</h3>
+                  <button style={styles.cardAction}>View Report</button>
+                </div>
+                <div style={styles.barChartContainer}>
                   {spamBySourceData.map((item, index) => (
-                    <div key={index} style={styles.timeToFillRow}>
-                      <div style={styles.timeToFillLabel}>{item.label}</div>
-                      <div style={styles.timeToFillBarContainer}>
+                    <div key={index} style={styles.barChartRow}>
+                      <div style={styles.barChartLabel}>{item.label}</div>
+                      <div style={styles.barChartBarContainer}>
                         <div 
                           style={{
-                            ...styles.timeToFillBar,
-                            width: `${(item.value / 20) * 100}%`, // 20 is the max value
-                            backgroundColor: '#4285f4',
+                            ...styles.barChartBar,
+                            width: `${(item.value / Math.max(...spamBySourceData.map(i => i.value))) * 100}%`,
+                            backgroundColor: item.color || '#4285f4',
                           }}
                         ></div>
                       </div>
-                      <div style={styles.timeToFillValue}>{item.value}</div>
+                      <div style={styles.barChartValue}>{item.value}</div>
                     </div>
                   ))}
                 </div>
               </div>
               
+              {/* Recent Activity */}
               <div style={styles.analyticsCard}>
-                <h3 style={styles.cardTitle}>Recent Activity</h3>
+                <div style={styles.cardHeader}>
+                  <h3 style={styles.cardTitle}>Recent Activity</h3>
+                  <button style={styles.cardAction}>View All</button>
+                </div>
                 <div style={styles.activityList}>
                   {recentActivity.map((item, index) => (
-                    <div key={index} style={styles.activityItem}>
+                    <div key={index} style={{
+                      ...styles.activityItem,
+                      borderLeft: `4px solid ${getStatusColor(item.status)}`
+                    }}>
                       <div style={styles.activityIcon}>
-                        <svg style={styles.activitySvg} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M9 12L11 14L15 10M12 3L4 5V11.09C4 16.14 7.41 20.85 12 22C16.59 20.85 20 16.14 20 11.09V5L12 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
+                        {getActivityIcon(item.status)}
                       </div>
                       <div style={styles.activityContent}>
                         <p style={styles.activityText}>
@@ -195,63 +243,135 @@ export default function RecruiterDashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
           
-          <div style={styles.section}>
+          {/* Job Listings Section */}
+          <section style={styles.section}>
             <div style={styles.sectionHeader}>
-              <h2 style={styles.sectionTitle}>Job Listings Overview</h2>
-              <button style={styles.viewAllButton}>View All Jobs</button>
+              <h2 style={styles.sectionTitle}>Job Listings</h2>
+              <button style={styles.primaryButton}>
+                <svg style={styles.buttonIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+                Create New Job
+              </button>
             </div>
             
             <div style={styles.jobsTable}>
-              <table style={styles.table}>
-                <thead>
-                  <tr>
-                    <th style={styles.tableHeader}>Job Title</th>
-                    <th style={styles.tableHeader}>Applicants</th>
-                    <th style={styles.tableHeader}>Stage 1</th>
-                    <th style={styles.tableHeader}>Stage 2</th>
-                    <th style={styles.tableHeader}>Offered</th>
-                    <th style={styles.tableHeader}>Spam</th>
-                    <th style={styles.tableHeader}>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { title: 'Frontend Developer', applicants: 45, stage1: 25, stage2: 15, offered: 5, spam: 12, status: 'Active' },
-                    { title: 'Backend Engineer', applicants: 38, stage1: 18, stage2: 12, offered: 8, spam: 8, status: 'Active' },
-                    { title: 'UX Designer', applicants: 32, stage1: 16, stage2: 12, offered: 4, spam: 6, status: 'Active' },
-                    { title: 'Data Analyst', applicants: 28, stage1: 15, stage2: 10, offered: 3, spam: 14, status: 'Active' },
-                    { title: 'DevOps Engineer', applicants: 21, stage1: 8, stage2: 7, offered: 6, spam: 7, status: 'Active' },
-                  ].map((job, index) => (
-                    <tr key={index} style={styles.tableRow}>
-                      <td style={styles.tableCell}>{job.title}</td>
-                      <td style={styles.tableCell}>{job.applicants}</td>
-                      <td style={styles.tableCell}>{job.stage1}</td>
-                      <td style={styles.tableCell}>{job.stage2}</td>
-                      <td style={styles.tableCell}>{job.offered}</td>
-                      <td style={styles.tableCell}>{job.spam}</td>
-                      <td style={styles.tableCell}>
-                        <span style={styles.statusBadge}>{job.status}</span>
-                      </td>
+              <div style={styles.tableResponsive}>
+                <table style={styles.table}>
+                  <thead>
+                    <tr>
+                      <th style={styles.tableHeader}>Job Title</th>
+                      <th style={styles.tableHeader}>Applicants</th>
+                      <th style={styles.tableHeader}>Pipeline Progress</th>
+                      <th style={styles.tableHeader}>Spam</th>
+                      <th style={styles.tableHeader}>Status</th>
+                      <th style={styles.tableHeader}>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {jobListings.map((job, index) => (
+                      <tr key={index} style={styles.tableRow}>
+                        <td style={styles.tableCell}>
+                          <div style={styles.jobTitle}>{job.title}</div>
+                        </td>
+                        <td style={styles.tableCell}>
+                          <div style={styles.applicantCount}>{job.applicants}</div>
+                        </td>
+                        <td style={styles.tableCell}>
+                          <div style={styles.progressContainer}>
+                            <div style={styles.progressBar}>
+                              <div 
+                                style={{
+                                  ...styles.progressFill,
+                                  width: `${job.progress}%`,
+                                  backgroundColor: getProgressColor(job.progress),
+                                }}
+                              ></div>
+                            </div>
+                            <span style={styles.progressText}>{job.progress}%</span>
+                          </div>
+                        </td>
+                        <td style={styles.tableCell}>
+                          <div style={styles.spamCount}>{job.spam}</div>
+                        </td>
+                        <td style={styles.tableCell}>
+                          <span style={{
+                            ...styles.statusBadge,
+                            backgroundColor: job.status === 'Active' ? '#e8f5e9' : '#fff3e0',
+                            color: job.status === 'Active' ? '#0f9d58' : '#ff9800',
+                          }}>
+                            {job.status}
+                          </span>
+                        </td>
+                        <td style={styles.tableCell}>
+                          <button style={styles.tableActionButton}>
+                            <svg style={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                              <path d="M12 5v14M5 12h14" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>
   );
 }
 
+// Helper functions
+function getStatusColor(status) {
+  switch(status) {
+    case 'completed': return '#0f9d58';
+    case 'in-progress': return '#4285f4';
+    case 'pending': return '#ffc107';
+    case 'new': return '#9c27b0';
+    default: return '#e2e8f0';
+  }
+}
+
+function getActivityIcon(status) {
+  let iconPath;
+  switch(status) {
+    case 'completed':
+      iconPath = <path d="M22 11.08V12a10 10 0 11-5.93-9.14" strokeWidth="2" strokeLinecap="round"/>;
+      break;
+    case 'in-progress':
+      iconPath = <path d="M22 12h-4l-3 9L9 3l-3 9H2" strokeWidth="2" strokeLinecap="round"/>;
+      break;
+    case 'pending':
+      iconPath = <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeWidth="2" strokeLinecap="round"/>;
+      break;
+    default:
+      iconPath = <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round"/>;
+  }
+  
+  return (
+    <svg style={styles.activitySvg} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {iconPath}
+    </svg>
+  );
+}
+
+function getProgressColor(progress) {
+  if (progress >= 80) return '#0f9d58';
+  if (progress >= 60) return '#4285f4';
+  if (progress >= 40) return '#ffc107';
+  return '#f44336';
+}
+
+// Styles
 const styles = {
   container: {
     backgroundColor: '#f8fafc',
     minHeight: '100vh',
     fontFamily: "'Inter', system-ui, sans-serif",
-    background: 'linear-gradient(to bottom, rgba(226, 232, 240, 0.2) 0%, rgba(248, 250, 252, 0.8) 100%)',
   },
   contentWithSidebar: {
     marginLeft: '240px',
@@ -263,26 +383,20 @@ const styles = {
     },
   },
   content: {
-    paddingTop: '2.5rem',
-    paddingLeft: '2rem',
-    paddingRight: '2rem',
-    paddingBottom: '2rem',
+    padding: '2rem',
     maxWidth: '1400px',
     margin: '0 auto',
     '@media (max-width: 768px)': {
-      paddingLeft: '1rem',
-      paddingRight: '1rem',
-      paddingTop: '1.5rem',
+      padding: '1rem',
     },
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: '2rem',
     '@media (max-width: 640px)': {
       flexDirection: 'column',
-      alignItems: 'flex-start',
       gap: '1rem',
     },
   },
@@ -290,29 +404,54 @@ const styles = {
     fontSize: '1.75rem',
     fontWeight: '700',
     color: '#1e293b',
+    margin: '0 0 0.25rem 0',
+  },
+  subtitle: {
+    fontSize: '1rem',
+    color: '#64748b',
     margin: 0,
-    '@media (max-width: 640px)': {
-      fontSize: '1.5rem',
-    },
+  },
+  dateFilter: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  },
+  filterSelect: {
+    backgroundColor: '#fff',
+    border: '1px solid #e2e8f0',
+    borderRadius: '8px',
+    padding: '0.5rem 1rem',
+    fontSize: '0.875rem',
+    color: '#334155',
+    cursor: 'pointer',
+  },
+  section: {
+    marginBottom: '2.5rem',
+  },
+  sectionTitle: {
+    fontSize: '1.25rem',
+    fontWeight: '700',
+    color: '#1e293b',
+    margin: '0 0 1.5rem 0',
+  },
+  sectionHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '1.5rem',
   },
   statsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
     gap: '1.5rem',
-    marginBottom: '2rem',
-    '@media (max-width: 1280px)': {
-      gridTemplateColumns: 'repeat(2, 1fr)',
-    },
-    '@media (max-width: 640px)': {
-      gridTemplateColumns: '1fr',
-    },
+    marginBottom: '1.5rem',
   },
   chartsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
     gap: '1.5rem',
-    marginBottom: '2rem',
-    '@media (max-width: 1023px)': {
+    marginBottom: '1.5rem',
+    '@media (max-width: 768px)': {
       gridTemplateColumns: '1fr',
     },
   },
@@ -323,26 +462,39 @@ const styles = {
     backgroundColor: '#fff',
     borderRadius: '12px',
     padding: '1.5rem',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
     height: '100%',
-    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     border: '1px solid #e2e8f0',
-    '&:hover': {
-      transform: 'translateY(-2px)',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-    },
+  },
+  cardHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '1.5rem',
   },
   cardTitle: {
-    fontSize: '1.1rem',
+    fontSize: '1rem',
     fontWeight: '600',
     color: '#334155',
-    marginTop: 0,
-    marginBottom: '1.5rem',
+    margin: 0,
+  },
+  cardAction: {
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: '#4285f4',
+    fontSize: '0.875rem',
+    fontWeight: '500',
+    cursor: 'pointer',
+    padding: '0.25rem 0.5rem',
+    borderRadius: '4px',
+    '&:hover': {
+      backgroundColor: '#f1f5f9',
+    },
   },
   metricsGrid: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1rem',
+    gap: '1.25rem',
   },
   metricItem: {
     marginBottom: '0.75rem',
@@ -375,47 +527,41 @@ const styles = {
   pieChartContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
     gap: '2rem',
-    height: '100%',
-    '@media (max-width: 640px)': {
+    '@media (max-width: 768px)': {
       flexDirection: 'column',
-      alignItems: 'center',
+      alignItems: 'flex-start',
     },
   },
+  pieChartWrapper: {
+    flexShrink: 0,
+  },
   pieChart: {
-    width: '180px',
-    height: '180px',
+    width: '160px',
+    height: '160px',
     borderRadius: '50%',
-    background: 'conic-gradient(#0f9d58 0% 78%, #ffc107 78% 92%, #f44336 92% 100%)',
+    background: 'conic-gradient(#0f9d58 0% 82%, #ffc107 82% 94%, #f44336 94% 100%)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    '@media (max-width: 640px)': {
-      width: '150px',
-      height: '150px',
-    },
   },
   pieChartInner: {
-    width: '130px',
-    height: '130px',
+    width: '120px',
+    height: '120px',
     borderRadius: '50%',
     backgroundColor: '#fff',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    '@media (max-width: 640px)': {
-      width: '110px',
-      height: '110px',
-    },
   },
   pieChartLabel: {
     textAlign: 'center',
   },
   pieChartValue: {
-    fontSize: '1.75rem',
+    fontSize: '1.5rem',
     fontWeight: '700',
     color: '#0f9d58',
+    marginBottom: '0.25rem',
   },
   pieChartText: {
     fontSize: '0.875rem',
@@ -439,22 +585,18 @@ const styles = {
     fontSize: '0.875rem',
     color: '#334155',
     fontWeight: '500',
+    width: '80px',
   },
-  section: {
-    marginBottom: '2rem',
-  },
-  sectionTitle: {
-    fontSize: '1.25rem',
-    fontWeight: '700',
-    color: '#1e293b',
-    marginTop: 0,
-    marginBottom: '1.5rem',
+  legendValue: {
+    fontSize: '0.875rem',
+    color: '#64748b',
+    fontWeight: '500',
   },
   analyticsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
     gap: '1.5rem',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 768px)': {
       gridTemplateColumns: '1fr',
     },
   },
@@ -462,42 +604,37 @@ const styles = {
     backgroundColor: '#fff',
     borderRadius: '12px',
     padding: '1.5rem',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
     border: '1px solid #e2e8f0',
-    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-    '&:hover': {
-      transform: 'translateY(-2px)',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-    },
   },
-  timeToFillContainer: {
+  barChartContainer: {
     display: 'flex',
     flexDirection: 'column',
     gap: '1rem',
   },
-  timeToFillRow: {
+  barChartRow: {
     display: 'flex',
     alignItems: 'center',
     gap: '1rem',
   },
-  timeToFillLabel: {
+  barChartLabel: {
     width: '80px',
     fontSize: '0.875rem',
     color: '#64748b',
     fontWeight: '500',
   },
-  timeToFillBarContainer: {
+  barChartBarContainer: {
     flex: 1,
     height: '8px',
     backgroundColor: '#f1f5f9',
     borderRadius: '4px',
     overflow: 'hidden',
   },
-  timeToFillBar: {
+  barChartBar: {
     height: '100%',
     borderRadius: '4px',
   },
-  timeToFillValue: {
+  barChartValue: {
     width: '30px',
     fontSize: '0.875rem',
     fontWeight: '600',
@@ -507,24 +644,22 @@ const styles = {
   activityList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.25rem',
+    gap: '1rem',
   },
   activityItem: {
     display: 'flex',
     gap: '1rem',
     alignItems: 'flex-start',
     padding: '0.75rem',
-    borderRadius: '6px',
-    transition: 'background-color 0.2s ease',
-    '&:hover': {
-      backgroundColor: '#f1f5f9',
-    },
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    border: '1px solid #e2e8f0',
   },
   activityIcon: {
-    width: '32px',
-    height: '32px',
+    width: '36px',
+    height: '36px',
     borderRadius: '50%',
-    backgroundColor: '#e8f4ff',
+    backgroundColor: '#f1f5f9',
     color: '#4285f4',
     display: 'flex',
     alignItems: 'center',
@@ -532,8 +667,8 @@ const styles = {
     flexShrink: 0,
   },
   activitySvg: {
-    width: '16px',
-    height: '16px',
+    width: '18px',
+    height: '18px',
   },
   activityContent: {
     flex: 1,
@@ -553,35 +688,35 @@ const styles = {
     color: '#64748b',
     margin: 0,
   },
-  sectionHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '1.5rem',
-  },
-  viewAllButton: {
-    backgroundColor: 'transparent',
-    border: '1px solid #e2e8f0',
+  primaryButton: {
+    backgroundColor: '#4285f4',
+    border: 'none',
     borderRadius: '8px',
     padding: '0.5rem 1rem',
     fontSize: '0.875rem',
     fontWeight: '500',
-    color: '#4285f4',
+    color: 'white',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
     '&:hover': {
-      backgroundColor: '#4285f4',
-      color: 'white',
-      borderColor: '#4285f4',
+      backgroundColor: '#3367d6',
     },
+  },
+  buttonIcon: {
+    width: '16px',
+    height: '16px',
   },
   jobsTable: {
     backgroundColor: '#fff',
     borderRadius: '12px',
-    padding: '1.5rem',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    overflowX: 'auto',
+    overflow: 'hidden',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
     border: '1px solid #e2e8f0',
+  },
+  tableResponsive: {
+    overflowX: 'auto',
   },
   table: {
     width: '100%',
@@ -590,15 +725,15 @@ const styles = {
   tableHeader: {
     textAlign: 'left',
     padding: '0.75rem 1rem',
-    borderBottom: '1px solid #e2e8f0',
+    backgroundColor: '#f8fafc',
     color: '#64748b',
     fontSize: '0.75rem',
     fontWeight: '600',
-    whiteSpace: 'nowrap',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
   },
   tableRow: {
     borderBottom: '1px solid #e2e8f0',
-    transition: 'background-color 0.2s ease',
     '&:hover': {
       backgroundColor: '#f8fafc',
     },
@@ -607,15 +742,58 @@ const styles = {
     padding: '1rem',
     fontSize: '0.875rem',
     color: '#334155',
-    whiteSpace: 'nowrap',
+  },
+  jobTitle: {
+    fontWeight: '500',
+  },
+  applicantCount: {
+    fontWeight: '600',
+  },
+  spamCount: {
+    color: '#f44336',
+    fontWeight: '600',
+  },
+  progressContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  },
+  progressBar: {
+    flex: 1,
+    height: '6px',
+    backgroundColor: '#f1f5f9',
+    borderRadius: '3px',
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: '3px',
+  },
+  progressText: {
+    fontSize: '0.75rem',
+    color: '#64748b',
+    width: '40px',
   },
   statusBadge: {
     display: 'inline-block',
-    padding: '0.25rem 0.5rem',
+    padding: '0.25rem 0.75rem',
     borderRadius: '9999px',
-    backgroundColor: '#e8f5e9',
-    color: '#0f9d58',
     fontSize: '0.75rem',
-    fontWeight: '500',
+    fontWeight: '600',
   },
-}; 
+  tableActionButton: {
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: '#64748b',
+    cursor: 'pointer',
+    padding: '0.25rem',
+    borderRadius: '4px',
+    '&:hover': {
+      backgroundColor: '#f1f5f9',
+    },
+  },
+  actionIcon: {
+    width: '16px',
+    height: '16px',
+  },
+};
