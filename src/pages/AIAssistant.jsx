@@ -4,8 +4,8 @@ import RecruiterNavbar from '../components/RecruiterNavbar';
 export default function AIAssistant() {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([
-    { 
-      role: 'assistant', 
+    {
+      role: 'assistant',
       content: 'Hello! I\'m your AI recruiting assistant. How can I help you today? I can help with job descriptions, candidate screening, interview questions, and more.'
     }
   ]);
@@ -14,28 +14,37 @@ export default function AIAssistant() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim() === '') return;
-    
+
+    const userMessage = message.trim();
+
     // Add user message to chat history
-    setChatHistory([...chatHistory, { role: 'user', content: message }]);
+    setChatHistory(prev => [...prev, { role: 'user', content: userMessage }]);
     setMessage('');
-    
-    // Simulate AI response (in a real app, this would be an API call)
     setIsTyping(true);
+
     setTimeout(() => {
-      const responses = [
-        "I've analyzed the candidate profiles and found 3 potential matches for your requirements.",
-        "Based on market research, the salary range for this position should be between RM 7,000 - RM 10,000 per month.",
-        "I can help you create a job description for this role. What specific skills and experience are you looking for?",
-        "Here's a draft of screening questions you could use for initial candidate assessment.",
-        "The analytics show that LinkedIn has been your most effective recruiting channel this quarter."
-      ];
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      setChatHistory(prev => [...prev, { role: 'assistant', content: randomResponse }]);
+      const lowerMsg = userMessage.toLowerCase();
+      let response = "I'm not sure I understand your request. Could you please clarify or provide more details?";
+
+      if (lowerMsg.includes('job description')) {
+        response = "Sure! What job title or responsibilities should I include in the job description?";
+      } else if (lowerMsg.includes('screening') || lowerMsg.includes('candidate')) {
+        response = "I can help with candidate screening. Are you looking for resume filtering, interview questions, or assessment ideas?";
+      } else if (lowerMsg.includes('interview')) {
+        response = "Here are some structured interview questions: 1) Tell me about a challenging project. 2) How do you prioritize tasks under pressure?";
+      } else if (lowerMsg.includes('salary')) {
+        response = "Based on recent market data, the salary range for this role is between RM 7,000 and RM 10,000 per month.";
+      } else if (lowerMsg.includes('analytics') || lowerMsg.includes('report')) {
+        response = "Your analytics report shows LinkedIn and JobStreet as the most effective platforms last quarter.";
+      } else if (lowerMsg.includes('help')) {
+        response = "I can assist with job descriptions, interview questions, screening suggestions, and more. What do you need help with?";
+      }
+
+      setChatHistory(prev => [...prev, { role: 'assistant', content: response }]);
       setIsTyping(false);
-    }, 1500);
+    }, 1200);
   };
 
-  // Scroll to bottom of chat when messages are added
   useEffect(() => {
     const chatEl = document.getElementById('chat-history');
     if (chatEl) {
@@ -63,14 +72,14 @@ export default function AIAssistant() {
               <span style={styles.statusText}>Online</span>
             </div>
           </div>
-          
+
           <div style={styles.chatContainer}>
             <div style={styles.chatHistory} id="chat-history">
               {chatHistory.map((msg, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   style={{
-                    ...styles.chatMessage, 
+                    ...styles.chatMessage,
                     ...(msg.role === 'user' ? styles.userMessage : styles.assistantMessage)
                   }}
                 >
@@ -85,7 +94,7 @@ export default function AIAssistant() {
                 </div>
               ))}
               {isTyping && (
-                <div style={{...styles.chatMessage, ...styles.assistantMessage}}>
+                <div style={{ ...styles.chatMessage, ...styles.assistantMessage }}>
                   <div style={styles.avatarContainer}>
                     <div style={styles.avatar}>AI</div>
                   </div>
@@ -97,17 +106,17 @@ export default function AIAssistant() {
                 </div>
               )}
             </div>
-            
+
             <form style={styles.inputForm} onSubmit={handleSubmit}>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 style={styles.messageInput}
                 placeholder="Ask about job descriptions, candidate screening, or recruitment advice..."
               />
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 style={{
                   ...styles.sendButton,
                   ...(message.trim() === '' ? styles.sendButtonDisabled : {})
@@ -133,6 +142,7 @@ export default function AIAssistant() {
     </div>
   );
 }
+
 
 const styles = {
   container: {
