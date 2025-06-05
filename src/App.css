@@ -1,9 +1,13 @@
 .App {
   text-align: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .App-logo {
   height: 40vmin;
+  max-width: 100%;
   pointer-events: none;
 }
 
@@ -20,14 +24,30 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
+  padding: 2rem;
+  box-sizing: border-box;
+  width: 100%;
 }
 
+/* === Responsive Font Sizes === */
+.App-header {
+  font-size: clamp(1rem, 2.5vw, 2rem);
+}
+
+/* Responsive Logo Size */
+.App-logo {
+  height: clamp(100px, 30vmin, 300px);
+}
+
+/* Optional: Make links responsive */
 .App-link {
   color: #61dafb;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  word-break: break-word;
 }
 
+/* Logo animation */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
