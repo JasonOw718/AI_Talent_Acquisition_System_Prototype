@@ -42,25 +42,21 @@ export default function RecruiterDashboard() {
 
   const applicationQualityData = [
     { label: 'Genuine', value: 82, color: '#0f9d58' },
-    { label: 'Low Quality', value: 12, color: '#ffc107' },
-    { label: 'Spam', value: 6, color: '#f44336' },
+    { label: 'Spam', value: 18, color: '#f44336' },
   ];
 
   const recruitmentMetrics = [
-    { label: 'Screening Accuracy', value: 91, color: '#4285f4' },
-    { label: 'Prediction Rate', value: 83, color: '#0f9d58' },
-    { label: 'Time Saved (hrs)', value: 48, color: '#9c27b0' },
-    { label: 'Quality of Hire', value: 89, color: '#f8ac5c' },
+    { label: 'Average Processing Time (sec)', value: 12, color: '#9c27b0' },
+    { label: 'Valid LinkedIn Profile Count ( >0.7 )', value: 78, color: '#f8ac5c' },
+    { label: 'Time Saved (hrs)', value: 48, color: '#4285f4' }
   ];
 
-  const spamBySourceData = [
-    { label: 'LinkedIn', value: 6, color: '#0077b5' },
-    { label: 'JobStreet', value: 10, color: '#2a6fdb' },
-    { label: 'Indeed', value: 13, color: '#2164f3' },
-    { label: 'Direct', value: 4, color: '#6c757d' },
-    { label: 'Referrals', value: 1, color: '#28a745' },
-    { label: 'Others', value: 2, color: '#17a2b8' },
-  ];
+  const matchQualityData = [
+    { label: 'Excellent', value: 12, color: '#28a745' },
+    { label: 'Good', value: 18, color: '#17a2b8' },
+    { label: 'Average', value: 9, color: '#ffc107' },
+    { label: 'Poor', value: 4, color: '#dc3545' },
+  ];  
 
   const recentActivity = [
     { name: 'Ahmad Bin Abdullah', position: 'Frontend Developer', action: 'moved to Stage 2', time: '3 hours ago', status: 'in-progress' },
@@ -133,7 +129,7 @@ export default function RecruiterDashboard() {
                         <div style={styles.metricHeader}>
                           <span style={styles.metricLabel}>{metric.label}</span>
                           <span style={{...styles.metricValue, color: metric.color}}>
-                            {metric.value}{metric.label.includes('Time') ? '' : '%'}
+                            {metric.value}
                           </span>
                         </div>
                         <div style={styles.metricBar}>
@@ -192,21 +188,21 @@ export default function RecruiterDashboard() {
           {/* Spam Analysis and Activity Section */}
           <section style={styles.section}>
             <div style={styles.analyticsGrid}>
-              {/* Spam by Source */}
+              {/* matchQualityData */}
               <div style={styles.analyticsCard}>
                 <div style={styles.cardHeader}>
-                  <h3 style={styles.cardTitle}>Spam by Source</h3>
+                  <h3 style={styles.cardTitle}>Candidate Match Quality</h3>
                   <button style={styles.cardAction}>View Report</button>
                 </div>
                 <div style={styles.barChartContainer}>
-                  {spamBySourceData.map((item, index) => (
+                  {matchQualityData.map((item, index) => (
                     <div key={index} style={styles.barChartRow}>
                       <div style={styles.barChartLabel}>{item.label}</div>
                       <div style={styles.barChartBarContainer}>
                         <div 
                           style={{
                             ...styles.barChartBar,
-                            width: `${(item.value / Math.max(...spamBySourceData.map(i => i.value))) * 100}%`,
+                            width: `${(item.value / Math.max(...matchQualityData.map(i => i.value))) * 100}%`,
                             backgroundColor: item.color || '#4285f4',
                           }}
                         ></div>
@@ -540,7 +536,7 @@ const styles = {
     width: '160px',
     height: '160px',
     borderRadius: '50%',
-    background: 'conic-gradient(#0f9d58 0% 82%, #ffc107 82% 94%, #f44336 94% 100%)',
+    background: "conic-gradient(#0f9d58 0% 90%, #f44336 90% 100%)",
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
