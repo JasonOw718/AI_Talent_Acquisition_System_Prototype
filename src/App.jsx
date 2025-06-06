@@ -37,7 +37,7 @@ function PageTypeHandler() {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/AI_Talent_Acquisition_System_Prototype">
       <PageTypeHandler />
       <Routes>
         {/* Recruiter Routes */}
