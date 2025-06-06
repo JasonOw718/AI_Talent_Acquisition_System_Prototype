@@ -9,7 +9,7 @@ export default function JobListings() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   // Mock job data with Malaysian locations
   const jobs = [
     { id: 1, title: 'Frontend Developer', location: 'Kuala Lumpur', department: 'Engineering', posted: '2023-05-15', status: 'Active' },
@@ -22,17 +22,17 @@ export default function JobListings() {
   // Mock applicant data with Malaysian names
   const applicants = {
     stage1: [
-      { 
-        id: 101, 
-        name: 'Ahmad bin Abdullah', 
-        email: 'ahmad@example.com', 
-        status: 'stage1', 
-        appliedDate: '2023-06-01', 
-        jobId: 1, 
-        scores: { 
-          'JavaScript': 85, 
-          'React': 92, 
-          'CSS': 78 
+      {
+        id: 101,
+        name: 'Ahmad bin Abdullah',
+        email: 'ahmad@example.com',
+        status: 'stage1',
+        appliedDate: '2023-06-01',
+        jobId: 1,
+        scores: {
+          'JavaScript': 85,
+          'React': 92,
+          'CSS': 78
         },
         softSkills: {
           'Communication': 90,
@@ -48,17 +48,17 @@ export default function JobListings() {
           'Problem Solving': 'Strong analytical thinking shown in coding challenges. Approaches problems methodically.'
         }
       },
-      { 
-        id: 102, 
-        name: 'Siti binti Mohamed', 
-        email: 'siti@example.com', 
-        status: 'stage1', 
-        appliedDate: '2023-06-02', 
-        jobId: 1, 
-        scores: { 
-          'JavaScript': 90, 
-          'React': 88, 
-          'CSS': 85 
+      {
+        id: 102,
+        name: 'Siti binti Mohamed',
+        email: 'siti@example.com',
+        status: 'stage1',
+        appliedDate: '2023-06-02',
+        jobId: 1,
+        scores: {
+          'JavaScript': 90,
+          'React': 88,
+          'CSS': 85
         },
         softSkills: {
           'Communication': 85,
@@ -74,17 +74,17 @@ export default function JobListings() {
           'Problem Solving': 'Good at breaking down complex problems. Demonstrated creative solutions during assessment.'
         }
       },
-      { 
-        id: 103, 
-        name: 'Tan Wei Ming', 
-        email: 'tan@example.com', 
-        status: 'stage1', 
-        appliedDate: '2023-06-03', 
-        jobId: 1, 
-        scores: { 
-          'JavaScript': 82, 
-          'React': 85, 
-          'CSS': 80 
+      {
+        id: 103,
+        name: 'Tan Wei Ming',
+        email: 'tan@example.com',
+        status: 'stage1',
+        appliedDate: '2023-06-03',
+        jobId: 1,
+        scores: {
+          'JavaScript': 82,
+          'React': 85,
+          'CSS': 80
         },
         softSkills: {
           'Communication': 82,
@@ -100,17 +100,17 @@ export default function JobListings() {
           'Problem Solving': 'Analytical approach to challenges. Demonstrated ability to debug complex issues.'
         }
       },
-      { 
-        id: 201, 
-        name: 'Chong Li Mei', 
-        email: 'chong@example.com', 
-        status: 'stage1', 
-        appliedDate: '2023-06-05', 
-        jobId: 2, 
-        scores: { 
-          'Python': 88, 
-          'Node.js': 90, 
-          'Databases': 85 
+      {
+        id: 201,
+        name: 'Chong Li Mei',
+        email: 'chong@example.com',
+        status: 'stage1',
+        appliedDate: '2023-06-05',
+        jobId: 2,
+        scores: {
+          'Python': 88,
+          'Node.js': 90,
+          'Databases': 85
         },
         softSkills: {
           'Communication': 78,
@@ -126,17 +126,17 @@ export default function JobListings() {
           'Problem Solving': 'Exceptional analytical skills. Quickly identifies root causes of issues.'
         }
       },
-      { 
-        id: 202, 
-        name: 'Rajesh Kumar', 
-        email: 'rajesh@example.com', 
-        status: 'stage1', 
-        appliedDate: '2023-06-07', 
-        jobId: 2, 
-        scores: { 
-          'Python': 92, 
-          'Node.js': 84, 
-          'Databases': 90 
+      {
+        id: 202,
+        name: 'Rajesh Kumar',
+        email: 'rajesh@example.com',
+        status: 'stage1',
+        appliedDate: '2023-06-07',
+        jobId: 2,
+        scores: {
+          'Python': 92,
+          'Node.js': 84,
+          'Databases': 90
         },
         softSkills: {
           'Communication': 88,
@@ -154,17 +154,17 @@ export default function JobListings() {
       },
     ],
     stage2: [
-      { 
-        id: 104, 
-        name: 'Nurul Huda binti Hassan', 
-        email: 'nurul@example.com', 
-        status: 'stage2', 
-        appliedDate: '2023-05-28', 
-        jobId: 1, 
-        scores: { 
-          'JavaScript': 95, 
-          'React': 94, 
-          'CSS': 90 
+      {
+        id: 104,
+        name: 'Nurul Huda binti Hassan',
+        email: 'nurul@example.com',
+        status: 'stage2',
+        appliedDate: '2023-05-28',
+        jobId: 1,
+        scores: {
+          'JavaScript': 95,
+          'React': 94,
+          'CSS': 90
         },
         softSkills: {
           'Communication': 92,
@@ -180,17 +180,17 @@ export default function JobListings() {
           'Problem Solving': 'Outstanding problem solver. Approaches challenges methodically and creatively.'
         }
       },
-      { 
-        id: 203, 
-        name: 'Lim Jian Wei', 
-        email: 'lim@example.com', 
-        status: 'stage2', 
-        appliedDate: '2023-06-02', 
-        jobId: 2, 
-        scores: { 
-          'Python': 94, 
-          'Node.js': 92, 
-          'Databases': 93 
+      {
+        id: 203,
+        name: 'Lim Jian Wei',
+        email: 'lim@example.com',
+        status: 'stage2',
+        appliedDate: '2023-06-02',
+        jobId: 2,
+        scores: {
+          'Python': 94,
+          'Node.js': 92,
+          'Databases': 93
         },
         softSkills: {
           'Communication': 90,
@@ -208,17 +208,17 @@ export default function JobListings() {
       },
     ],
     offered: [
-      { 
-        id: 105, 
-        name: 'Aisha binti Rahman', 
-        email: 'aisha@example.com', 
-        status: 'offered', 
-        appliedDate: '2023-05-25', 
-        jobId: 1, 
-        scores: { 
-          'JavaScript': 98, 
-          'React': 96, 
-          'CSS': 94 
+      {
+        id: 105,
+        name: 'Aisha binti Rahman',
+        email: 'aisha@example.com',
+        status: 'offered',
+        appliedDate: '2023-05-25',
+        jobId: 1,
+        scores: {
+          'JavaScript': 98,
+          'React': 96,
+          'CSS': 94
         },
         softSkills: {
           'Communication': 95,
@@ -236,17 +236,17 @@ export default function JobListings() {
       },
     ],
     spam: [
-      { 
-        id: 301, 
-        name: 'Mohd Faizal bin Aziz', 
-        email: 'faizal@example.com', 
-        status: 'spam', 
-        appliedDate: '2023-06-04', 
-        jobId: 1, 
-        scores: { 
-          'JavaScript': 25, 
-          'React': 15, 
-          'CSS': 30 
+      {
+        id: 301,
+        name: 'Mohd Faizal bin Aziz',
+        email: 'faizal@example.com',
+        status: 'spam',
+        appliedDate: '2023-06-04',
+        jobId: 1,
+        scores: {
+          'JavaScript': 25,
+          'React': 15,
+          'CSS': 30
         },
         softSkills: {
           'Communication': 20,
@@ -263,17 +263,17 @@ export default function JobListings() {
           'Problem Solving': 'Limited problem-solving skills demonstrated in assessment.'
         }
       },
-      { 
-        id: 302, 
-        name: 'Lee Mei Ling', 
-        email: 'leemei@example.com', 
-        status: 'spam', 
-        appliedDate: '2023-06-05', 
-        jobId: 1, 
-        scores: { 
-          'JavaScript': 20, 
-          'React': 10, 
-          'CSS': 25 
+      {
+        id: 302,
+        name: 'Lee Mei Ling',
+        email: 'leemei@example.com',
+        status: 'spam',
+        appliedDate: '2023-06-05',
+        jobId: 1,
+        scores: {
+          'JavaScript': 20,
+          'React': 10,
+          'CSS': 25
         },
         softSkills: {
           'Communication': 30,
@@ -290,17 +290,17 @@ export default function JobListings() {
           'Problem Solving': 'Weak analytical skills shown in technical assessment.'
         }
       },
-      { 
-        id: 401, 
-        name: 'Kamal bin Hassan', 
-        email: 'kamal@example.com', 
-        status: 'spam', 
-        appliedDate: '2023-06-06', 
-        jobId: 2, 
-        scores: { 
-          'Python': 15, 
-          'Node.js': 20, 
-          'Databases': 25 
+      {
+        id: 401,
+        name: 'Kamal bin Hassan',
+        email: 'kamal@example.com',
+        status: 'spam',
+        appliedDate: '2023-06-06',
+        jobId: 2,
+        scores: {
+          'Python': 15,
+          'Node.js': 20,
+          'Databases': 25
         },
         softSkills: {
           'Communication': 40,
@@ -346,7 +346,7 @@ export default function JobListings() {
   };
 
   // Filter jobs by search term
-  const filteredJobs = jobs.filter(job => 
+  const filteredJobs = jobs.filter(job =>
     job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.location.toLowerCase().includes(searchTerm.toLowerCase())
@@ -384,23 +384,23 @@ export default function JobListings() {
           Create New Job
         </Link>
       </div>
-      
+
       <div style={styles.searchContainer}>
         <div style={styles.searchWrapper}>
           <svg style={styles.searchIcon} viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-        <input
-          type="text"
-            placeholder="Search jobs by title, location, or department..." 
-          style={styles.searchInput}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+          <input
+            type="text"
+            placeholder="Search jobs by title, location, or department..."
+            style={styles.searchInput}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
-      
+
       <div style={styles.jobsTable}>
         <table style={styles.table}>
           <thead>
@@ -415,51 +415,51 @@ export default function JobListings() {
           </thead>
           <tbody>
             {jobs
-              .filter(job => 
+              .filter(job =>
                 job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 job.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 job.department.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map(job => (
-                <tr 
-                  key={job.id} 
+                <tr
+                  key={job.id}
                   style={{
                     ...styles.tableRow,
                     ...(selectedJob?.id === job.id ? styles.selectedRow : {})
                   }}
                   onClick={() => handleJobSelection(job)}
                 >
-                <td style={styles.tableCell}>{job.title}</td>
-                <td style={styles.tableCell}>{job.location}</td>
+                  <td style={styles.tableCell}>{job.title}</td>
+                  <td style={styles.tableCell}>{job.location}</td>
                   <td style={styles.tableCell}>{job.department}</td>
-                <td style={styles.tableCell}>{formatDate(job.posted)}</td>
-                <td style={styles.tableCell}>
-                  <span style={styles.statusBadge}>{job.status}</span>
-                </td>
-                <td style={styles.tableCell}>
-                  <button 
-                    style={styles.viewButton}
+                  <td style={styles.tableCell}>{formatDate(job.posted)}</td>
+                  <td style={styles.tableCell}>
+                    <span style={styles.statusBadge}>{job.status}</span>
+                  </td>
+                  <td style={styles.tableCell}>
+                    <button
+                      style={styles.viewButton}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleJobSelection(job);
                       }}
-                  >
-                    View Applicants
-                  </button>
-                  <button 
-                    style={styles.archiveButton}
+                    >
+                      View Applicants
+                    </button>
+                    <button
+                      style={styles.archiveButton}
                       onClick={(e) => {
                         e.stopPropagation();
-                        if(confirm(`Are you sure you want to archive the job "${job.title}"?`)) {
+                        if (confirm(`Are you sure you want to archive the job "${job.title}"?`)) {
                           alert(`Job "${job.title}" has been archived`);
                           // Here you would implement the actual archiving logic
                         }
                       }}
-                  >
-                    Archive
-                  </button>
-                </td>
-              </tr>
+                    >
+                      Archive
+                    </button>
+                  </td>
+                </tr>
               ))
             }
           </tbody>
@@ -471,21 +471,21 @@ export default function JobListings() {
   // Generate a more detailed analysis for the selected applicant if available
   const generateDetailedAnalysis = (applicant) => {
     if (!applicant) return null;
-    
+
     // Don't generate analysis for spam applicants
     if (applicant.status === 'spam') return null;
-    
+
     // Mock data for LinkedIn comparison
     const linkedinComparison = {
       full_name: {
         score: Math.random() > 0.5 ? 1.0 : 0.0,
-        justification: Math.random() > 0.5 
+        justification: Math.random() > 0.5
           ? `'${applicant.name}' matches LinkedIn name.`
           : `'${applicant.name}' does not match LinkedIn name 'Different Name'.`
       },
       city: {
         score: Math.random() > 0.5 ? 1.0 : 0.0,
-        justification: Math.random() > 0.5 
+        justification: Math.random() > 0.5
           ? `Candidate city 'Kuala Lumpur' matches LinkedIn city.`
           : `Candidate city 'Kuala Lumpur' differs from LinkedIn city 'Kajang'.`
       },
@@ -503,7 +503,7 @@ export default function JobListings() {
       },
       handle: {
         score: Math.random() > 0.5 ? 1.0 : 0.0,
-        justification: Math.random() > 0.5 
+        justification: Math.random() > 0.5
           ? `LinkedIn handle matches.`
           : `LinkedIn handle not found or differs.`
       },
@@ -512,7 +512,7 @@ export default function JobListings() {
         justification: `Weighted sum: ${(Math.random() * 0.8 + 0.1).toFixed(3)}.`
       }
     };
-    
+
     // Mock data for job match analysis
     const skillKeys = Object.keys(applicant.scores);
     const jobMatch = {
@@ -533,7 +533,7 @@ export default function JobListings() {
         score: (Math.random() * 0.2 + 0.8).toFixed(3)
       }
     };
-    
+
     // Generate skill-specific scores
     skillKeys.forEach(skill => {
       jobMatch.skills[skill] = {
@@ -541,7 +541,7 @@ export default function JobListings() {
         justification: `${Math.random() > 0.5 ? 'Exact' : 'Close'} name match; embedding similarity ~${(Math.random() * 0.15 + 0.85).toFixed(2)}.`
       };
     });
-    
+
     // Add overall skills score
     const skillScores = Object.values(jobMatch.skills).map(s => parseFloat(s.score));
     const avgSkillScore = skillScores.reduce((a, b) => a + b, 0) / skillScores.length;
@@ -549,11 +549,11 @@ export default function JobListings() {
       score: avgSkillScore.toFixed(2),
       justification: `(${skillScores.map(s => s.toFixed(2)).join(' + ')}) / ${skillScores.length} = ${avgSkillScore.toFixed(2)}.`
     };
-    
+
     // Calculate final ranking score
-    const finalScore = (parseFloat(linkedinComparison.overall_profile_validity.score) * 0.25 + 
-                        parseFloat(jobMatch.overall_job_match.score) * 0.75).toFixed(4);
-    
+    const finalScore = (parseFloat(linkedinComparison.overall_profile_validity.score) * 0.25 +
+      parseFloat(jobMatch.overall_job_match.score) * 0.75).toFixed(4);
+
     return {
       linkedinComparison,
       jobMatch,
@@ -564,9 +564,9 @@ export default function JobListings() {
   // Render the candidate analysis modal
   const renderCandidateModal = () => {
     if (!selectedApplicant || !isModalOpen) return null;
-    
+
     const analysis = generateDetailedAnalysis(selectedApplicant);
-    
+
     return (
       <div style={styles.modalOverlay} onClick={handleCloseModal}>
         <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -591,7 +591,7 @@ export default function JobListings() {
               </svg>
             </button>
           </div>
-          
+
           <div style={styles.modalBody}>
             {/* Document Download Section */}
             <div style={styles.documentsSection}>
@@ -611,9 +611,9 @@ export default function JobListings() {
                     <div style={styles.documentName}>Resume.pdf</div>
                     <div style={styles.documentMeta}>Added on {formatDate(selectedApplicant.appliedDate)}</div>
                   </div>
-          <button 
+                  <button
                     style={styles.downloadButton}
-            onClick={() => {
+                    onClick={() => {
                       // Simulate download functionality
                       alert(`Downloading resume for ${selectedApplicant.name}`);
                     }}
@@ -622,11 +622,11 @@ export default function JobListings() {
                       <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
                       <polyline points="7 10 12 15 17 10"></polyline>
                       <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
+                    </svg>
                     Download
-          </button>
-        </div>
-        
+                  </button>
+                </div>
+
                 <div style={styles.documentItem}>
                   <div style={styles.documentIcon}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -636,12 +636,12 @@ export default function JobListings() {
                       <line x1="16" y1="17" x2="8" y2="17"></line>
                       <polyline points="10 9 9 9 8 9"></polyline>
                     </svg>
-        </div>
+                  </div>
                   <div style={styles.documentInfo}>
                     <div style={styles.documentName}>CoverLetter.pdf</div>
                     <div style={styles.documentMeta}>Added on {formatDate(selectedApplicant.appliedDate)}</div>
-                </div>
-                  <button 
+                  </div>
+                  <button
                     style={styles.downloadButton}
                     onClick={() => {
                       // Simulate download functionality
@@ -655,7 +655,7 @@ export default function JobListings() {
                     </svg>
                     Download
                   </button>
-                        </div>
+                </div>
 
                 {/* Portfolio or additional documents conditionally rendered */}
                 {selectedApplicant.portfolioUrl && (
@@ -665,13 +665,13 @@ export default function JobListings() {
                         <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path>
                         <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path>
                       </svg>
-                      </div>
+                    </div>
                     <div style={styles.documentInfo}>
                       <div style={styles.documentName}>Portfolio</div>
                       <div style={styles.documentMeta}>External link</div>
-                      </div>
-                    <a 
-                      href="#" 
+                    </div>
+                    <a
+                      href="#"
                       style={styles.viewLinkButton}
                       onClick={(e) => {
                         e.preventDefault();
@@ -682,26 +682,26 @@ export default function JobListings() {
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
                         <polyline points="15 3 21 3 21 9"></polyline>
                         <line x1="10" y1="14" x2="21" y2="3"></line>
-                          </svg>
+                      </svg>
                       View
                     </a>
-              </div>
-            )}
-                  </div>
-                </div>
-                
-                {selectedApplicant.spamReason && (
-                  <div style={styles.spamReasonSection}>
-                    <div style={styles.spamReasonHeader}>
-                      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
-                        <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                      </svg>
-                      <h4 style={styles.spamReasonTitle}>Flagged as Spam</h4>
-                    </div>
-                    <p style={styles.spamReasonText}>{selectedApplicant.spamReason}</p>
                   </div>
                 )}
-                
+              </div>
+            </div>
+
+            {selectedApplicant.spamReason && (
+              <div style={styles.spamReasonSection}>
+                <div style={styles.spamReasonHeader}>
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                  <h4 style={styles.spamReasonTitle}>Flagged as Spam</h4>
+                </div>
+                <p style={styles.spamReasonText}>{selectedApplicant.spamReason}</p>
+              </div>
+            )}
+
             {selectedApplicant.status !== 'spam' && (
               <>
                 <div style={styles.tabsContainer}>
@@ -709,15 +709,15 @@ export default function JobListings() {
                     <div style={styles.tabActive}>Assessment</div>
                   </div>
                 </div>
-                
+
                 {/* Generate the detailed analysis for the selected applicant */}
                 {(() => {
                   if (!analysis) return null;
-                  
+
                   return (
                     <>
                       {/* LinkedIn Profile Verification Section */}
-                <div style={styles.analysisSection}>
+                      <div style={styles.analysisSection}>
                         <h4 style={styles.analysisTitle}>LinkedIn Profile Verification</h4>
                         <div style={styles.linkedinScoreContainer}>
                           <div style={styles.linkedinScoreCircle(analysis.linkedinComparison.overall_profile_validity.score)}>
@@ -727,14 +727,14 @@ export default function JobListings() {
                             Profile Validity Score
                           </div>
                         </div>
-                        
+
                         <div style={styles.comparisonTable}>
                           <div style={styles.comparisonTableHeader}>
                             <div style={styles.comparisonField}>Field</div>
                             <div style={styles.comparisonScore}>Score</div>
                             <div style={styles.comparisonJustification}>Justification</div>
                           </div>
-                          
+
                           {Object.entries(analysis.linkedinComparison)
                             .filter(([key]) => key !== 'overall_profile_validity')
                             .map(([field, data]) => (
@@ -746,8 +746,8 @@ export default function JobListings() {
                                 <div style={styles.comparisonJustification}>{data.justification}</div>
                               </div>
                             ))}
-                            
-                          <div style={{...styles.comparisonTableRow, ...styles.comparisonTableFooter}}>
+
+                          <div style={{ ...styles.comparisonTableRow, ...styles.comparisonTableFooter }}>
                             <div style={styles.comparisonField}>Overall Profile Validity</div>
                             <div style={styles.comparisonScore}>
                               <span style={getScoreColorStyle(analysis.linkedinComparison.overall_profile_validity.score)}>
@@ -758,7 +758,7 @@ export default function JobListings() {
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Combined Job Match Analysis & Skills Section */}
                       <div style={styles.analysisSection}>
                         <h4 style={styles.analysisTitle}>Job Match Analysis</h4>
@@ -770,7 +770,7 @@ export default function JobListings() {
                             Job Match Score
                           </div>
                         </div>
-                        
+
                         <h5 style={styles.subSectionTitle}>Education Match</h5>
                         <div style={styles.comparisonTable}>
                           <div style={styles.comparisonTableRow}>
@@ -781,55 +781,55 @@ export default function JobListings() {
                             <div style={styles.comparisonJustification}>{analysis.jobMatch.education.justification}</div>
                           </div>
                         </div>
-                        
+
                         <h5 style={styles.subSectionTitle}>Skills Assessment</h5>
-                  <div style={styles.skillsGrid}>
-                    {Object.entries(selectedApplicant.scores).map(([skill, score]) => (
-                      <div key={skill} style={styles.skillCardExpanded}>
-                        <div style={styles.skillHeader}>
-                          <div style={styles.skillName}>{skill}</div>
-                          <div style={{...styles.skillScore, color: getScoreColor(score)}}>{score}%</div>
+                        <div style={styles.skillsGrid}>
+                          {Object.entries(selectedApplicant.scores).map(([skill, score]) => (
+                            <div key={skill} style={styles.skillCardExpanded}>
+                              <div style={styles.skillHeader}>
+                                <div style={styles.skillName}>{skill}</div>
+                                <div style={{ ...styles.skillScore, color: getScoreColor(score) }}>{score}%</div>
+                              </div>
+                              <div style={styles.skillScoreBar}>
+                                <div
+                                  style={{
+                                    ...styles.skillScoreFill,
+                                    width: `${score}%`,
+                                    backgroundColor: getScoreColor(score),
+                                  }}
+                                ></div>
+                              </div>
+                              <div style={styles.justificationContainer}>
+                                <p style={styles.justificationText}>{selectedApplicant.justifications[skill]}</p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                        <div style={styles.skillScoreBar}>
-                          <div 
-                            style={{
-                              ...styles.skillScoreFill,
-                              width: `${score}%`,
-                              backgroundColor: getScoreColor(score),
-                            }}
-                          ></div>
-                        </div>
-                        <div style={styles.justificationContainer}>
-                          <p style={styles.justificationText}>{selectedApplicant.justifications[skill]}</p>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-                
+
                         <h5 style={styles.subSectionTitle}>Soft Skills Assessment</h5>
-                  <div style={styles.skillsGrid}>
-                    {Object.entries(selectedApplicant.softSkills).map(([skill, score]) => (
-                      <div key={skill} style={styles.skillCardExpanded}>
-                        <div style={styles.skillHeader}>
-                          <div style={styles.skillName}>{skill}</div>
-                          <div style={{...styles.skillScore, color: getScoreColor(score)}}>{score}%</div>
+                        <div style={styles.skillsGrid}>
+                          {Object.entries(selectedApplicant.softSkills).map(([skill, score]) => (
+                            <div key={skill} style={styles.skillCardExpanded}>
+                              <div style={styles.skillHeader}>
+                                <div style={styles.skillName}>{skill}</div>
+                                <div style={{ ...styles.skillScore, color: getScoreColor(score) }}>{score}%</div>
+                              </div>
+                              <div style={styles.skillScoreBar}>
+                                <div
+                                  style={{
+                                    ...styles.skillScoreFill,
+                                    width: `${score}%`,
+                                    backgroundColor: getScoreColor(score),
+                                  }}
+                                ></div>
+                              </div>
+                              <div style={styles.justificationContainer}>
+                                <p style={styles.justificationText}>{selectedApplicant.justifications[skill]}</p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                        <div style={styles.skillScoreBar}>
-                          <div 
-                            style={{
-                              ...styles.skillScoreFill,
-                              width: `${score}%`,
-                              backgroundColor: getScoreColor(score),
-                            }}
-                          ></div>
-                        </div>
-                        <div style={styles.justificationContainer}>
-                          <p style={styles.justificationText}>{selectedApplicant.justifications[skill]}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                        
+
                         <h5 style={styles.subSectionTitle}>Other Factors</h5>
                         <div style={styles.comparisonTable}>
                           <div style={styles.comparisonTableRow}>
@@ -838,8 +838,8 @@ export default function JobListings() {
                               <span style={getScoreColorStyle(analysis.jobMatch.languages.score)}>{analysis.jobMatch.languages.score.toFixed(2)}</span>
                             </div>
                             <div style={styles.comparisonJustification}>{analysis.jobMatch.languages.justification}</div>
-                </div>
-                
+                          </div>
+
                           <div style={styles.comparisonTableRow}>
                             <div style={styles.comparisonField}>Location</div>
                             <div style={styles.comparisonScore}>
@@ -849,7 +849,7 @@ export default function JobListings() {
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Final Ranking Score */}
                       <div style={styles.finalScoreSection}>
                         <h4 style={styles.finalScoreTitle}>Final Ranking Score</h4>
@@ -857,8 +857,8 @@ export default function JobListings() {
                           {parseFloat(analysis.finalRankingScore).toFixed(2)}
                         </div>
                         <div style={styles.finalScoreFormula}>
-                          <p>LinkedIn Validity ({parseFloat(analysis.linkedinComparison.overall_profile_validity.score).toFixed(2)}) × 0.25 + 
-                          Job Match ({parseFloat(analysis.jobMatch.overall_job_match.score).toFixed(2)}) × 0.75</p>
+                          <p>LinkedIn Validity ({parseFloat(analysis.linkedinComparison.overall_profile_validity.score).toFixed(2)}) × 0.25 +
+                            Job Match ({parseFloat(analysis.jobMatch.overall_job_match.score).toFixed(2)}) × 0.75</p>
                         </div>
                       </div>
                     </>
@@ -866,39 +866,39 @@ export default function JobListings() {
                 })()}
               </>
             )}
-            
+
             {/* Action Buttons Section */}
             <div style={styles.modalActions}>
-                  {activeStage === 'spam' && (
-                    <button style={styles.moveToStage1Button}>
-                      Move to Stage 1
-                    </button>
-                  )}
-                  {activeStage === 'stage1' && (
-                    <button style={styles.advanceButton}>
-                      Advance to Stage 2
-                    </button>
-                  )}
-                  {activeStage === 'stage2' && (
-                    <button style={styles.offerButton}>
+              {activeStage === 'spam' && (
+                <button style={styles.moveToStage1Button}>
+                  Move to Stage 1
+                </button>
+              )}
+              {activeStage === 'stage1' && (
+                <button style={styles.advanceButton}>
+                  Advance to Stage 2
+                </button>
+              )}
+              {activeStage === 'stage2' && (
+                <button style={styles.offerButton}>
                   Advance to Offer
-                    </button>
-                  )}
+                </button>
+              )}
               {activeStage !== 'spam' && activeStage !== 'offered' && (
-                    <button style={styles.moveToSpamButton}>
-                      Mark as Spam
-                    </button>
-                  )}
+                <button style={styles.moveToSpamButton}>
+                  Mark as Spam
+                </button>
+              )}
               {activeStage !== 'offered' && (
-                  <button style={styles.rejectButton}>
-                    Reject Candidate
+                <button style={styles.rejectButton}>
+                  Reject Candidate
                 </button>
               )}
               <button style={styles.closeButton} onClick={handleCloseModal}>
                 Close
-                  </button>
-                </div>
-              </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -908,7 +908,7 @@ export default function JobListings() {
   const renderApplicantsView = () => {
     // Get applicants for the current stage and job
     const jobApplicants = getApplicantsForJob(selectedJob.id, activeStage);
-    
+
     // Set up funnel stages including spam stage
     const funnelStages = [
       { id: 'spam', name: 'Spam', count: getApplicantsForJob(selectedJob.id, 'spam').length },
@@ -916,11 +916,11 @@ export default function JobListings() {
       { id: 'stage2', name: 'Stage 2', count: getApplicantsForJob(selectedJob.id, 'stage2').length },
       { id: 'offered', name: 'Offered', count: getApplicantsForJob(selectedJob.id, 'offered').length },
     ];
-    
+
     return (
       <div style={styles.applicantsContainer}>
         <div style={styles.applicantsHeader}>
-          <button 
+          <button
             style={styles.backButton}
             onClick={() => {
               setSelectedJob(null);
@@ -931,7 +931,7 @@ export default function JobListings() {
             <svg style={styles.backIcon} viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
-                  </svg>
+            </svg>
             Back to Job Listings
           </button>
           <h2 style={styles.jobTitle}>{selectedJob.title}</h2>
@@ -941,17 +941,17 @@ export default function JobListings() {
             <span style={styles.jobDetail}>{selectedJob.location}</span>
             <span style={styles.separator}>•</span>
             <span style={styles.jobDetail}>Posted: {formatDate(selectedJob.posted)}</span>
-                </div>
+          </div>
         </div>
-        
+
         <div style={styles.funnelSection}>
-          <RecruitmentFunnel 
-            stages={funnelStages} 
+          <RecruitmentFunnel
+            stages={funnelStages}
             activeStage={activeStage}
             onStageChange={handleStageChange}
           />
         </div>
-        
+
         <div style={styles.fullWidthApplicantsList}>
           <div style={styles.stageHeader}>
             <h3 style={styles.sectionTitle}>{funnelStages.find(s => s.id === activeStage).name} Applicants</h3>
@@ -962,16 +962,16 @@ export default function JobListings() {
               </div>
             )}
           </div>
-          
+
           {jobApplicants.length === 0 ? (
             <div style={styles.emptyState}>
               <p style={styles.emptyText}>No applicants in this stage.</p>
-        </div>
+            </div>
           ) : (
             <div style={styles.applicantsGrid}>
               {jobApplicants.map((applicant) => (
-                <div 
-                  key={applicant.id} 
+                <div
+                  key={applicant.id}
                   style={{
                     ...styles.applicantCard,
                     ...(selectedApplicant?.id === applicant.id ? styles.selectedCard : {})
@@ -981,9 +981,9 @@ export default function JobListings() {
                   <div style={styles.applicantHeader}>
                     {activeStage === 'spam' && (
                       <div style={styles.spamCheckbox}>
-                        <input 
-                          type="checkbox" 
-                          onClick={(e) => e.stopPropagation()} 
+                        <input
+                          type="checkbox"
+                          onClick={(e) => e.stopPropagation()}
                         />
                       </div>
                     )}
@@ -993,11 +993,11 @@ export default function JobListings() {
                       <p style={styles.applicantEmail}>{applicant.email}</p>
                     </div>
                     {applicant.status !== 'spam' && (
-                    <div style={styles.applicantScore}>
-                      <div style={styles.scoreCircle}>
-                        {Math.round(parseFloat(generateDetailedAnalysis(applicant)?.finalRankingScore || 0) * 100)}%
+                      <div style={styles.applicantScore}>
+                        <div style={styles.scoreCircle}>
+                          {Math.round(parseFloat(generateDetailedAnalysis(applicant)?.finalRankingScore || 0) * 100)}%
+                        </div>
                       </div>
-                    </div>
                     )}
                   </div>
                   <div style={styles.applicantMeta}>
@@ -1026,7 +1026,7 @@ export default function JobListings() {
   return (
     <div style={styles.container}>
       <RecruiterNavbar />
-      <div style={styles.contentWithSidebar}>
+      <div className='main-content' style={styles.contentWithSidebar}>
         <div style={styles.content}>
           {selectedJob ? renderApplicantsView() : renderJobListings()}
         </div>

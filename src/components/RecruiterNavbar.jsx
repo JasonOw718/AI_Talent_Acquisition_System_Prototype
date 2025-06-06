@@ -5,20 +5,22 @@ export default function RecruiterNavbar() {
   const navigate = useNavigate();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
+
   // Track window resize for responsive behavior
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
       if (window.innerWidth >= 1024) {
         setIsMobileNavOpen(false);
-      }
+        document.querySelector(".main-content").style.marginLeft = "240px";
+      } else
+        document.querySelector(".main-content").style.marginLeft = "0";
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   const handleLogout = () => {
     localStorage.removeItem('recruiterLoggedIn');
     navigate('/recruiter/login');
@@ -45,7 +47,7 @@ export default function RecruiterNavbar() {
       {isMobile && (
         <div style={styles.mobileHeader}>
           <div style={styles.mobileLogo}>RecruitIQ</div>
-          <button 
+          <button
             style={styles.mobileMenuButton}
             onClick={toggleMobileNav}
             aria-label="Toggle menu"
@@ -62,7 +64,7 @@ export default function RecruiterNavbar() {
           </button>
         </div>
       )}
-      
+
       {/* Sidebar - shown based on screen size or toggle state */}
       {(!isMobile || isMobileNavOpen) && (
         <aside style={{
@@ -72,7 +74,7 @@ export default function RecruiterNavbar() {
           <div style={styles.logoSection}>
             <div style={styles.logo}>RecruitIQ</div>
             {isMobile && (
-              <button 
+              <button
                 style={styles.closeButton}
                 onClick={() => setIsMobileNavOpen(false)}
                 aria-label="Close menu"
@@ -85,9 +87,9 @@ export default function RecruiterNavbar() {
           </div>
           <nav style={styles.navLinks}>
             {navLinks.map((link) => (
-              <NavLink 
+              <NavLink
                 key={link.name}
-                to={link.path} 
+                to={link.path}
                 style={({ isActive }) => ({
                   ...styles.navLink,
                   ...(isActive ? styles.activeNavLink : {})
@@ -105,7 +107,7 @@ export default function RecruiterNavbar() {
           </nav>
           <div style={styles.spacer}></div>
           <div style={styles.profileSection}>
-            <button 
+            <button
               style={styles.logoutButton}
               onClick={handleLogout}
             >
@@ -121,10 +123,10 @@ export default function RecruiterNavbar() {
           </div>
         </aside>
       )}
-      
+
       {/* Mobile overlay */}
       {isMobile && isMobileNavOpen && (
-        <div 
+        <div
           style={styles.mobileOverlay}
           onClick={() => setIsMobileNavOpen(false)}
         />

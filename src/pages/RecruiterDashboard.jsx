@@ -56,7 +56,7 @@ export default function RecruiterDashboard() {
     { label: 'Good', value: 18, color: '#17a2b8' },
     { label: 'Average', value: 9, color: '#ffc107' },
     { label: 'Poor', value: 4, color: '#dc3545' },
-  ];  
+  ];
 
   const recentActivity = [
     { name: 'Ahmad Bin Abdullah', position: 'Frontend Developer', action: 'moved to Stage 2', time: '3 hours ago', status: 'in-progress' },
@@ -74,10 +74,12 @@ export default function RecruiterDashboard() {
     { title: 'DevOps Engineer', applicants: 21, stage1: 8, stage2: 7, offered: 6, spam: 7, status: 'Active', progress: 85 },
   ];
 
+
+
   return (
     <div style={styles.container}>
       <RecruiterNavbar />
-      <div style={styles.contentWithSidebar}>
+      <div className='main-content' style={styles.contentWithSidebar}>
         <div style={styles.content}>
           <div style={styles.header}>
             <div>
@@ -93,13 +95,13 @@ export default function RecruiterDashboard() {
               </select>
             </div>
           </div>
-          
+
           {/* Key Metrics Section */}
           <section style={styles.section}>
             <h2 style={styles.sectionTitle}>Key Metrics</h2>
             <div style={styles.statsGrid}>
               {dashboardStats.map((stat, index) => (
-                <DashboardCard 
+                <DashboardCard
                   key={index}
                   title={stat.title}
                   value={stat.value}
@@ -111,7 +113,7 @@ export default function RecruiterDashboard() {
               ))}
             </div>
           </section>
-          
+
           {/* Analytics Section */}
           <section style={styles.section}>
             <h2 style={styles.sectionTitle}>Recruitment Analytics</h2>
@@ -128,12 +130,12 @@ export default function RecruiterDashboard() {
                       <div key={index} style={styles.metricItem}>
                         <div style={styles.metricHeader}>
                           <span style={styles.metricLabel}>{metric.label}</span>
-                          <span style={{...styles.metricValue, color: metric.color}}>
+                          <span style={{ ...styles.metricValue, color: metric.color }}>
                             {metric.value}
                           </span>
                         </div>
                         <div style={styles.metricBar}>
-                          <div 
+                          <div
                             style={{
                               ...styles.metricFill,
                               width: `${metric.value}%`,
@@ -146,7 +148,7 @@ export default function RecruiterDashboard() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Application Quality */}
               <div style={styles.chartItem}>
                 <div style={styles.chartCard}>
@@ -168,7 +170,7 @@ export default function RecruiterDashboard() {
                     <div style={styles.pieChartLegend}>
                       {applicationQualityData.map((item, index) => (
                         <div key={index} style={styles.legendItem}>
-                          <div 
+                          <div
                             style={{
                               ...styles.legendColor,
                               backgroundColor: item.color,
@@ -184,7 +186,7 @@ export default function RecruiterDashboard() {
               </div>
             </div>
           </section>
-          
+
           {/* Spam Analysis and Activity Section */}
           <section style={styles.section}>
             <div style={styles.analyticsGrid}>
@@ -199,7 +201,7 @@ export default function RecruiterDashboard() {
                     <div key={index} style={styles.barChartRow}>
                       <div style={styles.barChartLabel}>{item.label}</div>
                       <div style={styles.barChartBarContainer}>
-                        <div 
+                        <div
                           style={{
                             ...styles.barChartBar,
                             width: `${(item.value / Math.max(...matchQualityData.map(i => i.value))) * 100}%`,
@@ -212,7 +214,7 @@ export default function RecruiterDashboard() {
                   ))}
                 </div>
               </div>
-              
+
               {/* Recent Activity */}
               <div style={styles.analyticsCard}>
                 <div style={styles.cardHeader}>
@@ -240,19 +242,19 @@ export default function RecruiterDashboard() {
               </div>
             </div>
           </section>
-          
+
           {/* Job Listings Section */}
           <section style={styles.section}>
             <div style={styles.sectionHeader}>
               <h2 style={styles.sectionTitle}>Job Listings</h2>
               <button style={styles.primaryButton}>
                 <svg style={styles.buttonIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round" />
                 </svg>
                 Create New Job
               </button>
             </div>
-            
+
             <div style={styles.jobsTable}>
               <div style={styles.tableResponsive}>
                 <table style={styles.table}>
@@ -278,7 +280,7 @@ export default function RecruiterDashboard() {
                         <td style={styles.tableCell}>
                           <div style={styles.progressContainer}>
                             <div style={styles.progressBar}>
-                              <div 
+                              <div
                                 style={{
                                   ...styles.progressFill,
                                   width: `${job.progress}%`,
@@ -304,7 +306,7 @@ export default function RecruiterDashboard() {
                         <td style={styles.tableCell}>
                           <button style={styles.tableActionButton}>
                             <svg style={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                              <path d="M12 5v14M5 12h14" strokeWidth="2" strokeLinecap="round"/>
+                              <path d="M12 5v14M5 12h14" strokeWidth="2" strokeLinecap="round" />
                             </svg>
                           </button>
                         </td>
@@ -323,7 +325,7 @@ export default function RecruiterDashboard() {
 
 // Helper functions
 function getStatusColor(status) {
-  switch(status) {
+  switch (status) {
     case 'completed': return '#0f9d58';
     case 'in-progress': return '#4285f4';
     case 'pending': return '#ffc107';
@@ -334,20 +336,20 @@ function getStatusColor(status) {
 
 function getActivityIcon(status) {
   let iconPath;
-  switch(status) {
+  switch (status) {
     case 'completed':
-      iconPath = <path d="M22 11.08V12a10 10 0 11-5.93-9.14" strokeWidth="2" strokeLinecap="round"/>;
+      iconPath = <path d="M22 11.08V12a10 10 0 11-5.93-9.14" strokeWidth="2" strokeLinecap="round" />;
       break;
     case 'in-progress':
-      iconPath = <path d="M22 12h-4l-3 9L9 3l-3 9H2" strokeWidth="2" strokeLinecap="round"/>;
+      iconPath = <path d="M22 12h-4l-3 9L9 3l-3 9H2" strokeWidth="2" strokeLinecap="round" />;
       break;
     case 'pending':
-      iconPath = <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeWidth="2" strokeLinecap="round"/>;
+      iconPath = <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeWidth="2" strokeLinecap="round" />;
       break;
     default:
-      iconPath = <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round"/>;
+      iconPath = <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round" />;
   }
-  
+
   return (
     <svg style={styles.activitySvg} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       {iconPath}

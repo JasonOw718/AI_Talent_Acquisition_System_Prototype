@@ -55,7 +55,7 @@ export default function AIAssistant() {
   return (
     <div style={styles.container}>
       <RecruiterNavbar />
-      <div style={styles.contentWithSidebar}>
+      <div className="main-content" style={styles.contentWithSidebar}>
         <div style={styles.content}>
           <div style={styles.header}>
             <div style={styles.titleContainer}>
@@ -155,7 +155,7 @@ const styles = {
   },
   contentWithSidebar: {
     marginLeft: '240px',
-    width: 'calc(100% - 240px)',
+    width: '100vw',
     transition: 'margin 0.3s ease',
     '@media (max-width: 1024px)': {
       marginLeft: 0,
